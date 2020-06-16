@@ -1,7 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "lodash"],
-  "extends": ["prettier", "prettier/@typescript-eslint", "plugin:lodash/recommended"],
+  "plugins": ["@typescript-eslint", "lodash-fp"],
+  "extends": ["plugin:prettier/recommended", "prettier/@typescript-eslint", "plugin:lodash-fp/recommended"],
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {
@@ -51,9 +51,9 @@
     "object-shorthand": "error",
     "prefer-const": "error",
     "require-await": "error",
+    "sort-imports": "error",
     "semi": "error",
     "yoda": "error",
-    "lodash/import-scope": ["error", "full"],
     "@typescript-eslint/naming-convention": [
       "error",
       {
