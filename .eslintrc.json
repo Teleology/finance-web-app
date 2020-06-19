@@ -1,7 +1,13 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "lodash-fp"],
-  "extends": ["plugin:prettier/recommended", "prettier/@typescript-eslint", "plugin:lodash-fp/recommended"],
+  "plugins": ["@typescript-eslint", "lodash-fp", "import"],
+  "extends": [
+    "plugin:lodash-fp/recommended",
+    "plugin:import/typescript",
+    "plugin:import/errors",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint"
+  ],
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {
@@ -26,12 +32,16 @@
     "default-case": "warn",
     "dot-notation": "error",
     "eqeqeq": "error",
+    "import/order": "error",
+//    "import/no-cycle": ["error",{"ignoreExternal": true }],
+    "import/no-unresolved": "error",
     "no-await-in-loop": "error",
     "no-cond-assign": "error",
     "no-console": ["warn", { "allow": ["error"] }],
     "no-const-assign": "error",
     "no-delete-var": "error",
     "no-dupe-args": "error",
+    "no-duplicate-imports": "error",
     "no-extra-semi": "error",
     "no-fallthrough": "error",
     "no-implicit-globals": "error",
@@ -51,7 +61,6 @@
     "object-shorthand": "error",
     "prefer-const": "error",
     "require-await": "error",
-    "sort-imports": "error",
     "semi": "error",
     "yoda": "error",
     "@typescript-eslint/explicit-function-return-type": "error",

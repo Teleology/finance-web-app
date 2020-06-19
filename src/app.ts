@@ -1,17 +1,17 @@
-import express, { NextFunction, Request, Response, urlencoded } from 'express';
+import 'reflect-metadata';
+import express, { Application, urlencoded } from 'express';
 import cookieParser from 'cookie-parser';
-import http from 'http';
+import { Container } from 'inversify';
+import { InversifyExpressServer } from 'inversify-express-utils';
 import morgan from 'morgan';
+import './stock-data/stock-data.controller';
 
-const app = express();
-app.use(morgan('dev'));
-app.use(express.json());
-app.use(urlencoded({ extended: false }));
-app.use(cookieParser());
-app.get('/home', (req: Request, res: Response, _next: NextFunction) => {
-  console.log('I am home');
-  res.send('I am home Ilohafffabc');
+const container = new Container();
+const server = new InversifyExpressServer(container);
+server.setConfig((app: Application) => {
+  app.use(morgan('dev'));
+  app.use(express.json());
+  app.use(urlencoded({ extended: false }));
+  app.use(cookieParser());
 });
-
-const server = http.createServer(app);
-server.listen(3000);
+server.build().listen(3000, () => console.log('Server is not listening on port 3000'));
