@@ -1,13 +1,17 @@
-import express, { Application, urlencoded } from 'express';
-import bodyParser from 'body-parser';
+import express, { NextFunction, Request, Response, urlencoded } from 'express';
 import cookieParser from 'cookie-parser';
+import http from 'http';
 import morgan from 'morgan';
-export const setApp = (app: Application) => {
-  app.use(morgan('dev'));
-  app.use(bodyParser.json());
-  app.use(urlencoded({ extended: false }));
-  app.use(cookieParser());
-  return app;
-};
 
-setApp(express()).listen('3000');
+const app = express();
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(urlencoded({ extended: false }));
+app.use(cookieParser());
+app.get('/home', (req: Request, res: Response, _next: NextFunction) => {
+  console.log('I am home');
+  res.send('I am home Ilohafffabc');
+});
+
+const server = http.createServer(app);
+server.listen(3000);
