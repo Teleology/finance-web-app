@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import path from 'path';
 import express, { Application, urlencoded } from 'express';
 import cookieParser from 'cookie-parser';
 import { Container } from 'inversify';
@@ -13,5 +14,6 @@ server.setConfig((app: Application) => {
   app.use(express.json());
   app.use(urlencoded({ extended: false }));
   app.use(cookieParser());
+  app.use(express.static(path.join(__dirname, 'public')));
 });
 server.build().listen(3000, () => console.log('Server is not listening on port 3000'));
