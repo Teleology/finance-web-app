@@ -10,10 +10,6 @@
   ],
   "parserOptions": {
     "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true,
-      "modules": true
-    },
     "useJSXTextNode": true,
     "project": "./tsconfig.json"
   },
