@@ -6,8 +6,8 @@
   "scripts": {
     "start": "nodemon ./dist/app.js",
     "debug": "nodemon --inspect ./dist/app.js",
-    "clear-build": "rm -rf ./dist",
-    "copy:static": "copyfiles -f ./src/static/* ./dist/static/"
+    "clean-build": "rm -rf ./dist",
+    "rebuid": "npm run clean-build && tsc --build"
   },
   "repository": {
     "type": "git",

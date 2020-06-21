@@ -1,25 +1,4 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "lodash-fp", "import"],
-  "extends": [
-    "plugin:lodash-fp/recommended",
-    "plugin:import/typescript",
-    "plugin:import/errors",
-    "plugin:prettier/recommended",
-    "prettier/@typescript-eslint"
-  ],
-  "parserOptions": {
-    "sourceType": "module",
-    "useJSXTextNode": true,
-    "project": "./tsconfig.json"
-  },
-  "settings": {
-    "react": {
-      "createClass": "createReactClass",
-      "pragma": "React",
-      "version": "detect"
-    }
-  },
   "rules": {
     "arrow-body-style": ["error", "as-needed"],
     "camelcase": "error",
@@ -29,7 +8,6 @@
     "dot-notation": "error",
     "eqeqeq": "error",
     "import/order": "error",
-//    "import/no-cycle": ["error",{"ignoreExternal": true }],
     "import/no-unresolved": "error",
     "no-await-in-loop": "error",
     "no-cond-assign": "error",

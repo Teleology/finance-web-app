@@ -1,0 +1,25 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["import", "lodash-fp", "react", "@typescript-eslint"],
+  "extends": [
+    "../.eslintrc-base.json",
+    "plugin:react/recommended",
+    "plugin:lodash-fp/recommended",
+    "plugin:import/typescript",
+    "plugin:import/errors",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint"
+  ],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": "./tsconfig.json"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
