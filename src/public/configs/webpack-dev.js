@@ -1,0 +1,24 @@
+// development config
+const merge = require('webpack-merge');
+const webpack = require('webpack');
+const commonConfig = require('./webpack-common');
+
+module.exports = merge(commonConfig, {
+  mode: 'development',
+  entry: './index.tsx', // the entry point of our app
+  devServer: {
+    hot: true, // enable HMR on the server
+    hotOnly: true, // only updates with successful compilation
+    port: 8080,
+    stats: {
+      color: true,
+    },
+  },
+  devtool: 'cheap-module-eval-source-map',
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(), // enable HMR globally
+  ],
+  performance: {
+    hints: false,
+  },
+});

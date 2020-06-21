@@ -6,7 +6,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
-  context: resolve(__dirname, '../../src'),
+  context: resolve(__dirname, '../src'),
   module: {
     rules: [
       {
@@ -53,7 +53,4 @@ module.exports = {
     ],
   },
   plugins: [new HtmlWebpackPlugin({ template: 'index.html' })],
-  performance: {
-    hints: false,
-  },
 };

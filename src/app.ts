@@ -14,6 +14,6 @@ server.setConfig((app: Application) => {
   app.use(express.json());
   app.use(urlencoded({ extended: false }));
   app.use(cookieParser());
-  app.use(express.static(path.join(__dirname, 'static')));
+  app.use(express.static(path.join(__dirname, '../src/public/dist/')));
 });
 server.build().listen(3000, () => console.log('Server is not listening on port 3000'));

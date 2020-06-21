@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-dev": "webpack-dev-server --config=configs/webpack-dev.js",
+    "build-prod": "webpack -p --config=configs/webpack-prod.js",
+    "clean-dist": "rm -f -r ./dist"
   },
   "author": "Xiao Tang",
   "license": "ISC",
