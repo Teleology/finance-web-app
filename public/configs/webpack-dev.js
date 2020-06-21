@@ -9,6 +9,7 @@ module.exports = merge(commonConfig, {
   devServer: {
     hot: true, // enable HMR on the server
     hotOnly: true, // only updates with successful compilation
+    historyApiFallback: true,
     port: 8080,
     stats: {
       color: true,
