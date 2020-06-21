@@ -17,6 +17,9 @@ module.exports = merge(commonConfig, {
   devtool: 'cheap-module-eval-source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(), // enable HMR globally
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    })
   ],
   performance: {
     hints: false,
