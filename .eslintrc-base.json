@@ -46,10 +46,9 @@
         "selector": "variable",
         "format": ["camelCase", "PascalCase", "UPPER_CASE"],
         "custom": {
-          "regex": "(n|N)umber",
+          "regex": "\b(error|type|(f|F)unction|(o|O)bject|(u|U)ndefined|(B|b)oolean|any|(S|s)tring|(N|n)umber)\b",
           "match": false
-        },
-        "leadingUnderscore": "allow"
+        }
       }
     ],
     "@typescript-eslint/typedef": "error"
