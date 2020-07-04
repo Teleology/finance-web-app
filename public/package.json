@@ -6,7 +6,7 @@
   "scripts": {
     "start-dev": "webpack-dev-server --config=configs/webpack-dev.js",
     "build-prod": "npm run lint-ts && npm run clean-dist && webpack -p --config=configs/webpack-prod.js",
-    "clean-dist": "rm -f -r ./dist",
+    "clean-dist": "del dist\\*",
     "lint-ts": "eslint ./src/**/*.{ts,tsx}"
   },
   "author": "Xiao Tang",
@@ -26,6 +26,7 @@
     "@typescript-eslint/parser": "^3.1.0",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
+    "del-cli": "^3.0.1",
     "eslint": "^7.3.0",
     "eslint-config-prettier": "^6.1.0",
     "eslint-plugin-import": "^2.21.2",
