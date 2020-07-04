@@ -17,5 +17,5 @@ server.setConfig((app: Application) => {
   app.use(express.static(path.join(__dirname, '../../public/dist/')));
 });
 
-// eslint-disable-next-line no-console
+// C5TADQOPXWJ7BF35
 server.build().listen(3000, () => console.log('Server is not listening on port 3000'));
