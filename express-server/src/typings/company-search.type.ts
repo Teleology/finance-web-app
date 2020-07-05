@@ -1,4 +1,4 @@
-export type CompanyInfo = {
+export type TCompanyInfo = {
   symbol: string;
   name: string;
   type: string;
@@ -8,4 +8,8 @@ export type CompanyInfo = {
   timezone: string;
   currency: string;
   matchScore: string;
+};
+export type TCountry = {
+  country: string;
+  continent: string;
 };
