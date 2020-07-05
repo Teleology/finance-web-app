@@ -1,8 +1,14 @@
-import { encode } from 'querystring';
-import { mapKeys, omit, flow } from 'lodash/fp';
+import { mapKeys, omit, flow, get, camelCase, replace } from 'lodash/fp';
 import axios from 'axios';
-import { TStockItemEntity, TStockItemResponse, TStockMetaDataEntity, TStockMetaDataResponse, TStockResponse } from '../typings/stock-data.type';
-import { browserHeaders } from '../common/constants';
+import {
+  TStockItemEntity,
+  TStockItemResponse,
+  TStockLatestResponse,
+  TStockMetaDataEntity,
+  TStockMetaDataResponse,
+  TStockSeriesResponse,
+} from '../typings/stock-data.type';
+import { alphaApiBasicSettings } from '../common/constants';
 
 const mapStockTimeEntity = mapKeys((key: string) => {
   if (key.includes('Time Series')) {
@@ -14,26 +20,22 @@ const mapStockTimeEntity = mapKeys((key: string) => {
   }
 });
 
-const mapStockItemOrMetaDataEntityKey = mapKeys((key: string) => {
-  return key.replace(/[0-9.\s]/gi, '');
-});
+const numberSpaceReplaceFn1: (input: string) => string = flow(replace(/[0-9.]/gi)(''), camelCase);
 
-export const fetchStock = axios.create({
-  method: 'GET',
-  baseURL: 'https://www.alphavantage.co/query',
-  headers: browserHeaders,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  paramsSerializer: (params: any) => encode({ apikey: 'C5TADQOPXWJ7BF35', ...params }),
-  transformResponse: (data: string): TStockResponse => {
+export const fetchStockSeries = axios.create({
+  ...alphaApiBasicSettings,
+
+  transformResponse: (data: string): TStockSeriesResponse => {
+    console.log(data);
     const parsedKey = mapStockTimeEntity(JSON.parse(data));
     const parsedMetaData = (flow(
       omit<TStockMetaDataEntity, keyof TStockMetaDataEntity>('4. Output Size'),
-      mapStockItemOrMetaDataEntityKey
+      mapKeys(numberSpaceReplaceFn1)
     )(parsedKey.metaData) as unknown) as TStockMetaDataResponse;
     const parsedSeries: Array<TStockItemResponse> = [];
     for (const [key, value] of Object.entries(parsedKey.series)) {
       parsedSeries.push({
-        ...mapStockItemOrMetaDataEntityKey(value as TStockItemEntity),
+        ...mapKeys(numberSpaceReplaceFn1)(value as TStockItemEntity),
         time: key,
       } as TStockItemResponse);
     }
@@ -41,5 +43,13 @@ export const fetchStock = axios.create({
       metaData: parsedMetaData,
       series: parsedSeries,
     };
+  },
+});
+
+export const fetchStockLatest = axios.create({
+  ...alphaApiBasicSettings,
+  transformResponse: (data: string): TStockLatestResponse => {
+    console.log(data);
+    return flow(JSON.parse, get('Global Quote'), mapKeys(numberSpaceReplaceFn1))(data);
   },
 });

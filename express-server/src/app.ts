@@ -6,6 +6,7 @@ import { Container } from 'inversify';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import morgan from 'morgan';
 import './stock-data/stock-data.controller';
+import './company-search/company-search.controller';
 
 const container = new Container();
 const server = new InversifyExpressServer(container);

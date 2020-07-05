@@ -52,7 +52,20 @@ export type TStockMonthlyEntity = {
   'Monthly Time Series': Array<TStockItemEntity>;
 };
 
-export type TStockResponse = {
+export type TStockSeriesResponse = {
   metaData: TStockMetaDataResponse;
   series: Array<TStockItemResponse>;
+};
+
+export type TStockLatestResponse = {
+  symbol: string;
+  open: string;
+  high: string;
+  low: string;
+  price: string;
+  volume: string;
+  latestTradingDay: string;
+  previousClose: string;
+  change: string;
+  changePercent: string;
 };

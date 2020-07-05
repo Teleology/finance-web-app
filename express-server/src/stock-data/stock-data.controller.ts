@@ -5,14 +5,15 @@ import { Params } from 'express-serve-static-core';
 import { AxiosResponse } from 'axios';
 import { TStockQuery } from '../typings/stock-data.type';
 import { AlphaFunction } from '../common/constants';
-import { fetchStock } from './stock-data.dt';
+import { fetchStockLatest, fetchStockSeries } from './stock-data.dt';
+// services missing to catch not 200 status for alphaApi
 @controller('/api/v1/stock')
 export class StockDataController {
   @httpGet('/days')
   public async getDailyInfo(req: Request<Params, never, never, TStockQuery>, res: Response): Promise<void> {
     const { query } = req;
     try {
-      const response = await fetchStock({
+      const response = await fetchStockSeries({
         params: {
           function: AlphaFunction.DAILY,
           ...query,
@@ -29,7 +30,7 @@ export class StockDataController {
   public async getWeeklyInfo(req: Request<Params, never, never, TStockQuery>, res: Response): Promise<void> {
     const { query } = req;
     try {
-      const response = await fetchStock({
+      const response = await fetchStockSeries({
         params: {
           function: AlphaFunction.WEEKLY,
           ...query,
@@ -46,7 +47,7 @@ export class StockDataController {
   public async getMonthlyInfo(req: Request<Params, never, never, TStockQuery>, res: Response): Promise<void> {
     const { query } = req;
     try {
-      const response = await fetchStock({
+      const response = await fetchStockSeries({
         params: {
           function: AlphaFunction.MONTHLY,
           ...query,
@@ -63,7 +64,7 @@ export class StockDataController {
   public async getLatestInfo(req: Request<Params, never, never, TStockQuery>, res: Response): Promise<void> {
     const { query } = req;
     try {
-      const response = await fetchStock({
+      const response = await fetchStockLatest({
         params: {
           function: AlphaFunction.LATEST,
           ...query,
