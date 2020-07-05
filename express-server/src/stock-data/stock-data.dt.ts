@@ -1,4 +1,4 @@
-import { mapKeys, omit, flow, get, camelCase, replace } from 'lodash/fp';
+import { mapKeys, omit, flow, get } from 'lodash/fp';
 import axios from 'axios';
 import {
   TStockItemEntity,
@@ -9,6 +9,7 @@ import {
   TStockSeriesResponse,
 } from '../typings/stock-data.type';
 import { alphaApiBasicSettings } from '../common/constants';
+import { numberSpaceReplaceFn1 } from '../common/utils';
 
 const mapStockTimeEntity = mapKeys((key: string) => {
   if (key.includes('Time Series')) {
@@ -19,8 +20,6 @@ const mapStockTimeEntity = mapKeys((key: string) => {
     return key;
   }
 });
-
-const numberSpaceReplaceFn1: (input: string) => string = flow(replace(/[0-9.]/gi)(''), camelCase);
 
 export const fetchStockSeries = axios.create({
   ...alphaApiBasicSettings,
