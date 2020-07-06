@@ -18,7 +18,6 @@
     "no-duplicate-imports": "error",
     "no-fallthrough": "error",
     "no-implicit-globals": "error",
-    "no-invalid-this": "error",
     "no-new-symbol": "error",
     "no-regex-spaces": "error",
     "no-return-await": "error",
@@ -51,6 +50,11 @@
         }
       }
     ],
-    "@typescript-eslint/typedef": "error"
+    "@typescript-eslint/typedef": [
+      "error",
+      {
+        "variableDeclarationIgnoreFunction": true
+      }
+    ]
   }
 }

@@ -7,8 +7,12 @@ import { InversifyExpressServer } from 'inversify-express-utils';
 import morgan from 'morgan';
 import './stock-data/stock-data.controller';
 import './company-search/company-search.controller';
+import { SERVICE_IDS } from './common/constants';
+import { StockDataService } from './stock-data/stock-data.dt';
 
 const container = new Container();
+container.bind(SERVICE_IDS.StockDataService).to(StockDataService);
+
 const server = new InversifyExpressServer(container);
 server.setConfig((app: Application) => {
   app.use(morgan('dev'));
