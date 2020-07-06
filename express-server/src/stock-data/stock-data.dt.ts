@@ -35,7 +35,7 @@ export class StockDataService {
   constructor() {
     this.fetchStockSeries = axios.create({
       ...alphaApiBasicSettings,
-      transformResponse: this.transformResponse,
+      transformResponse: this.transformResponse.bind(this),
     });
     this.fetchStockLatest = axios.create({
       ...alphaApiBasicSettings,
@@ -46,7 +46,7 @@ export class StockDataService {
     });
   }
 
-  private transformResponse = (input: string): TStockSeriesResponse => {
+  private transformResponse(input: string): TStockSeriesResponse {
     console.log(input);
     const parsedKey = this.mapStockTimeEntity(JSON.parse(input));
     const parsedMetaData = this.transformStockMetaDataEntity(get('metaData')(parsedKey));
@@ -55,9 +55,9 @@ export class StockDataService {
       metaData: parsedMetaData,
       series: parsedSeries,
     };
-  };
+  }
 
-  private transformStockSeriesObjectToArray = (input: Record<string, TStockItemEntity>): Array<TStockItemResponse> => {
+  private transformStockSeriesObjectToArray(input: Record<string, TStockItemEntity>): Array<TStockItemResponse> {
     const ret: Array<TStockItemResponse> = [];
     for (const [key, value] of Object.entries(input)) {
       ret.push({
@@ -66,7 +66,7 @@ export class StockDataService {
       } as TStockItemResponse);
     }
     return ret;
-  };
+  }
 }
 // const mapStockTimeEntity = mapKeys((key: string) => {
 //   if (key.includes('Time Series')) {
