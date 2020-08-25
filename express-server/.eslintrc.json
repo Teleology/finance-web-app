@@ -2,12 +2,12 @@
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "lodash-fp", "import"],
   "extends": [
-    "../.eslintrc-base.json",
     "plugin:lodash-fp/recommended",
     "plugin:import/typescript",
     "plugin:import/errors",
     "plugin:prettier/recommended",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
+    "../.eslintrc-base.json"
   ],
   "parserOptions": {
     "sourceType": "module",
