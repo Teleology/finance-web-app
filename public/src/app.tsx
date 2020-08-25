@@ -4,6 +4,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
 import { store, history } from './root-redux/root-store';
+import { Button } from './components/button';
 
 const a = (): React.ReactElement => (
   <h1>
@@ -23,12 +24,7 @@ const c = (): React.ReactElement => (
     <Link to={'/a'}>To A</Link>
   </h1>
 );
-const d = (): React.ReactElement => (
-  <h1>
-    404
-    <Link to={'/a'}>To A</Link>
-  </h1>
-);
+const d = (): React.ReactElement => <Button>123</Button>;
 
 export const App = (): React.ReactElement => {
   return (
