@@ -7,5 +7,5 @@ export const fetchCompanies = axios.create({
   ...alphaApiBasicSettings,
   transformResponse: (data: string): Array<TCompanyInfo> => {
     return flow(JSON.parse, get('bestMatches'), map(mapKeys(numberSpaceReplaceFn1)))(data);
-  },
+  }
 });

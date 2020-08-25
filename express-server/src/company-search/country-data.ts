@@ -5,978 +5,978 @@ export const continents = ['Asia', 'Africa', 'Oceania', 'North America', 'South 
 export const countries: Array<TCountry> = [
   {
     country: 'Afghanistan',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Albania',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Algeria',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'American Samoa',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Andorra',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Angola',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Anguilla',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Antarctica',
-    continent: 'Antarctica',
+    continent: 'Antarctica'
   },
   {
     country: 'Antigua and Barbuda',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Argentina',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'Armenia',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Aruba',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Australia',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Austria',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Azerbaijan',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Bahamas',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Bahrain',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Bangladesh',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Barbados',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Belarus',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Belgium',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Belize',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Benin',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Bermuda',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Bhutan',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Bolivia',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'Bosnia and Herzegovina',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Botswana',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Bouvet Island',
-    continent: 'Antarctica',
+    continent: 'Antarctica'
   },
   {
     country: 'Brazil',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'British Indian Ocean Territory',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Brunei',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Bulgaria',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Burkina Faso',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Burundi',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Cambodia',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Cameroon',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Canada',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Cape Verde',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Cayman Islands',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Central African Republic',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Chad',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Chile',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'China',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Christmas Island',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Cocos (Keeling) Islands',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Colombia',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'Comoros',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Congo',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Cook Islands',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Costa Rica',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Croatia',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Cuba',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Cyprus',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Czech Republic',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Denmark',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Djibouti',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Dominica',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Dominican Republic',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'East Timor',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Ecuador',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'Egypt',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'El Salvador',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'England',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Equatorial Guinea',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Eritrea',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Estonia',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Ethiopia',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Falkland Islands',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'Faroe Islands',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Fiji Islands',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Finland',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'France',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'French Guiana',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'French Polynesia',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'French Southern territories',
-    continent: 'Antarctica',
+    continent: 'Antarctica'
   },
   {
     country: 'Gabon',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Gambia',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Georgia',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Germany',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Ghana',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Gibraltar',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Greece',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Greenland',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Grenada',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Guadeloupe',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Guam',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Guatemala',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Guinea',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Guinea-Bissau',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Guyana',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'Haiti',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Heard Island and McDonald Islands',
-    continent: 'Antarctica',
+    continent: 'Antarctica'
   },
   {
     country: 'Holy See (Vatican City State)',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Honduras',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Hong Kong',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Hungary',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Iceland',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'India',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Indonesia',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Iran',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Iraq',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Ireland',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Israel',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Italy',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Ivory Coast',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Jamaica',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Japan',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Jordan',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Kazakhstan',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Kenya',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Kiribati',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Kuwait',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Kyrgyzstan',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Laos',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Latvia',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Lebanon',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Lesotho',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Liberia',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Libyan Arab Jamahiriya',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Liechtenstein',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Lithuania',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Luxembourg',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Macao',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'North Macedonia',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Madagascar',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Malawi',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Malaysia',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Maldives',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Mali',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Malta',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Marshall Islands',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Martinique',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Mauritania',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Mauritius',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Mayotte',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Mexico',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Micronesia, Federated States of',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Moldova',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Monaco',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Mongolia',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Montenegro',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Montserrat',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Morocco',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Mozambique',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Myanmar',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Namibia',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Nauru',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Nepal',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Netherlands',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Netherlands Antilles',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'New Caledonia',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'New Zealand',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Nicaragua',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Niger',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Nigeria',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Niue',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Norfolk Island',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'North Korea',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Northern Ireland',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Northern Mariana Islands',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Norway',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Oman',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Pakistan',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Palau',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Palestine',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Panama',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Papua New Guinea',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Paraguay',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'Peru',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'Philippines',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Pitcairn',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Poland',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Portugal',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Puerto Rico',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Qatar',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Reunion',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Romania',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Russian Federation',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Rwanda',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Saint Helena',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Saint Kitts and Nevis',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Saint Lucia',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Saint Pierre and Miquelon',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Saint Vincent and the Grenadines',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Samoa',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'San Marino',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Sao Tome and Principe',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Saudi Arabia',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Scotland',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Senegal',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Seychelles',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Sierra Leone',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Singapore',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Slovakia',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Slovenia',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Solomon Islands',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Somalia',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'South Africa',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'South Georgia and the South Sandwich Islands',
-    continent: 'Antarctica',
+    continent: 'Antarctica'
   },
   {
     country: 'South Korea',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'South Sudan',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Spain',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Sri Lanka',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Sudan',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Suriname',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'Svalbard and Jan Mayen',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Swaziland',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Sweden',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Switzerland',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Syria',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Tajikistan',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Tanzania',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Thailand',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'The Democratic Republic of Congo',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Togo',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Tokelau',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Tonga',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Trinidad and Tobago',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Tunisia',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Turkey',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Turkmenistan',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Turks and Caicos Islands',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Tuvalu',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Uganda',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Ukraine',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'United Arab Emirates',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'United Kingdom',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'United States',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'United States Minor Outlying Islands',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Uruguay',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'Uzbekistan',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Vanuatu',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Venezuela',
-    continent: 'South America',
+    continent: 'South America'
   },
   {
     country: 'Vietnam',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Virgin Islands, British',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Virgin Islands, U.S.',
-    continent: 'North America',
+    continent: 'North America'
   },
   {
     country: 'Wales',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Wallis and Futuna',
-    continent: 'Oceania',
+    continent: 'Oceania'
   },
   {
     country: 'Western Sahara',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Yemen',
-    continent: 'Asia',
+    continent: 'Asia'
   },
   {
     country: 'Yugoslavia',
-    continent: 'Europe',
+    continent: 'Europe'
   },
   {
     country: 'Zambia',
-    continent: 'Africa',
+    continent: 'Africa'
   },
   {
     country: 'Zimbabwe',
-    continent: 'Africa',
-  },
+    continent: 'Africa'
+  }
 ];

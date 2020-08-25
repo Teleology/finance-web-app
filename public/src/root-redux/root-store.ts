@@ -12,7 +12,7 @@ const middlewares = applyMiddleware(routerMiddleware(history));
 const enhancers = composeWithDevTools({})(middlewares);
 // TODO: add RootAction
 const rootReducer = combineReducers<RootState>({
-  router: connectRouter(history),
+  router: connectRouter(history)
 });
 export const isLocal = process.env.NODE_ENV === 'development';
 export const store = isLocal ? createStore(rootReducer, enhancers) : createStore(rootReducer, middlewares);
