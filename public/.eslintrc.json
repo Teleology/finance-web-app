@@ -2,13 +2,13 @@
   "parser": "@typescript-eslint/parser",
   "plugins": ["import", "lodash-fp", "react", "react-hooks","@typescript-eslint"],
   "extends": [
-    "../.eslintrc-base.json",
     "plugin:react/recommended",
     "plugin:lodash-fp/recommended",
     "plugin:import/typescript",
     "plugin:import/errors",
     "plugin:prettier/recommended",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
+    "../.eslintrc-base.json"
   ],
   "parserOptions": {
     "sourceType": "module",
