@@ -1,9 +1,6 @@
 import 'styled-components';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare let module: { hot: any };
-
-declare module string {
+declare module 'styled-components' {
   export interface DefaultTheme {
     palette: {
       blue: string;

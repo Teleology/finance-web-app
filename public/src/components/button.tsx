@@ -1,9 +1,9 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
-const Button: React.FC<{}> = styled.button<{}>`
+const Button: React.FC<{}> = styled.button<{ theme: DefaultTheme }>`
   padding: 8px 16px;
-  background-color: ${{ theme }};
+  background-color: ${(props: { theme: DefaultTheme }): string => props.theme.palette.primary};
   color: snow;
   border: 0;
   border-radius: 0.2rem;
