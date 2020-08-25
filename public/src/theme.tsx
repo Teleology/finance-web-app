@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ThemeProvider } from 'styled-components';
-const theme = {
+export const theme = {
   palette: {
     blue: '#1870dc',
     indigo: '#6610f2',
