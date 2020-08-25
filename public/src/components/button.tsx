@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Button: React.FC<{}> = styled.button<{}>`
   padding: 8px 16px;
-  background-color: salmon;
+  background-color: ${{ theme }};
   color: snow;
   border: 0;
   border-radius: 0.2rem;

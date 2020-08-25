@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
 import { store, history } from './root-redux/root-store';
 import { Button } from './components/button';
+import { AppThemeProvider } from './theme';
 
 const a = (): React.ReactElement => (
   <h1>
@@ -24,19 +25,21 @@ const c = (): React.ReactElement => (
     <Link to={'/a'}>To A</Link>
   </h1>
 );
-const d = (): React.ReactElement => <span style={{ fontSize: '1rem' }}>123</span>;
+const d = (): React.ReactElement => <Button>123123123</Button>;
 
 export const App = (): React.ReactElement => {
   return (
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Switch>
-          <Route exact={true} path={'/user1'} render={a} />
-          <Route exact={true} path="/user2" render={b} />
-          <Route exact={true} path="/user3" render={c} />
-          <Route exact={true} path="*" render={d} />
-        </Switch>
-      </ConnectedRouter>
-    </Provider>
+    <AppThemeProvider>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <Switch>
+            <Route exact={true} path={'/user1'} render={a} />
+            <Route exact={true} path="/user2" render={b} />
+            <Route exact={true} path="/user3" render={c} />
+            <Route exact={true} path="*" render={d} />
+          </Switch>
+        </ConnectedRouter>
+      </Provider>
+    </AppThemeProvider>
   );
 };

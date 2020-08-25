@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ThemeProvider as Provider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 const theme = {
   palette: {
     blue: '#1870dc',
@@ -59,34 +59,6 @@ const theme = {
       fontSize: '24px',
       fontWeight: 600,
     },
-    xxLarge: {
-      fontFamily: "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-      MozOsxFontSmoothing: 'grayscale',
-      WebkitFontSmoothing: 'antialiased',
-      fontSize: '28px',
-      fontWeight: 600,
-    },
-    xxLargePlus: {
-      fontFamily: "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-      MozOsxFontSmoothing: 'grayscale',
-      WebkitFontSmoothing: 'antialiased',
-      fontSize: '32px',
-      fontWeight: 600,
-    },
-    superLarge: {
-      fontFamily: "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-      MozOsxFontSmoothing: 'grayscale',
-      WebkitFontSmoothing: 'antialiased',
-      fontSize: '42px',
-      fontWeight: 600,
-    },
-    mega: {
-      fontFamily: "'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif",
-      MozOsxFontSmoothing: 'grayscale',
-      WebkitFontSmoothing: 'antialiased',
-      fontSize: '68px',
-      fontWeight: 600,
-    },
   },
   spacing: {
     xs: '4px',
@@ -103,9 +75,9 @@ const theme = {
   },
 };
 
-const ThemeProvider = ({ children }: { children: React.ReactNode }): React.ReactElement => <Provider theme={theme}>{children}</Provider>;
+const AppThemeProvider = ({ children }: { children: React.ReactNode }): React.ReactElement => <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 
-export { ThemeProvider };
+export { AppThemeProvider };
 /*
 breakpoint-xs: 0;
 breakpoint-sm: 576px;
