@@ -9,6 +9,7 @@
     "eqeqeq": "error",
     "import/order": "error",
     "import/no-unresolved": "error",
+    "import/named": "off",
     "no-await-in-loop": "error",
     "no-cond-assign": "error",
     "no-console": ["warn", { "allow": ["error"] }],
