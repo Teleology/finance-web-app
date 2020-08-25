@@ -1,6 +1,7 @@
+import * as React from 'react';
 import styled from 'styled-components';
 
-const Button = styled.button`
+const Button: React.FC<{}> = styled.button<{}>`
   padding: 8px 16px;
   background-color: salmon;
   color: snow;
@@ -20,8 +21,4 @@ const Button = styled.button`
   }
 `;
 
-const LargeButton = styled(Button)`
-  width: 300px;
-`;
-
-export { LargeButton as Button };
+export { Button };

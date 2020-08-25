@@ -24,7 +24,7 @@ const c = (): React.ReactElement => (
     <Link to={'/a'}>To A</Link>
   </h1>
 );
-const d = (): React.ReactElement => <Button>123</Button>;
+const d = (): React.ReactElement => <span style={{ fontSize: '1rem' }}>123</span>;
 
 export const App = (): React.ReactElement => {
   return (
