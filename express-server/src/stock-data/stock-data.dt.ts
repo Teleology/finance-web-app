@@ -7,7 +7,7 @@ import {
   TStockLatestResponse,
   TStockMetaDataEntity,
   TStockMetaDataResponse,
-  TStockSeriesResponse,
+  TStockSeriesResponse
 } from '../typings/stock-data.type';
 import { alphaApiBasicSettings } from '../common/constants';
 import { numberSpaceReplaceFn1 } from '../common/utils';
@@ -35,14 +35,14 @@ export class StockDataService {
   constructor() {
     this.fetchStockSeries = axios.create({
       ...alphaApiBasicSettings,
-      transformResponse: this.transformResponse.bind(this),
+      transformResponse: this.transformResponse.bind(this)
     });
     this.fetchStockLatest = axios.create({
       ...alphaApiBasicSettings,
       transformResponse: (data: string): TStockLatestResponse => {
         console.log(data);
         return flow(JSON.parse, get('Global Quote'), mapKeys(numberSpaceReplaceFn1))(data);
-      },
+      }
     });
   }
 
@@ -53,7 +53,7 @@ export class StockDataService {
     const parsedSeries = this.transformStockSeriesObjectToArray(get('series')(parsedKey));
     return {
       metaData: parsedMetaData,
-      series: parsedSeries,
+      series: parsedSeries
     };
   }
 
@@ -62,7 +62,7 @@ export class StockDataService {
     for (const [key, value] of Object.entries(input)) {
       ret.push({
         ...mapKeys(numberSpaceReplaceFn1)(value),
-        time: key,
+        time: key
       } as TStockItemResponse);
     }
     return ret;

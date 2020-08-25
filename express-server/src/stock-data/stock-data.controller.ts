@@ -20,8 +20,8 @@ export class StockDataController {
         .fetchStockSeries({
           params: {
             function: AlphaFunction.DAILY,
-            ...query,
-          },
+            ...query
+          }
         })
         .then((response: AxiosResponse) => response.data);
       res.status(200).json(response);
@@ -39,8 +39,8 @@ export class StockDataController {
         .fetchStockSeries({
           params: {
             function: AlphaFunction.WEEKLY,
-            ...query,
-          },
+            ...query
+          }
         })
         .then((response: AxiosResponse) => response.data);
       res.status(200).json(response);
@@ -58,8 +58,8 @@ export class StockDataController {
         .fetchStockSeries({
           params: {
             function: AlphaFunction.MONTHLY,
-            ...query,
-          },
+            ...query
+          }
         })
         .then((response: AxiosResponse) => response.data);
       res.status(200).json(response);
@@ -77,8 +77,8 @@ export class StockDataController {
         .fetchStockLatest({
           params: {
             function: AlphaFunction.LATEST,
-            ...query,
-          },
+            ...query
+          }
         })
         .then((response: AxiosResponse) => response.data);
       res.status(200).json(response);

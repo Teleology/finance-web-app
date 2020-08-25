@@ -6,18 +6,18 @@ export enum AlphaFunction {
   WEEKLY = 'TIME_SERIES_WEEKLY',
   MONTHLY = 'TIME_SERIES_MONTHLY',
   LATEST = 'GLOBAL_QUOTE',
-  SEARCH = 'SYMBOL_SEARCH',
+  SEARCH = 'SYMBOL_SEARCH'
 }
 
 export const alphaApiBasicSettings: AxiosRequestConfig = {
   method: 'GET' as 'GET',
   baseURL: 'https://www.alphavantage.co/query',
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  paramsSerializer: (params: any) => encode({ apikey: 'C5TADQOPXWJ7BF35', ...params }),
+  paramsSerializer: (params: any) => encode({ apikey: 'C5TADQOPXWJ7BF35', ...params })
 };
 
 export const SERVICE_IDS = {
-  StockDataService: Symbol.for('StockDataService'),
+  StockDataService: Symbol.for('StockDataService')
 };
 // headers: {
 //   Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',

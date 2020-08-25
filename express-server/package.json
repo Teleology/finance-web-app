@@ -7,7 +7,7 @@
     "start": "nodemon ./dist/app.js",
     "debug": "nodemon --inspect ./dist/app.js",
     "clean-dist": "rimraf ./dist",
-    "lint-fix": "eslint --fix ./src/**/*.ts",
+    "lint-ts": "eslint --fix ./src/**/*.ts",
     "rebuid": "npm run clean-dist && tsc --build"
   },
   "repository": {

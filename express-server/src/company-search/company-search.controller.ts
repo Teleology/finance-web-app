@@ -12,8 +12,8 @@ export class CompanySearchController {
       const response = await fetchCompanies({
         params: {
           function: AlphaFunction.SEARCH,
-          ...query,
-        },
+          ...query
+        }
       }).then(get('data'));
       res.status(200).json(response);
     } catch (ex) {
