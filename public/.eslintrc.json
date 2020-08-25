@@ -31,7 +31,7 @@
     "react/jsx-key": "error",
     "react/no-children-prop": "error",
     "react/no-direct-mutation-state": "error",
-    "react/jsx-no-bind": ["error", {"ignoreDOMComponents": true}],
+    "react/jsx-no-bind": "error",
     "react/no-find-dom-node": "error",
     "react/no-string-refs": "error",
     "react/self-closing-comp": "error",

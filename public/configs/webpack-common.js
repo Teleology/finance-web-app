@@ -19,10 +19,6 @@ module.exports = {
         use: ['babel-loader', 'ts-loader'],
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', { loader: 'css-loader', options: { importLoaders: 1 } }],
-      },
-      {
         test: /\.scss$/,
         use: ['style-loader', { loader: 'css-loader', options: { importLoaders: 1 } }, { loader: 'sass-loader', options: { includePaths: ['node_modules'] } }],
       },

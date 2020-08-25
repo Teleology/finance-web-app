@@ -1,8 +1,4 @@
-import { mapKeys, transform } from 'lodash/fp';
+import { decode, encode } from 'querystring';
 
-// const obj = { a: { data: 1 }, b: { data: 2 } };
-// // const result = mapKeys((k) => k.toUpperCase())(obj);
-// // console.log(result);
-// transform((acc, cur) => {
-//
-// })
+console.log(decode('a=1&b=2&c=1,2,3'));
+console.log(encode({ a: '1,2,3' }));
