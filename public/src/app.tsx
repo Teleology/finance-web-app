@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { store, history } from './root-redux/root-store';
 import { Button } from './components/button';
-import { theme } from './theme';
+import { GlobalStyle, theme } from './theme';
 
 const a = (): React.ReactElement => (
   <h1>
@@ -26,7 +26,11 @@ const c = (): React.ReactElement => (
     <Link to={'/a'}>To A</Link>
   </h1>
 );
-const d = (): React.ReactElement => <Button onClick={console.log}>123123123</Button>;
+const d = (): React.ReactElement => (
+  <Button onClick={console.log} variant={'secondary'}>
+    123123123
+  </Button>
+);
 
 export const App = (): React.ReactElement => (
   <ThemeProvider theme={theme}>

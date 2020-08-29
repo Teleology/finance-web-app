@@ -1,13 +1,19 @@
 import styled, { StyledProps } from 'styled-components';
-import { get } from 'lodash/fp';
 import { theme } from '../theme';
+type Prop = {
+  variant?: 'primary' | 'secondary';
+};
 
-const Button = styled.button`
+const variantMapping: Record<Required<Prop>['variant'], string> = {
+  primary: theme.palette.primary,
+  secondary: theme.palette.secondary
+};
+const Button = styled.button<Prop>`
   box-sizing: border-box;
   text-align: center;
   padding: ${theme.spacing.m}px ${theme.spacing.s}px;
   color: white;
-  background-color: rebeccapurple;
+  background-color: ${(props: StyledProps<Prop>): string => variantMapping[props.variant!]};
   border: 1px solid;
   border-color: rebeccapurple;
   border-radius: 20px;
@@ -26,7 +32,11 @@ const Button = styled.button`
   &:disabled {
     opacity: 0.6;
     filter: saturate(60%);
-  }
+  
 `;
+
+Button.defaultProps = {
+  variant: 'secondary'
+};
 
 export { Button };
