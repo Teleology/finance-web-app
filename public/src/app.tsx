@@ -3,9 +3,10 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
 import { Link } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 import { store, history } from './root-redux/root-store';
 import { Button } from './components/button';
-import { AppThemeProvider } from './theme';
+import { theme } from './theme';
 
 const a = (): React.ReactElement => (
   <h1>
@@ -25,10 +26,10 @@ const c = (): React.ReactElement => (
     <Link to={'/a'}>To A</Link>
   </h1>
 );
-const d = (): React.ReactElement => <Button>123123123</Button>;
+const d = (): React.ReactElement => <Button onClick={console.log}>123123123</Button>;
 
 export const App = (): React.ReactElement => (
-  <AppThemeProvider>
+  <ThemeProvider theme={theme}>
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <Switch>
@@ -39,5 +40,5 @@ export const App = (): React.ReactElement => (
         </Switch>
       </ConnectedRouter>
     </Provider>
-  </AppThemeProvider>
+  </ThemeProvider>
 );

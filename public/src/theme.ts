@@ -1,6 +1,7 @@
-import * as React from 'react';
-import { ThemeProvider } from 'styled-components';
-export const theme = {
+import { DefaultTheme, StyledProps } from 'styled-components';
+import { get } from 'lodash/fp';
+
+const theme = {
   palette: {
     blue: '#1870dc',
     indigo: '#6610f2',
@@ -75,9 +76,9 @@ export const theme = {
   }
 };
 
-const AppThemeProvider = ({ children }: { children: React.ReactNode }): React.ReactElement => <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+const pickSpacing = get<StyledProps<{}>, 'theme', 'spacing'>(['theme', 'spacing']);
 
-export { AppThemeProvider };
+export { theme, pickSpacing };
 /*
 breakpoint-xs: 0;
 breakpoint-sm: 576px;

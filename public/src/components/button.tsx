@@ -1,24 +1,31 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { pickPrimaryColor } from '../utils/theme';
+import styled, { StyledProps } from 'styled-components';
+import { get } from 'lodash/fp';
+import { theme } from '../theme';
 
-const Button: React.FC<{}> = styled.button`
-  padding: 8px 16px;
-  background-color: ${pickPrimaryColor};
-  color: snow;
-  border: 0;
-  border-radius: 0.2rem;
-  font-size: 1rem;
-  cursor: pointer;
-
-  &:hover,
-  &:active {
-    background-color: crimson;
-  }
-
+const Button = styled.button`
+  box-sizing: border-box;
+  text-align: center;
+  padding: ${theme.spacing.m}px ${theme.spacing.s}px;
+  color: white;
+  background-color: rebeccapurple;
+  border: 1px solid;
+  border-color: rebeccapurple;
+  border-radius: 20px;
+  font-family: sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+  &:hover:not(:disabled),
+  &:active:not(:disabled),
   &:focus {
     outline: 0;
-    box-shadow: 0 0 0 2px white, 0 0 0 4px salmon;
+    color: white;
+    border-color: salmon;
+    background-color: salmon;
+    cursor: pointer;
+  }
+  &:disabled {
+    opacity: 0.6;
+    filter: saturate(60%);
   }
 `;
 
