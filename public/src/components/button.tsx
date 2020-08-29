@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { get } from 'lodash/fp';
-import styled, { StyledProps } from 'styled-components';
+import styled from 'styled-components';
+import { pickPrimaryColor } from '../utils/theme';
 
 const Button: React.FC<{}> = styled.button`
   padding: 8px 16px;
-  background-color: ${get<StyledProps<{}>, 'theme', 'palette', 'primary'>(['theme', 'palette', 'primary'])};
+  background-color: ${pickPrimaryColor};
   color: snow;
   border: 0;
   border-radius: 0.2rem;
