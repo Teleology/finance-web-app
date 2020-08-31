@@ -55,7 +55,7 @@ const useSettings = (data: Array<Coordinate>): Setting => {
     y
   };
 };
-const LineChart = (): React.ReactElement => {
+const lineChartCreator = () => (): React.ReactElement => {
   const [data, setData] = React.useState<Array<Coordinate>>([]);
   React.useEffect(() => {
     axios.get('https://api.coindesk.com/v1/bpi/historical/close.json').then((response: AxiosResponse) => {
@@ -77,4 +77,12 @@ const LineChart = (): React.ReactElement => {
   );
 };
 
+const LineChart = lineChartCreator();
+const hoc = (width: number) => (props: {}): React.ReactElement => {
+  console.log(props);
+  const [count, setCount] = React.useState(0);
+  console.log(count);
+  console.log(setCount);
+  return <div>{width}</div>;
+};
 export { LineChart };
