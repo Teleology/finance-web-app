@@ -3,7 +3,7 @@ import { get, keys, pipe, map } from 'lodash/fp';
 import { extent, max } from 'd3-array';
 import { scaleTime, scaleLinear } from '@vx/scale';
 import axios, { AxiosResponse } from 'axios';
-import { LinePath } from '../vx-typing';
+import { LinePath } from '@vx/shape';
 type Coordinate = {
   date: Date;
   price: number;
