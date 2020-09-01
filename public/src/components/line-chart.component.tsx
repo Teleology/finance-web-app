@@ -2,8 +2,8 @@ import * as React from 'react';
 import { get, keys, pipe, map } from 'lodash/fp';
 import { extent, max } from 'd3-array';
 import { scaleTime, scaleLinear } from '@vx/scale';
-import { LinePath } from '@vx/shape';
 import axios, { AxiosResponse } from 'axios';
+import { LinePath } from '../vx-typing';
 type Coordinate = {
   date: Date;
   price: number;
@@ -23,10 +23,7 @@ type Setting = {
   y: (Datum: Coordinate) => number;
 };
 
-const useSettings = (data: Array<Coordinate>): Setting => {
-  const width = 800;
-  const height = 800;
-  const padding = 50;
+const settingFactory = (width: number, height: number, padding: number) => (data: Array<Coordinate>): Setting => {
   const xMax = width - padding;
   const yMax = height - padding;
   const xSelector = get<Coordinate, 'date'>('date');
@@ -39,8 +36,8 @@ const useSettings = (data: Array<Coordinate>): Setting => {
     range: [yMax, padding],
     domain: [0, max(data, ySelector)] as [number, number]
   });
-  const x = pipe(xSelector, xScale);
-  const y = pipe(ySelector, yScale);
+  const x: Setting['x'] = pipe(xSelector, xScale);
+  const y: Setting['y'] = pipe(ySelector, yScale);
   return {
     width,
     height,
@@ -55,7 +52,10 @@ const useSettings = (data: Array<Coordinate>): Setting => {
     y
   };
 };
-const lineChartCreator = () => (): React.ReactElement => {
+
+const useDefaultSetting = (data: Array<Coordinate>): Setting => React.useMemo(() => settingFactory(800, 800, 50)(data), [data]);
+
+const lineChartFactory = (useSetting: ReturnType<typeof settingFactory>) => (): React.ReactElement => {
   const [data, setData] = React.useState<Array<Coordinate>>([]);
   React.useEffect(() => {
     axios.get('https://api.coindesk.com/v1/bpi/historical/close.json').then((response: AxiosResponse) => {
@@ -68,7 +68,7 @@ const lineChartCreator = () => (): React.ReactElement => {
       setData(parsedData);
     });
   }, []);
-  const { x, width, height, y } = useSettings(data);
+  const { x, width, height, y } = useSetting(data);
 
   return (
     <svg width={width} height={height} style={{ backgroundColor: '#32deaa' }}>
@@ -77,12 +77,6 @@ const lineChartCreator = () => (): React.ReactElement => {
   );
 };
 
-const LineChart = lineChartCreator();
-const hoc = (width: number) => (props: {}): React.ReactElement => {
-  console.log(props);
-  const [count, setCount] = React.useState(0);
-  console.log(count);
-  console.log(setCount);
-  return <div>{width}</div>;
-};
+const LineChart = lineChartFactory(useDefaultSetting);
+
 export { LineChart };
