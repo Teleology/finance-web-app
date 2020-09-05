@@ -61,6 +61,16 @@
           "regex": "\b(error|type|(f|F)unction|(o|O)bject|(u|U)ndefined|(B|b)oolean|any|(S|s)tring|(N|n)umber)\b",
           "match": false
         }
+      },
+      {
+        "selector": "typeParameter",
+        "format": ["PascalCase"],
+        "prefix": ["T"]
+      },
+      {
+        "selector": "interface",
+        "format": ["PascalCase"],
+        "prefix": ["I"]
       }
     ],
     "@typescript-eslint/strict-boolean-expressions": [
