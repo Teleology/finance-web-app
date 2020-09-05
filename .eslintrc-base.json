@@ -63,9 +63,13 @@
         }
       },
       {
-        "selector": "typeParameter",
+        "selector": "typeAlias",
         "format": ["PascalCase"],
         "prefix": ["T"]
+      },
+      {
+        "selector": "typeParameter",
+        "format": ["PascalCase"]
       },
       {
         "selector": "interface",
