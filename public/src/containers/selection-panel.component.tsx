@@ -3,7 +3,7 @@ import { FormControl, Grid, InputLabel, MenuItem, Select } from '@material-ui/co
 
 type Prop = {};
 const SelectionPanel = (): React.ReactElement => (
-  <Grid spacing={2} container={true} item={true} direction="column" xs={1}>
+  <Grid spacing={2} container={true} item={true} direction="column" xs={4}>
     <Grid item={true}>
       <FormControl fullWidth={true}>
         <InputLabel>Age</InputLabel>
