@@ -44,7 +44,19 @@
       "error",
       {
         "selector": "variable",
-        "format": ["camelCase", "PascalCase", "UPPER_CASE"],
+        "modifiers": ["const"],
+        "types": ["string"],
+        "format": ["camelCase","UPPER_CASE"]
+      },
+      {
+        "selector": "variable",
+        "modifiers": ["const"],
+        "types": ["function"],
+        "format": ["camelCase", "PascalCase"]
+      },
+      {
+        "selector": "variable",
+        "format": ["camelCase"],
         "custom": {
           "regex": "\b(error|type|(f|F)unction|(o|O)bject|(u|U)ndefined|(B|b)oolean|any|(S|s)tring|(N|n)umber)\b",
           "match": false
@@ -55,8 +67,7 @@
       "error",
       {
         "allowString": false,
-        "allowNumber": false,
-        "allowNullableObject": false
+        "allowNumber": false
       }
     ],
     "@typescript-eslint/typedef": [
