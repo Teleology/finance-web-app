@@ -2,7 +2,9 @@ import * as React from 'react';
 import { get, keys, pipe, map } from 'lodash/fp';
 import { extent, max, bisector } from 'd3-array';
 import { ScaleTime, ScaleLinear } from 'd3-scale';
+import { timeFormat } from 'd3-time-format';
 import { scaleTime, scaleLinear } from '@vx/scale';
+import { AxisLeft, AxisBottom } from '@vx/axis';
 import { localPoint } from '@vx/event';
 import axios, { AxiosResponse } from 'axios';
 import { LinePath } from '@vx/shape';
@@ -18,8 +20,8 @@ type TSetting = {
   width: number;
   height: number;
   padding: number;
-  xMax: number;
-  yMax: number;
+  xMaxRange: number;
+  yMaxRange: number;
   xScale: ScaleTime<number, number>;
   yScale: ScaleLinear<number, number>;
   x: (Datum: TCoordinate) => number;
@@ -38,16 +40,16 @@ const tooltipStyles = {
 };
 
 const settingFactory = (width: number, height: number, padding: number) => (data: Array<TCoordinate>): TSetting => {
-  const xMax = width - padding;
-  const yMax = height - padding;
+  const xMaxRange = width - padding;
+  const yMaxRange = height - padding;
   const xSelector: (datum: TCoordinate) => Date = get<TCoordinate, 'date'>('date');
   const ySelector: (datum: TCoordinate) => number = get<TCoordinate, 'price'>('price');
   const xScale = scaleTime({
-    range: [padding, xMax],
+    range: [padding, xMaxRange],
     domain: extent(data, xSelector) as [Date, Date]
   });
   const yScale = scaleLinear({
-    range: [yMax, padding],
+    range: [yMaxRange, padding],
     domain: [0, max(data, ySelector)] as [number, number]
   });
   const x: TSetting['x'] = pipe(xSelector, xScale);
@@ -56,8 +58,8 @@ const settingFactory = (width: number, height: number, padding: number) => (data
     width,
     height,
     padding,
-    xMax,
-    yMax,
+    xMaxRange,
+    yMaxRange,
     xScale,
     yScale,
     x,
@@ -71,7 +73,7 @@ const bisectDate = bisector((datum: TCoordinate): Date => datum.date).left;
 const lineChartFactory = (useSetting: ReturnType<typeof settingFactory>) => (): React.ReactElement => {
   const { root } = useStyles();
   const [data, setData] = React.useState<Array<TCoordinate>>([]);
-  const { x, width, height, y, xScale, yScale } = useSetting(data);
+  const { width, height, padding, x, y, xScale, yScale, yMaxRange } = useSetting(data);
   const { showTooltip, hideTooltip, tooltipLeft = 0, tooltipTop = 0, tooltipData } = useTooltip<TCoordinate>();
   const handleMouseMove = React.useCallback(
     (event: React.MouseEvent<SVGElement>) => {
@@ -105,6 +107,8 @@ const lineChartFactory = (useSetting: ReturnType<typeof settingFactory>) => (): 
   return (
     <div className={root}>
       <svg width={width} height={height} onMouseMove={handleMouseMove} onMouseLeave={hideTooltip}>
+        <AxisBottom scale={xScale} top={yMaxRange} tickFormat={timeFormat('%m/%d/%Y')} />
+        <AxisLeft scale={yScale} left={padding} hideZero={true} />
         <LinePath data={data} x={x} y={y} strokeWidth={5} stroke="#000000" fill="transparent" />
         {map((datum: TCoordinate) => {
           const { price, date } = datum;
