@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { FormControl, Grid, InputLabel, MenuItem, Select } from '@material-ui/core';
 
-type Prop = {};
 const SelectionPanel = (): React.ReactElement => (
   <Grid spacing={2} container={true} item={true} direction="column" xs={4}>
     <Grid item={true}>

@@ -3,30 +3,27 @@ import { get, keys, pipe, map } from 'lodash/fp';
 import { extent, max, bisector } from 'd3-array';
 import { ScaleTime, ScaleLinear } from 'd3-scale';
 import { scaleTime, scaleLinear } from '@vx/scale';
-import { timeDay } from 'd3-time';
 import { localPoint } from '@vx/event';
 import axios, { AxiosResponse } from 'axios';
 import { LinePath } from '@vx/shape';
 import { useTooltip, Tooltip, defaultStyles } from '@vx/tooltip';
 import useStyles from './line-chart-style';
 
-type Coordinate = {
+type TCoordinate = {
   date: Date;
   price: number;
 };
 
-type Setting = {
+type TSetting = {
   width: number;
   height: number;
   padding: number;
   xMax: number;
   yMax: number;
-  xSelector: (Datum: Coordinate) => Date;
-  ySelector: (Datum: Coordinate) => number;
   xScale: ScaleTime<number, number>;
   yScale: ScaleLinear<number, number>;
-  x: (Datum: Coordinate) => number;
-  y: (Datum: Coordinate) => number;
+  x: (Datum: TCoordinate) => number;
+  y: (Datum: TCoordinate) => number;
 };
 
 export const background = '#3b6978';
@@ -40,11 +37,11 @@ const tooltipStyles = {
   color: 'white'
 };
 
-const settingFactory = (width: number, height: number, padding: number) => (data: Array<Coordinate>): Setting => {
+const settingFactory = (width: number, height: number, padding: number) => (data: Array<TCoordinate>): TSetting => {
   const xMax = width - padding;
   const yMax = height - padding;
-  const xSelector = get<Coordinate, 'date'>('date');
-  const ySelector = get<Coordinate, 'price'>('price');
+  const xSelector: (datum: TCoordinate) => Date = get<TCoordinate, 'date'>('date');
+  const ySelector: (datum: TCoordinate) => number = get<TCoordinate, 'price'>('price');
   const xScale = scaleTime({
     range: [padding, xMax],
     domain: extent(data, xSelector) as [Date, Date]
@@ -53,16 +50,14 @@ const settingFactory = (width: number, height: number, padding: number) => (data
     range: [yMax, padding],
     domain: [0, max(data, ySelector)] as [number, number]
   });
-  const x: Setting['x'] = pipe(xSelector, xScale);
-  const y: Setting['y'] = pipe(ySelector, yScale);
+  const x: TSetting['x'] = pipe(xSelector, xScale);
+  const y: TSetting['y'] = pipe(ySelector, yScale);
   return {
     width,
     height,
     padding,
     xMax,
     yMax,
-    xSelector,
-    ySelector,
     xScale,
     yScale,
     x,
@@ -70,28 +65,28 @@ const settingFactory = (width: number, height: number, padding: number) => (data
   };
 };
 
-const useDefaultSetting = (data: Array<Coordinate>): Setting => React.useMemo(() => settingFactory(800, 800, 50)(data), [data]);
-const bisectDate = bisector((datum: Coordinate): Date => datum.date).left;
+const useDefaultSetting = (data: Array<TCoordinate>): TSetting => React.useMemo(() => settingFactory(800, 800, 50)(data), [data]);
+const bisectDate = bisector((datum: TCoordinate): Date => datum.date).left;
 
-const lineChartFactory = (useSetting: ReturnType<typeof settingFactory>, useStyles: ReturnType<make>) => (): React.ReactElement => {
-  const [data, setData] = React.useState<Array<Coordinate>>([]);
-  const { x, width, height, y, xScale } = useSetting(data);
-  const { showTooltip, hideTooltip, tooltipOpen, tooltipLeft = 0, tooltipTop = 0, tooltipData } = useTooltip<Coordinate>();
+const lineChartFactory = (useSetting: ReturnType<typeof settingFactory>) => (): React.ReactElement => {
+  const { root } = useStyles();
+  const [data, setData] = React.useState<Array<TCoordinate>>([]);
+  const { x, width, height, y, xScale, yScale } = useSetting(data);
+  const { showTooltip, hideTooltip, tooltipLeft = 0, tooltipTop = 0, tooltipData } = useTooltip<TCoordinate>();
   const handleMouseMove = React.useCallback(
     (event: React.MouseEvent<SVGElement>) => {
-      const { x: pointX, y: pointY } = localPoint(event) ?? { x: 0 };
+      const { x: pointX } = localPoint(event) ?? { x: 0 };
       const x = xScale.invert(pointX);
-      let index = bisectDate(data, x, 1);
+      let index = bisectDate(data, x, 1, data.length - 1);
       const [xLeft, xRight] = [data[index - 1].date, data[index].date];
-      index = timeDay.count(x, xLeft) < timeDay.count(xRight, x) ? index - 1 : index;
-      // console.log('pointX,' + pointX);
+      index = x.getTime() - xLeft.getTime() < xRight.getTime() - x.getTime() ? index - 1 : index;
       showTooltip({
         tooltipData: data[index],
-        tooltipLeft: pointX,
-        tooltipTop: pointY
+        tooltipLeft: xScale(data[index].date),
+        tooltipTop: yScale(data[index].price)
       });
     },
-    [xScale, data, showTooltip]
+    [xScale, yScale, data, showTooltip]
   );
 
   React.useEffect(() => {
@@ -108,9 +103,31 @@ const lineChartFactory = (useSetting: ReturnType<typeof settingFactory>, useStyl
   // console.log(tooltipLeft);
   // console.log(tooltipData);
   return (
-    <div>
+    <div className={root}>
       <svg width={width} height={height} onMouseMove={handleMouseMove} onMouseLeave={hideTooltip}>
         <LinePath data={data} x={x} y={y} strokeWidth={5} stroke="#000000" fill="transparent" />
+        {map((datum: TCoordinate) => {
+          const { price, date } = datum;
+          const x = xScale(date);
+          const y = yScale(price);
+          return <circle key={x} cx={x} cy={y} r={4} fill="black" fillOpacity={0.1} stroke="black" strokeOpacity={0.1} strokeWidth={2} pointerEvents="none" />;
+        })(data)}
+        {tooltipData && (
+          <>
+            <circle
+              cx={tooltipLeft}
+              cy={tooltipTop + 1}
+              r={4}
+              fill="black"
+              fillOpacity={0.1}
+              stroke="black"
+              strokeOpacity={0.1}
+              strokeWidth={2}
+              pointerEvents="none"
+            />
+            <circle cx={tooltipLeft} cy={tooltipTop} r={4} fill={accentColorDark} stroke="white" strokeWidth={2} pointerEvents="none" />
+          </>
+        )}
       </svg>
       {tooltipData && (
         <Tooltip top={tooltipTop} left={tooltipLeft} style={tooltipStyles}>
