@@ -1,10 +1,10 @@
 import 'reflect-metadata';
-import path from 'path';
-import express, { Application, urlencoded } from 'express';
-import cookieParser from 'cookie-parser';
+import * as path from 'path';
+import * as express from 'express';
+import * as cookieParser from 'cookie-parser';
 import { Container } from 'inversify';
 import { InversifyExpressServer } from 'inversify-express-utils';
-import morgan from 'morgan';
+import * as morgan from 'morgan';
 import './stock-data/stock-data.controller';
 import './company-search/company-search.controller';
 import { SERVICE_IDS } from './common/constants';
@@ -14,10 +14,10 @@ const container = new Container();
 container.bind(SERVICE_IDS.StockDataService).to(StockDataService);
 
 const server = new InversifyExpressServer(container);
-server.setConfig((app: Application) => {
+server.setConfig((app: express.Application) => {
   app.use(morgan('dev'));
   app.use(express.json());
-  app.use(urlencoded({ extended: false }));
+  app.use(express.urlencoded({ extended: false }));
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, '../../public/dist/')));
 });
