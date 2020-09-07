@@ -3,9 +3,9 @@ import { Grid, Typography } from '@material-ui/core';
 
 type TProps = { title: string; content: string };
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type,@typescript-eslint/no-unused-vars
 const NewsSection = (props: TProps) => (
-  <Grid direction="column">
+  <Grid direction="column" container={true}>
     <Typography variant="h5">
       The tech giant, once an example of how not to operate in the nation’s capital, now has a successful influence operation there
     </Typography>
