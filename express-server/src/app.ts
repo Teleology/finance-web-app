@@ -24,4 +24,4 @@ server.setConfig((app: express.Application) => {
 
 // C5TADQOPXWJ7BF35
 // fJdJdNzONFfvCJKow8BFU8OzuuxRAqVVI2BG24PhGrH0HEIcPR
-server.build().listen(3000, () => console.log('Server is not listening on port 3000'));
+server.build().listen(3000, () => console.log('Server is listening on port 3000'));

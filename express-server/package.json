@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./dist/app.js",
+    "watch": "concurrently -k \"npm run watch-ts\" \"npm run start\"",
     "debug": "nodemon --inspect ./dist/app.js",
     "clean-dist": "rimraf ./dist",
     "lint-ts": "eslint --fix ./src/**/*.ts",
+    "watch-ts": "tsc -w",
     "rebuid": "npm run clean-dist && tsc --build"
   },
   "repository": {
@@ -47,6 +49,7 @@
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "copyfiles": "^2.3.0",
+    "concurrently": "^5.3.0",
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.21.2",
