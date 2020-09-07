@@ -9,7 +9,7 @@ render(<App />, rootEl);
 if (module.hot !== undefined) {
   module.hot.accept('./app', () => {
     console.log('hot accept');
-    const NewApp = require('./app').App;
+    const NewApp: React.FC = require('./app').App;
     render(<NewApp />, rootEl);
   });
 }
