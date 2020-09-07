@@ -50,8 +50,12 @@ const fieldKeyMapping = {
   'Global Quote': 'globalQuote'
 } as const;
 
+// type MetaEntity = Record<keyof typeof metaKeyMapping, string>;
 type MetaContract = Record<ValueUnionOfObject<typeof metaKeyMapping>, string>;
+
+// type StockSeriesDatumEntity = Record<keyof typeof stockSeriesDatumKeyMapping, string>;
 type StockSeriesDatumContract = Record<ValueUnionOfObject<typeof stockSeriesDatumKeyMapping>, string>;
+
 type StockSeriesContract = {
   metaData: MetaContract;
   series: Array<StockSeriesDatumContract>;
@@ -63,15 +67,8 @@ export class StockDataService {
   public fetchStockSeries: AxiosInstance;
   public fetchStockLatest: AxiosInstance;
 
-  private mapStockTimeEntity: (input: object) => object = mapKeys((key: string) => {
-    if (key.includes('Time Series')) {
-      return 'series';
-    } else if (key.includes('Meta Data')) {
-      return 'metaData';
-    } else {
-      return key;
-    }
-  });
+  // @ts-ignore
+  private mapStockTimeEntity = mapKeys((key: string) => stockSeriesDatumKeyMapping[key] ?? key);
 
   // @ts-ignore
   private transformStockMetaDataEntity: (input: TStockMetaDataEntity) => TStockMetaDataResponse = flow(
@@ -86,16 +83,13 @@ export class StockDataService {
     });
     this.fetchStockLatest = axios.create({
       ...alphaApiBasicSettings,
-      transformResponse: (data: string): TStockLatestResponse => {
-        console.log(data);
-        return flow(JSON.parse, get('Global Quote'), mapKeys(numberSpaceReplaceFn1))(data);
-      }
+      transformResponse: (data: string): TStockLatestResponse => flow(JSON.parse, get('Global Quote'), mapKeys(numberSpaceReplaceFn1))(data)
     });
   }
 
   private transformResponse(input: string): TStockSeriesResponse {
-    console.log(input);
     const parsedKey = this.mapStockTimeEntity(JSON.parse(input));
+    console.log(parsedKey);
     const parsedMetaData = this.transformStockMetaDataEntity(get('metaData')(parsedKey));
     const parsedSeries = this.transformStockSeriesObjectToArray(get('series')(parsedKey));
     return {
@@ -115,44 +109,3 @@ export class StockDataService {
     return ret;
   }
 }
-// const mapStockTimeEntity = mapKeys((key: string) => {
-//   if (key.includes('Time Series')) {
-//     return 'series';
-//   } else if (key.includes('Meta Data')) {
-//     return 'metaData';
-//   } else {
-//     return key;
-//   }
-// });
-//
-// export const fetchStockSeries = axios.create({
-//   ...alphaApiBasicSettings,
-//
-//   transformResponse: (data: string): TStockSeriesResponse => {
-//     console.log(data);
-//     const parsedKey = mapStockTimeEntity(JSON.parse(data));
-//     const parsedMetaData = (flow(
-//       omit<TStockMetaDataEntity, keyof TStockMetaDataEntity>('4. Output Size'),
-//       mapKeys(numberSpaceReplaceFn1)
-//     )(parsedKey.metaData) as unknown) as TStockMetaDataResponse;
-//     const parsedSeries: Array<TStockItemResponse> = [];
-//     for (const [key, value] of Object.entries(parsedKey.series)) {
-//       parsedSeries.push({
-//         ...mapKeys(numberSpaceReplaceFn1)(value as TStockItemEntity),
-//         time: key,
-//       } as TStockItemResponse);
-//     }
-//     return {
-//       metaData: parsedMetaData,
-//       series: parsedSeries,
-//     };
-//   },
-// });
-//
-// export const fetchStockLatest = axios.create({
-//   ...alphaApiBasicSettings,
-//   transformResponse: (data: string): TStockLatestResponse => {
-//     console.log(data);
-//     return flow(JSON.parse, get('Global Quote'), mapKeys(numberSpaceReplaceFn1))(data);
-//   },
-// });
