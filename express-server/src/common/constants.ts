@@ -10,13 +10,13 @@ export enum AlphaFunction {
 }
 
 export const alphaApiBasicSettings: AxiosRequestConfig = {
-  method: 'GET' as 'GET',
+  method: 'GET',
   baseURL: 'https://www.alphavantage.co/query',
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   paramsSerializer: (params: any) => encode({ apikey: 'C5TADQOPXWJ7BF35', ...params })
 };
 
-export const SERVICE_IDS = {
+export const serviceIDS = {
   StockDataService: Symbol.for('StockDataService')
 };
 // headers: {

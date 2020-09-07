@@ -11,11 +11,58 @@ import {
 } from '../typings/stock-data.type';
 import { alphaApiBasicSettings } from '../common/constants';
 import { numberSpaceReplaceFn1 } from '../common/utils';
+import { ValueUnionOfObject } from '../common/type-utils';
+
+const metaKeyMapping = {
+  '1. Information': 'information',
+  '2. Symbol': 'symbol',
+  '3. Last Refreshed': 'lastRefreshed',
+  '4. Output Size': 'outputSize',
+  '5. Time Zone': 'timeZone'
+} as const;
+
+const stockSeriesDatumKeyMapping = {
+  '1. open': 'open',
+  '2. high': 'high',
+  '3. low': 'low',
+  '4. close': 'close',
+  '5. volume': 'volume'
+} as const;
+
+const stockLatestKeyMapping = {
+  '01. symbol': 'symbol',
+  '02. open': 'open',
+  '03. high': 'high',
+  '04. low': 'low',
+  '05. price': 'price',
+  '06. volume': 'volume',
+  '07. latest trading day': 'latestTradingDay',
+  '08. previous close': 'previousClose',
+  '09. change': 'change',
+  '10. change percent': 'changePercent'
+} as const;
+
+const fieldKeyMapping = {
+  'Meta Data': 'metaData',
+  'Time Series (Daily)': 'series',
+  'Weekly Time Series': 'series',
+  'Monthly Time Series': 'series',
+  'Global Quote': 'globalQuote'
+} as const;
+
+type MetaContract = Record<ValueUnionOfObject<typeof metaKeyMapping>, string>;
+type StockSeriesDatumContract = Record<ValueUnionOfObject<typeof stockSeriesDatumKeyMapping>, string>;
+type StockSeriesContract = {
+  metaData: MetaContract;
+  series: Array<StockSeriesDatumContract>;
+};
+type StockLatestContract = Record<ValueUnionOfObject<typeof stockLatestKeyMapping>, string>;
 
 @injectable()
 export class StockDataService {
   public fetchStockSeries: AxiosInstance;
   public fetchStockLatest: AxiosInstance;
+
   private mapStockTimeEntity: (input: object) => object = mapKeys((key: string) => {
     if (key.includes('Time Series')) {
       return 'series';

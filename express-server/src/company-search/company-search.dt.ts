@@ -5,7 +5,5 @@ import { TCompanyInfo } from '../typings/company-search.type';
 import { numberSpaceReplaceFn1 } from '../common/utils';
 export const fetchCompanies = axios.create({
   ...alphaApiBasicSettings,
-  transformResponse: (data: string): Array<TCompanyInfo> => {
-    return flow(JSON.parse, get('bestMatches'), map(mapKeys(numberSpaceReplaceFn1)))(data);
-  }
+  transformResponse: (data: string): Array<TCompanyInfo> => flow(JSON.parse, get('bestMatches'), map(mapKeys(numberSpaceReplaceFn1)))(data)
 });

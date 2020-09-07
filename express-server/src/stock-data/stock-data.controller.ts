@@ -5,12 +5,12 @@ import { Params } from 'express-serve-static-core';
 import { AxiosResponse } from 'axios';
 import { inject } from 'inversify';
 import { TStockQuery } from '../typings/stock-data.type';
-import { AlphaFunction, SERVICE_IDS } from '../common/constants';
+import { AlphaFunction, serviceIDS } from '../common/constants';
 import { StockDataService } from './stock-data.dt';
 // services missing to catch not 200 status for alphaApi
 @controller('/api/v1/stock')
 export class StockDataController {
-  constructor(@inject(SERVICE_IDS.StockDataService) private stockDataService: StockDataService) {}
+  constructor(@inject(serviceIDS.StockDataService) private stockDataService: StockDataService) {}
 
   @httpGet('/days')
   public async getDailyInfo(req: Request<Params, never, never, TStockQuery>, res: Response): Promise<void> {
