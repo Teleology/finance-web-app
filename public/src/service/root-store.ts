@@ -4,6 +4,7 @@ import { createBrowserHistory } from 'history';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import { CompanySelectionActionUnion } from './company-selection/company-selection.action';
+import { companySelectionEpic } from './company-selection/company-selection.epic';
 
 type RootAction = CompanySelectionActionUnion;
 
@@ -25,6 +26,6 @@ const rootReducer = combineReducers<RootState>({
 const isLocal = process.env.NODE_ENV === 'development';
 const store = isLocal ? createStore(rootReducer, enhancers) : createStore(rootReducer, middlewares);
 
-const rootEpic = combineEpics();
+const rootEpic = combineEpics(companySelectionEpic);
 epicMiddleware.run(rootEpic);
 export { store, isLocal, history, RootState, RootAction };

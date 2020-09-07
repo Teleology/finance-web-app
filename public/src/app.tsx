@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Container, ThemeProvider, Grid } from '@material-ui/core';
-import { store, history } from './root-redux/root-store';
+import { store, history } from './service/root-store';
 import { theme } from './theme';
 import { SelectionPanel } from './containers/selection-panel.component';
 import { LineChart } from './components/line-chart/line-chart.component';
