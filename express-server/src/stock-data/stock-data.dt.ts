@@ -1,16 +1,7 @@
-import { mapKeys, omit, flow, get } from 'lodash/fp';
+import { mapKeys, omit, flow, get, keys } from 'lodash/fp';
 import axios, { AxiosInstance } from 'axios';
 import { injectable } from 'inversify';
-import {
-  TStockItemEntity,
-  TStockItemResponse,
-  TStockLatestResponse,
-  TStockMetaDataEntity,
-  TStockMetaDataResponse,
-  TStockSeriesResponse
-} from '../typings/stock-data.type';
 import { alphaApiBasicSettings } from '../common/constants';
-import { numberSpaceReplaceFn1 } from '../common/utils';
 import { ValueUnionOfObject } from '../common/type-utils';
 
 const metaKeyMapping = {
@@ -18,6 +9,7 @@ const metaKeyMapping = {
   '2. Symbol': 'symbol',
   '3. Last Refreshed': 'lastRefreshed',
   '4. Output Size': 'outputSize',
+  '4. Time Zone': 'timeZone',
   '5. Time Zone': 'timeZone'
 } as const;
 
@@ -50,11 +42,9 @@ const fieldKeyMapping = {
   'Global Quote': 'globalQuote'
 } as const;
 
-// type MetaEntity = Record<keyof typeof metaKeyMapping, string>;
 type MetaContract = Record<ValueUnionOfObject<typeof metaKeyMapping>, string>;
 
-// type StockSeriesDatumEntity = Record<keyof typeof stockSeriesDatumKeyMapping, string>;
-type StockSeriesDatumContract = Record<ValueUnionOfObject<typeof stockSeriesDatumKeyMapping>, string>;
+type StockSeriesDatumContract = Record<ValueUnionOfObject<typeof stockSeriesDatumKeyMapping>, string> & { time: string };
 
 type StockSeriesContract = {
   metaData: MetaContract;
@@ -67,45 +57,48 @@ export class StockDataService {
   public fetchStockSeries: AxiosInstance;
   public fetchStockLatest: AxiosInstance;
 
-  // @ts-ignore
-  private mapStockTimeEntity = mapKeys((key: string) => stockSeriesDatumKeyMapping[key] ?? key);
-
-  // @ts-ignore
-  private transformStockMetaDataEntity: (input: TStockMetaDataEntity) => TStockMetaDataResponse = flow(
-    omit<TStockMetaDataEntity, keyof TStockMetaDataEntity>('4. Output Size'),
-    mapKeys(numberSpaceReplaceFn1)
-  );
-
   constructor() {
     this.fetchStockSeries = axios.create({
       ...alphaApiBasicSettings,
-      transformResponse: this.transformResponse.bind(this)
+      transformResponse: this.transformStockSeriesResponse.bind(this)
     });
     this.fetchStockLatest = axios.create({
       ...alphaApiBasicSettings,
-      transformResponse: (data: string): TStockLatestResponse => flow(JSON.parse, get('Global Quote'), mapKeys(numberSpaceReplaceFn1))(data)
+      transformResponse: this.transformStockLatestResponse.bind(this)
     });
   }
 
-  private transformResponse(input: string): TStockSeriesResponse {
-    const parsedKey = this.mapStockTimeEntity(JSON.parse(input));
-    console.log(parsedKey);
-    const parsedMetaData = this.transformStockMetaDataEntity(get('metaData')(parsedKey));
-    const parsedSeries = this.transformStockSeriesObjectToArray(get('series')(parsedKey));
+  private transformStockLatestResponse(input: string): StockLatestContract {
+    return flow(
+      JSON.parse,
+      get('Global Quote'),
+      mapKeys((key: string) => stockLatestKeyMapping[key as keyof typeof stockLatestKeyMapping] ?? key)
+    )(input);
+  }
+  private transformStockSeriesResponse(input: string): StockSeriesContract {
+    const parsedKey = flow(
+      JSON.parse,
+      mapKeys((key: string) => fieldKeyMapping[key as keyof typeof fieldKeyMapping] ?? key)
+    )(input);
+    const parsedMetaData = flow(
+      get('metaData'),
+      omit('4. Output Size'),
+      mapKeys((key: string) => metaKeyMapping[key as keyof typeof metaKeyMapping] ?? key)
+    )(parsedKey);
+    const parsedSeries = flow(get('series'), this.transformStockSeriesObjectToArray)(parsedKey);
     return {
       metaData: parsedMetaData,
       series: parsedSeries
-    };
+    } as StockSeriesContract;
   }
 
-  private transformStockSeriesObjectToArray(input: Record<string, TStockItemEntity>): Array<TStockItemResponse> {
-    const ret: Array<TStockItemResponse> = [];
-    for (const [key, value] of Object.entries(input)) {
-      ret.push({
-        ...mapKeys(numberSpaceReplaceFn1)(value),
-        time: key
-      } as TStockItemResponse);
-    }
-    return ret;
+  private transformStockSeriesObjectToArray(input: Record<string, Omit<StockSeriesDatumContract, 'time'>>): Array<StockSeriesDatumContract> {
+    return keys(input).map(
+      (date: string) =>
+        ({
+          ...mapKeys((key: string) => stockSeriesDatumKeyMapping[key as keyof typeof stockSeriesDatumKeyMapping] ?? key)(input[date]),
+          time: date
+        } as StockSeriesDatumContract)
+    );
   }
 }

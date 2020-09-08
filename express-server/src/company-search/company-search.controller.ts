@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { get } from 'lodash/fp';
 import { AlphaFunction } from '../common/constants';
 import { fetchCompanies } from './company-search.dt';
+
 @controller('/api/v1/search')
 export class CompanySearchController {
   @httpGet('')
