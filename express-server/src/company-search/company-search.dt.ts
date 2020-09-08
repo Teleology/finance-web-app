@@ -15,6 +15,7 @@ const mapCompanyInfoKey = {
   '9. matchScore': 'matchScore'
 };
 
+// TODO: transform to service injection
 export const fetchCompanies = axios.create({
   ...alphaApiBasicSettings,
   transformResponse: (data: string): Array<TCompanyInfo> =>

@@ -2,6 +2,22 @@ import { TCountry } from '../typings/company-search.type';
 
 export const continents = ['Asia', 'Africa', 'Oceania', 'North America', 'South America', 'Europe', 'Antarctica'];
 
+// TODO: valid countries
+/**
+ * Country	It is required when you use "All Stocks list" API, so you will get all stock from your selected country. Support 30 Countries
+ Default: none.
+ Valid Values:
+ brazil, canada, china,
+ denmark, dubai, finland, france,
+ germany, hong-kong,
+ india, indonesia, ireland,
+ japan, malaysia, mexico, netherlands,
+ pakistan, philippines, russia,
+ saudi-arabia, singapore, south-africa, south-korea, spain, sweden, switzerland,
+ thailand, turkey, united-arab-emirates, united-kingdom, united-states,
+
+ Note: You can set 1 or more country names to get all stocks from multiple countries by comma-separated names.
+ */
 export const countries: Array<TCountry> = [
   {
     country: 'Afghanistan',
