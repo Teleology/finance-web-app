@@ -8,10 +8,12 @@ import * as morgan from 'morgan';
 import './stock-data/stock-data.controller';
 import './company-search/company-search.controller';
 import { serviceIDS } from './common/constants';
-import { StockDataService } from './stock-data/stock-data.dt';
+import { StockDataService } from './stock-data/stock-data.service';
+import { CompanySearchService } from './company-search/company-search.service';
 
 const container = new Container();
 container.bind(serviceIDS.StockDataService).to(StockDataService);
+container.bind(serviceIDS.CompanySearchService).to(CompanySearchService);
 
 const server = new InversifyExpressServer(container);
 server.setConfig((app: express.Application) => {

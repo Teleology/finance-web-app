@@ -3,7 +3,7 @@ import { controller, httpGet } from 'inversify-express-utils';
 import { AxiosResponse } from 'axios';
 import { inject } from 'inversify';
 import { AlphaFunction, serviceIDS } from '../common/constants';
-import { StockDataService } from './stock-data.dt';
+import { StockDataService } from './stock-data.service';
 // services missing to catch not 200 status for alphaApi
 @controller('/api/v1/stock')
 export class StockDataController {
