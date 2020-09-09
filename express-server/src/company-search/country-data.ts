@@ -1,5 +1,3 @@
-import { TCountry } from '../typings/company-search.type';
-
 export const continents = ['Asia', 'Africa', 'Oceania', 'North America', 'South America', 'Europe', 'Antarctica'];
 
 // TODO: valid countries
@@ -18,7 +16,7 @@ export const continents = ['Asia', 'Africa', 'Oceania', 'North America', 'South 
 
  Note: You can set 1 or more country names to get all stocks from multiple countries by comma-separated names.
  */
-export const countries: Array<TCountry> = [
+export const countries = [
   {
     country: 'Afghanistan',
     continent: 'Asia'

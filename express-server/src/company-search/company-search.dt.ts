@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { flow, get, mapKeys, map } from 'lodash/fp';
 import { alphaApiBasicSettings } from '../common/constants';
-import { TCompanyInfo } from '../typings/company-search.type';
+import { ValueUnionOfObject } from '../common/type-utils';
 
 const mapCompanyInfoKey = {
   '1. symbol': 'symbol',
@@ -13,11 +13,13 @@ const mapCompanyInfoKey = {
   '7. timezone': 'timezone',
   '8. currency': 'currency',
   '9. matchScore': 'matchScore'
-};
+} as const;
+
+type CompanyInfo = Record<ValueUnionOfObject<typeof mapCompanyInfoKey>, string>;
 
 // TODO: transform to service injection
 export const fetchCompanies = axios.create({
   ...alphaApiBasicSettings,
-  transformResponse: (data: string): Array<TCompanyInfo> =>
+  transformResponse: (data: string): Array<CompanyInfo> =>
     flow(JSON.parse, get('bestMatches'), map(mapKeys((key: string) => mapCompanyInfoKey[key as keyof typeof mapCompanyInfoKey] ?? key)))(data)
 });
