@@ -1,8 +1,9 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { flow, get, mapKeys, map } from 'lodash/fp';
 import { injectable } from 'inversify';
-import { alphaApiBasicSettings } from '../common/constants';
+import { alphaApiBasicSettings } from '../common/injection-utils';
 import { ValueUnionOfObject } from '../common/type-utils';
+import { AlphaFunction } from '../common/string-utils';
 
 const mapCompanyInfoKey = {
   '1. symbol': 'symbol',
@@ -16,7 +17,7 @@ const mapCompanyInfoKey = {
   '9. matchScore': 'matchScore'
 } as const;
 
-// type CompanyInfo = Record<ValueUnionOfObject<typeof mapCompanyInfoKey>, string>;
+type CompanyInfo = Record<ValueUnionOfObject<typeof mapCompanyInfoKey>, string>;
 
 // // TODO: transform to service injection
 // export const fetchCompanies = axios.create({
@@ -27,7 +28,7 @@ const mapCompanyInfoKey = {
 
 @injectable()
 export class CompanySearchService {
-  public fetchCompanies: AxiosInstance;
+  private axios: AxiosInstance;
   private transformCompanySearchResponse = flow(
     JSON.parse,
     get('bestMatches'),
@@ -35,9 +36,13 @@ export class CompanySearchService {
   );
 
   constructor() {
-    this.fetchCompanies = axios.create({
+    this.axios = axios.create({
       ...alphaApiBasicSettings,
       transformResponse: this.transformCompanySearchResponse.bind(this)
     });
+  }
+
+  public fetchCompanies(keywords: string): Promise<Array<CompanyInfo>> {
+    return this.axios({ params: { function: AlphaFunction.SEARCH, keywords } }).then((response: AxiosResponse) => response.data);
   }
 }

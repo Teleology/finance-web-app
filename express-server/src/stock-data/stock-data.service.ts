@@ -1,7 +1,7 @@
 import { mapKeys, omit, flow, get, keys } from 'lodash/fp';
 import axios, { AxiosInstance } from 'axios';
 import { injectable } from 'inversify';
-import { alphaApiBasicSettings } from '../common/constants';
+import { alphaApiBasicSettings } from '../common/injection-utils';
 import { ValueUnionOfObject } from '../common/type-utils';
 
 const metaKeyMapping = {
