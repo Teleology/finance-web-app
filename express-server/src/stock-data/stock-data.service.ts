@@ -1,8 +1,9 @@
 import { mapKeys, omit, flow, get, keys } from 'lodash/fp';
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { injectable } from 'inversify';
 import { alphaApiBasicSettings } from '../common/injection-utils';
 import { ValueUnionOfObject } from '../common/type-utils';
+import { AlphaFunction } from '../common/string-utils';
 
 const metaKeyMapping = {
   '1. Information': 'information',
@@ -54,21 +55,37 @@ type StockLatestContract = Record<ValueUnionOfObject<typeof stockLatestKeyMappin
 
 @injectable()
 export class StockDataService {
-  public fetchStockSeries: AxiosInstance;
-  public fetchStockLatest: AxiosInstance;
+  private seriesAxios: AxiosInstance;
+  private latestAxios: AxiosInstance;
 
   constructor() {
-    this.fetchStockSeries = axios.create({
+    this.seriesAxios = axios.create({
       ...alphaApiBasicSettings,
       transformResponse: this.transformStockSeriesResponse.bind(this)
     });
-    this.fetchStockLatest = axios.create({
+    this.latestAxios = axios.create({
       ...alphaApiBasicSettings,
       transformResponse: this.transformStockLatestResponse.bind(this)
     });
   }
 
-  private transformStockLatestResponse(input: string): StockLatestContract {
+  public fetchDailyStockSeries(symbol: string): Promise<StockSeriesDatumContract> {
+    return this.seriesAxios({ params: { function: AlphaFunction.DAILY, symbol } }).then((response: AxiosResponse) => response.data);
+  }
+
+  public fetchWeeklyStockSeries(symbol: string): Promise<StockSeriesDatumContract> {
+    return this.seriesAxios({ params: { function: AlphaFunction.WEEKLY, symbol } }).then((response: AxiosResponse) => response.data);
+  }
+
+  public fetchMonthlyStockSeries(symbol: string): Promise<StockSeriesDatumContract> {
+    return this.seriesAxios({ params: { function: AlphaFunction.MONTHLY, symbol } }).then((response: AxiosResponse) => response.data);
+  }
+
+  public fetchLatestStock(symbol: string): Promise<StockLatestContract> {
+    return this.latestAxios({ params: { function: AlphaFunction.LATEST, symbol } }).then((response: AxiosResponse) => response.data);
+  }
+
+  private transformStockLatestResponse(input: string): Promise<StockSeriesDatumContract> {
     return flow(
       JSON.parse,
       get('Global Quote'),

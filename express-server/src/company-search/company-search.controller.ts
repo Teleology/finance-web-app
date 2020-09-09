@@ -1,6 +1,5 @@
 import { controller, httpGet } from 'inversify-express-utils';
 import { Request, Response } from 'express';
-import { get } from 'lodash/fp';
 import { inject } from 'inversify';
 import { serviceIDS } from '../common/injection-utils';
 import { CompanySearchService } from './company-search.service';
