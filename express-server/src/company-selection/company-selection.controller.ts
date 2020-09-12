@@ -19,7 +19,7 @@ class CompanySelectionController {
   }
 
   @httpGet('/country/:continent')
-  public getCountriesByContinent(request: Request, response: Response) {
+  public getCountriesByContinent(request: Request, response: Response): void {
     try {
       const { continent } = request.params;
       const countries = this.companySelectionService.getCountriesByContinent(continent as Continent);
@@ -30,11 +30,22 @@ class CompanySelectionController {
   }
 
   @httpGet('/indices/:country')
-  public async getIndicesByCountry(request: Request, response: Response) {
+  public async getIndicesByCountry(request: Request, response: Response): Promise<void> {
     try {
       const { country } = request.params;
       const indices = await this.companySelectionService.getIndicesByCountry(country);
       response.status(200).json(indices);
+    } catch (e) {
+      response.status(500).send('get indices error');
+    }
+  }
+
+  @httpGet('/companies/:indice')
+  public async getCompaniesByIndice(request: Request, response: Response): Promise<void> {
+    try {
+      const { indice } = request.params;
+      const companies = await this.companySelectionService.getCompaniesByIndice(indice);
+      response.status(200).json(companies);
     } catch (e) {
       response.status(500).send('get indices error');
     }

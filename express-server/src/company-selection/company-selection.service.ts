@@ -87,7 +87,7 @@ class CompanySelectionService {
     );
   }
 
-  public getStockListByIndice(indiceId: string): Promise<Array<StockContract>> {
+  public getCompaniesByIndice(indiceId: string): Promise<Array<StockContract>> {
     return this.optionAxios({ params: { indices_id: indiceId }, url: 'list' }).then(
       flow(
         get<AxiosResponse<Array<StockResponse>>, 'data'>('data'),
