@@ -19,13 +19,6 @@ const mapCompanyInfoKey = {
 
 type CompanyInfo = Record<ValueUnionOfObject<typeof mapCompanyInfoKey>, string>;
 
-// // TODO: transform to service injection
-// export const fetchCompanies = axios.create({
-//   ...alphaApiBasicSettings,
-//   transformResponse: (data: string): Array<CompanyInfo> =>
-//     flow(JSON.parse, get('bestMatches'), map(mapKeys((key: string) => mapCompanyInfoKey[key as keyof typeof mapCompanyInfoKey] ?? key)))(data)
-// });
-
 @injectable()
 export class CompanySearchService {
   private axios: AxiosInstance;
