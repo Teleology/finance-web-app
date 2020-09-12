@@ -1,9 +1,12 @@
 // TODO: continent -> country -> indices -> company
 
 import { injectable } from 'inversify';
-const continent = ['asia', 'europe', 'oceania', 'africa', 'north-america', 'south-america'] as const;
-type Continent = typeof continent[number];
+import { get, filter, map, flow } from 'lodash/fp';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { fcsApiBasicSettings } from '../common/network-utils';
+const continent: Array<Continent> = ['asia', 'europe', 'oceania', 'africa', 'north-america', 'south-america'];
 type Country = { country: string; continent: Continent };
+
 const countries: Array<Country> = [
   { country: 'brazil', continent: 'north-america' },
   { country: 'canada', continent: 'north-america' },
@@ -36,7 +39,62 @@ const countries: Array<Country> = [
   { country: 'united-states', continent: 'north-america' }
 ];
 
+type IndiceResponse = {
+  category_id: string;
+  category_name: string;
+  country: string;
+};
+type IndiceContract = {
+  categoryId: string;
+  categoryName: string;
+};
+
+type StockResponse = {
+  stock_id: string;
+  name: string;
+  short_name: string;
+  country: string;
+};
+type StockContract = {
+  stockId: string;
+  name: string;
+  shortName: string;
+  country: string;
+};
+
 @injectable()
 class CompanySelectionService {
-  public getContinent();
+  private optionAxios: AxiosInstance;
+  constructor() {
+    this.optionAxios = axios.create({
+      ...fcsApiBasicSettings,
+      transformResponse: flow(JSON.parse, get('response'))
+    });
+  }
+  public getContinent(): ReadonlyArray<Continent> {
+    return continent;
+  }
+  public getCountriesByContinent(continent: Continent): Array<string> {
+    return flow(filter<Country>({ continent }), map<Country, 'country'>('country'))(countries);
+  }
+
+  public getIndicesByCountry(country: string): Promise<Array<IndiceContract>> {
+    return this.optionAxios({ params: { country }, url: 'indices' }).then(
+      flow(
+        get<AxiosResponse<Array<IndiceResponse>>, 'data'>('data'),
+        map(({ category_id, category_name }: IndiceResponse) => ({ categoryId: category_id, categoryName: category_name }))
+      )
+    );
+  }
+
+  public getStockListByIndice(indiceId: string): Promise<Array<StockContract>> {
+    return this.optionAxios({ params: { indices_id: indiceId }, url: 'list' }).then(
+      flow(
+        get<AxiosResponse<Array<StockResponse>>, 'data'>('data'),
+        map(({ short_name, stock_id, name, country }: StockResponse) => ({ shortName: short_name, stockId: stock_id, name, country }))
+      )
+    );
+  }
 }
+
+export { CompanySelectionService };

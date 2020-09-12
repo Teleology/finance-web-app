@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { controller, httpGet } from 'inversify-express-utils';
 import { inject } from 'inversify';
-import { serviceIDS } from '../common/injection-utils';
+import { serviceIDS } from '../common/string-utils';
+import { baseURL } from '../common/network-utils';
 import { StockDataService } from './stock-data.service';
-@controller('/api/v1/stock')
-export class StockDataController {
+@controller(`${baseURL}/stock`)
+class StockDataController {
   constructor(@inject(serviceIDS.StockDataService) private stockDataService: StockDataService) {}
 
   @httpGet('/days')
@@ -63,3 +64,5 @@ export class StockDataController {
     }
   }
 }
+
+export { StockDataController };

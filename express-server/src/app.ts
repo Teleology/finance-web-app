@@ -7,7 +7,7 @@ import { InversifyExpressServer } from 'inversify-express-utils';
 import * as morgan from 'morgan';
 import './stock-data/stock-data.controller';
 import './company-search/company-search.controller';
-import { serviceIDS } from './common/injection-utils';
+import { serviceIDS } from './common/string-utils';
 import { StockDataService } from './stock-data/stock-data.service';
 import { CompanySearchService } from './company-search/company-search.service';
 

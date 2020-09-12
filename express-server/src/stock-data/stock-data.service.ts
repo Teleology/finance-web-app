@@ -54,7 +54,7 @@ type StockSeriesContract = {
 type StockLatestContract = Record<ValueUnionOfObject<typeof stockLatestKeyMapping>, string>;
 
 @injectable()
-export class StockDataService {
+class StockDataService {
   private seriesAxios: AxiosInstance;
   private latestAxios: AxiosInstance;
 
@@ -119,3 +119,5 @@ export class StockDataService {
     );
   }
 }
+
+export { StockDataService };

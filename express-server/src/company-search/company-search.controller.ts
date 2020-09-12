@@ -1,11 +1,11 @@
 import { controller, httpGet } from 'inversify-express-utils';
 import { Request, Response } from 'express';
 import { inject } from 'inversify';
-import { serviceIDS } from '../common/injection-utils';
+import { serviceIDS } from '../common/string-utils';
 import { CompanySearchService } from './company-search.service';
 
 @controller('/api/v1/search')
-export class CompanySearchController {
+class CompanySearchController {
   constructor(@inject(serviceIDS.CompanySearchService) private companySearchService: CompanySearchService) {}
   @httpGet('')
   public async getMatchedCompanies(req: Request, res: Response): Promise<void> {
@@ -21,3 +21,5 @@ export class CompanySearchController {
     }
   }
 }
+
+export { CompanySearchController };
