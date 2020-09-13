@@ -1,9 +1,8 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["import", "lodash-fp", "react", "react-hooks","@typescript-eslint"],
+  "plugins": ["import", "react", "react-hooks","@typescript-eslint"],
   "extends": [
     "plugin:react/recommended",
-    "plugin:lodash-fp/recommended",
     "plugin:import/typescript",
     "plugin:import/errors",
     "plugin:prettier/recommended",
