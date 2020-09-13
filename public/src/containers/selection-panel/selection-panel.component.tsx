@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormControl, Grid, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { companySelectionAction } from '../service/company-selection/company-selection.action';
+import { companySelectionAction } from '../../service/company-selection/company-selection.action';
 const mapDispatch = companySelectionAction;
 
 type Props = typeof mapDispatch;

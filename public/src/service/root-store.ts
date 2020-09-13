@@ -5,11 +5,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import { CompanySelectionActionUnion } from './company-selection/company-selection.action';
 import { companySelectionEpic } from './company-selection/company-selection.epic';
+import { companySelectionReducer, CompanySelectionState } from './company-selection/company-selection.reducer';
 
 type RootAction = CompanySelectionActionUnion;
 
 type RootState = {
   router: RouterState;
+  companySelection: CompanySelectionState;
 };
 
 // middlewares
@@ -20,7 +22,8 @@ const middlewares = applyMiddleware(connectedRouterMiddleware, epicMiddleware);
 const enhancers = composeWithDevTools({})(middlewares);
 
 const rootReducer = combineReducers<RootState>({
-  router: connectRouter(history)
+  router: connectRouter(history),
+  companySelection: companySelectionReducer
 });
 
 const isLocal = process.env.NODE_ENV === 'development';

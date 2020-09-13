@@ -4,7 +4,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Container, ThemeProvider, Grid } from '@material-ui/core';
 import { store, history } from './service/root-store';
 import { theme } from './theme';
-import { SelectionPanelContainer } from './containers/selection-panel.component';
+import { SelectionPanelContainer } from './containers/selection-panel/selection-panel.component';
 import { LineChart } from './components/line-chart/line-chart.component';
 import { CompanySearch } from './containers/company-search.component';
 import { NewsSection } from './components/news-section/news-section.component';

@@ -7,6 +7,12 @@ namespace CompanySelectionActionType {
   export const GET_COUNTRY_OPTIONS = 'company-selection/GET_COUNTRY_OPTIONS';
   export const SET_COUNTRY_OPTIONS = 'company-selection/SET_COUNTRY_OPTIONS';
   export const SET_COUNTRY_SELECTION = 'company-selection/SET_COUNTRY_SELECTION';
+  export const GET_INDICE_OPTIONS = 'company-selection/GET_INDICE_OPTIONS';
+  export const SET_INDICE_OPTIONS = 'company-selection/SET_INDICE_OPTIONS';
+  export const SET_INDICE_SELECTION = 'company-selection/SET_INDICE_SELECTION';
+  export const GET_COMPANY_OPTIONS = 'company-selection/GET_COMPANY_OPTIONS';
+  export const SET_COMPANY_OPTIONS = 'company-selection/SET_COMPANY_OPTIONS';
+  export const SET_COMPANY_SELECTION = 'company-selection/SET_COMPANY_SELECTION';
 }
 const getContinentOptions = () =>
   ({
@@ -42,13 +48,33 @@ const setCountrySelection = (selection: string) =>
     payload: { selection }
   } as const);
 
+const getIndiceOptions = () =>
+  ({
+    type: CompanySelectionActionType.GET_INDICE_OPTIONS
+  } as const);
+
+const setIndiceOptions = (options: Array<string>) =>
+  ({
+    type: CompanySelectionActionType.SET_INDICE_OPTIONS,
+    payload: { options }
+  } as const);
+
+const setIndiceSelection = (selection: string) =>
+  ({
+    type: CompanySelectionActionType.SET_INDICE_SELECTION,
+    payload: { selection }
+  } as const);
+
 const companySelectionAction = {
   getContinentOptions,
   setContinentOptions,
   setContinentSelection,
   getCountryOptions,
   setCountryOptions,
-  setCountrySelection
+  setCountrySelection,
+  getIndiceOptions,
+  setIndiceOptions,
+  setIndiceSelection
 };
 
 type CompanySelectionActionGroup = ReturnTypeOfGroup<typeof companySelectionAction>;
