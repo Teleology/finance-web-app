@@ -7,14 +7,16 @@ import { InversifyExpressServer } from 'inversify-express-utils';
 import * as morgan from 'morgan';
 import './stock-data/stock-data.controller';
 import './company-search/company-search.controller';
+import './company-selection/company-selection.controller';
 import { serviceIDS } from './common/string-utils';
 import { StockDataService } from './stock-data/stock-data.service';
 import { CompanySearchService } from './company-search/company-search.service';
+import { CompanySelectionService } from './company-selection/company-selection.service';
 
 const container = new Container();
 container.bind(serviceIDS.StockDataService).to(StockDataService);
 container.bind(serviceIDS.CompanySearchService).to(CompanySearchService);
-
+container.bind(serviceIDS.companySelectionService).to(CompanySelectionService);
 const server = new InversifyExpressServer(container);
 server.setConfig((app: express.Application) => {
   app.use(morgan('dev'));

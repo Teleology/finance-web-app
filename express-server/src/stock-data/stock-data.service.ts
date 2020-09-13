@@ -1,7 +1,7 @@
 import { mapKeys, omit, flow, get, keys } from 'lodash/fp';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { injectable } from 'inversify';
-import { alphaApiBasicSettings } from '../common/injection-utils';
+import { alphaApiBasicSettings } from '../common/network-utils';
 import { ValueUnionOfObject } from '../common/type-utils';
 import { AlphaFunction } from '../common/string-utils';
 

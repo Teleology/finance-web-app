@@ -8,7 +8,7 @@ import { CompanySelectionService } from './company-selection.service';
 class CompanySelectionController {
   constructor(@inject(serviceIDS.companySelectionService) private companySelectionService: CompanySelectionService) {}
 
-  @httpGet('/continent')
+  @httpGet('/continents')
   public getContinents(request: Request, response: Response): void {
     try {
       const continents = this.companySelectionService.getContinent();
@@ -18,7 +18,7 @@ class CompanySelectionController {
     }
   }
 
-  @httpGet('/country/:continent')
+  @httpGet('/countries/:continent')
   public getCountriesByContinent(request: Request, response: Response): void {
     try {
       const { continent } = request.params;
@@ -47,7 +47,9 @@ class CompanySelectionController {
       const companies = await this.companySelectionService.getCompaniesByIndice(indice);
       response.status(200).json(companies);
     } catch (e) {
-      response.status(500).send('get indices error');
+      response.status(500).send('get companies error');
     }
   }
 }
+
+export { CompanySelectionController };
