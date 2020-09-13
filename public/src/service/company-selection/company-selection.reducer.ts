@@ -1,15 +1,15 @@
 import { RootAction } from '../root-store';
 import { CompanySelectionActionType } from './company-selection.action';
-type SelectionUnit = {
+type CompanySelectionUnit = {
   value: string | null;
   options: Array<string>;
 };
 
 type CompanySelectionState = {
-  continent: SelectionUnit;
-  country: SelectionUnit;
-  indice: SelectionUnit;
-  company: SelectionUnit;
+  continent: CompanySelectionUnit;
+  country: CompanySelectionUnit;
+  indice: CompanySelectionUnit;
+  company: CompanySelectionUnit;
 };
 
 const companySelectionDefaultState = {
@@ -34,7 +34,7 @@ const companySelectionReducer = (prevState: CompanySelectionState = companySelec
   switch (action.type) {
     case CompanySelectionActionType.SET_CONTINENT_OPTIONS: {
       const prevContinentState = prevState.continent;
-      const nextContinentState = { ...prevContinentState, options: action.payload.options };
+      const nextContinentState = { ...prevContinentState, options: action.payload.options, value: prevContinentState.value ?? action.payload.options[0] };
       return {
         ...prevState,
         continent: nextContinentState
@@ -92,4 +92,4 @@ const companySelectionReducer = (prevState: CompanySelectionState = companySelec
   }
 };
 
-export { companySelectionReducer, CompanySelectionState };
+export { companySelectionReducer, CompanySelectionState, CompanySelectionUnit };
