@@ -1,8 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "lodash-fp", "import"],
+  "plugins": ["@typescript-eslint", "import"],
   "extends": [
-    "plugin:lodash-fp/recommended",
     "plugin:import/typescript",
     "plugin:import/errors",
     "plugin:prettier/recommended",
