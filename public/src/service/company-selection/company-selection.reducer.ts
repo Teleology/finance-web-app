@@ -14,19 +14,19 @@ type CompanySelectionState = {
 
 const companySelectionDefaultState = {
   continent: {
-    value: null,
+    value: '',
     options: []
   },
   country: {
-    value: null,
+    value: '',
     options: []
   },
   indice: {
-    value: null,
+    value: '',
     options: []
   },
   company: {
-    value: null,
+    value: '',
     options: []
   }
 };
@@ -34,7 +34,8 @@ const companySelectionReducer = (prevState: CompanySelectionState = companySelec
   switch (action.type) {
     case CompanySelectionActionType.SET_CONTINENT_OPTIONS: {
       const prevContinentState = prevState.continent;
-      const nextContinentState = { ...prevContinentState, options: action.payload.options, value: prevContinentState.value ?? action.payload.options[0] };
+      // TODO: auto choose the first one
+      const nextContinentState = { ...prevContinentState, options: action.payload.options, value: prevContinentState.value };
       return {
         ...prevState,
         continent: nextContinentState
