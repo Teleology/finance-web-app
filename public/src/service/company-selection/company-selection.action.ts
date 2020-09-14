@@ -1,4 +1,5 @@
-import { ReturnTypeOfGroup } from '../../typing/action.type';
+import { ReturnTypeOfGroup } from '../../utils/type-util';
+import { LabelUnit } from '../../utils/general-type';
 
 namespace CompanySelectionActionType {
   export const GET_CONTINENT_OPTIONS = 'company-selection/GET_CONTINENT_OPTIONS';
@@ -19,7 +20,7 @@ const getContinentOptions = () =>
     type: CompanySelectionActionType.GET_CONTINENT_OPTIONS
   } as const);
 
-const setContinentOptions = (options: Array<string>) =>
+const setContinentOptions = (options: Array<LabelUnit>) =>
   ({
     type: CompanySelectionActionType.SET_CONTINENT_OPTIONS,
     payload: { options }
@@ -36,7 +37,7 @@ const getCountryOptions = () =>
     type: CompanySelectionActionType.GET_COUNTRY_OPTIONS
   } as const);
 
-const setCountryOptions = (options: Array<string>) =>
+const setCountryOptions = (options: Array<LabelUnit>) =>
   ({
     type: CompanySelectionActionType.SET_COUNTRY_OPTIONS,
     payload: { options }
@@ -53,7 +54,7 @@ const getIndiceOptions = () =>
     type: CompanySelectionActionType.GET_INDICE_OPTIONS
   } as const);
 
-const setIndiceOptions = (options: Array<string>) =>
+const setIndiceOptions = (options: Array<LabelUnit>) =>
   ({
     type: CompanySelectionActionType.SET_INDICE_OPTIONS,
     payload: { options }
@@ -65,6 +66,17 @@ const setIndiceSelection = (selection: string) =>
     payload: { selection }
   } as const);
 
+const setCompanyOptions = (options: Array<LabelUnit>) =>
+  ({
+    type: CompanySelectionActionType.SET_COMPANY_OPTIONS,
+    payload: { options }
+  } as const);
+
+const setCompanySelection = (selection: string) =>
+  ({
+    type: CompanySelectionActionType.SET_COMPANY_SELECTION,
+    payload: { selection }
+  } as const);
 const companySelectionAction = {
   getContinentOptions,
   setContinentOptions,
@@ -74,7 +86,9 @@ const companySelectionAction = {
   setCountrySelection,
   getIndiceOptions,
   setIndiceOptions,
-  setIndiceSelection
+  setIndiceSelection,
+  setCompanyOptions,
+  setCompanySelection
 };
 
 type CompanySelectionActionGroup = ReturnTypeOfGroup<typeof companySelectionAction>;

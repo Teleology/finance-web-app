@@ -2,7 +2,7 @@ import { RootAction } from '../root-store';
 import { CompanySelectionActionType } from './company-selection.action';
 type CompanySelectionUnit = {
   value: string | null;
-  options: Array<string>;
+  options: Array<{ value: string; label: string }>;
 };
 
 type CompanySelectionState = {
@@ -35,7 +35,7 @@ const companySelectionReducer = (prevState: CompanySelectionState = companySelec
     case CompanySelectionActionType.SET_CONTINENT_OPTIONS: {
       const prevContinentState = prevState.continent;
       // TODO: auto choose the first one
-      const nextContinentState = { ...prevContinentState, options: action.payload.options, value: prevContinentState.value };
+      const nextContinentState = { ...prevContinentState, options: action.payload.options };
       return {
         ...prevState,
         continent: nextContinentState
@@ -62,7 +62,7 @@ const companySelectionReducer = (prevState: CompanySelectionState = companySelec
 
     case CompanySelectionActionType.SET_COUNTRY_SELECTION: {
       const prevCountryState = prevState.country;
-      const nextCountryState = { ...prevCountryState, selection: action.payload.selection };
+      const nextCountryState: CompanySelectionUnit = { ...prevCountryState, value: action.payload.selection };
       return {
         ...prevState,
         country: nextCountryState
@@ -70,7 +70,7 @@ const companySelectionReducer = (prevState: CompanySelectionState = companySelec
     }
 
     case CompanySelectionActionType.SET_INDICE_OPTIONS: {
-      const prevIndiceState = prevState.continent;
+      const prevIndiceState = prevState.indice;
       const nextIndiceState = { ...prevIndiceState, options: action.payload.options };
       return {
         ...prevState,
@@ -79,11 +79,29 @@ const companySelectionReducer = (prevState: CompanySelectionState = companySelec
     }
 
     case CompanySelectionActionType.SET_INDICE_SELECTION: {
-      const prevIndiceState = prevState.continent;
-      const nextIndiceState = { ...prevIndiceState, selection: action.payload.selection };
+      const prevIndiceState = prevState.indice;
+      const nextIndiceState: CompanySelectionUnit = { ...prevIndiceState, value: action.payload.selection };
       return {
         ...prevState,
         indice: nextIndiceState
+      };
+    }
+
+    case CompanySelectionActionType.SET_COMPANY_OPTIONS: {
+      const prevCompanyState = prevState.company;
+      const nextCompanyState: CompanySelectionUnit = { ...prevCompanyState, options: action.payload.options };
+      return {
+        ...prevState,
+        company: nextCompanyState
+      };
+    }
+
+    case CompanySelectionActionType.SET_COMPANY_SELECTION: {
+      const prevCompanyState = prevState.company;
+      const nextCompanyState: CompanySelectionUnit = { ...prevCompanyState, value: action.payload.selection };
+      return {
+        ...prevState,
+        company: nextCompanyState
       };
     }
 

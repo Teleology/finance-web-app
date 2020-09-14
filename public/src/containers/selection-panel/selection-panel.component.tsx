@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { FormControl, Grid, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { connect } from 'react-redux';
-// eslint-disable-next-line lodash-fp/use-fp
 import { map } from 'lodash';
 import { companySelectionAction } from '../../service/company-selection/company-selection.action';
 import { RootState } from '../../service/root-store';
+import { LabelUnit } from '../../utils/general-type';
 const mapDispatch = companySelectionAction;
 
 const mapState = ({ companySelection: localState }: RootState) =>
@@ -18,7 +18,17 @@ const mapState = ({ companySelection: localState }: RootState) =>
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 
 const SelectionPanel = (props: Props): React.ReactElement => {
-  const { getContinentOptions, continent, setContinentSelection, country, setCountrySelection } = props;
+  const {
+    getContinentOptions,
+    continent,
+    setContinentSelection,
+    country,
+    setCountrySelection,
+    indice,
+    setIndiceSelection,
+    company,
+    setCompanySelection
+  } = props;
   React.useEffect(() => {
     getContinentOptions();
   }, [getContinentOptions]);
@@ -37,15 +47,29 @@ const SelectionPanel = (props: Props): React.ReactElement => {
     [setCountrySelection]
   );
 
+  const setSelection3 = React.useCallback(
+    (event: React.ChangeEvent<{ value: unknown }>) => {
+      setIndiceSelection(event.target.value as string);
+    },
+    [setIndiceSelection]
+  );
+
+  const setSelection4 = React.useCallback(
+    (event: React.ChangeEvent<{ value: unknown }>) => {
+      setCompanySelection(event.target.value as string);
+    },
+    [setIndiceSelection]
+  );
+
   return (
     <Grid spacing={2} container={true} item={true} direction="column" xs={4}>
       <Grid item={true}>
         <FormControl fullWidth={true}>
           <InputLabel>Age</InputLabel>
           <Select value={continent.value} onChange={setSelection1} displayEmpty={false}>
-            {map(continent.options, (option: string) => (
-              <MenuItem value={option} key={option}>
-                {option}
+            {map(continent.options, (option: LabelUnit) => (
+              <MenuItem value={option.value} key={option.value}>
+                {option.label}
               </MenuItem>
             ))}
           </Select>
@@ -55,9 +79,9 @@ const SelectionPanel = (props: Props): React.ReactElement => {
         <FormControl fullWidth={true}>
           <InputLabel>Country</InputLabel>
           <Select value={country.value} onChange={setSelection2} displayEmpty={true}>
-            {map(country.options, (option: string) => (
-              <MenuItem value={option} key={option}>
-                {option}
+            {map(country.options, (option: LabelUnit) => (
+              <MenuItem value={option.value} key={option.value}>
+                {option.label}
               </MenuItem>
             ))}
           </Select>
@@ -65,11 +89,25 @@ const SelectionPanel = (props: Props): React.ReactElement => {
       </Grid>
       <Grid item={true}>
         <FormControl fullWidth={true}>
-          <InputLabel>Age</InputLabel>
-          <Select value={10} onChange={console.log} displayEmpty={true}>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+          <InputLabel>Indice</InputLabel>
+          <Select value={indice.value} onChange={setSelection3} displayEmpty={true}>
+            {map(indice.options, (option: LabelUnit) => (
+              <MenuItem value={option.value} key={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
+      <Grid item={true}>
+        <FormControl fullWidth={true}>
+          <InputLabel>Company</InputLabel>
+          <Select value={company.value} onChange={setSelection4} displayEmpty={true}>
+            {map(company.options, (option: LabelUnit) => (
+              <MenuItem value={option.value} key={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>
