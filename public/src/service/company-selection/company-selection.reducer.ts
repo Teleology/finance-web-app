@@ -105,6 +105,8 @@ const companySelectionReducer = (prevState: CompanySelectionState = companySelec
       };
     }
 
+    // TODO: reset case
+
     default: {
       return prevState;
     }

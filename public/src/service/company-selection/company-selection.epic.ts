@@ -1,7 +1,7 @@
 import { Observable, EMPTY } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { combineEpics, ofType } from 'redux-observable';
-import { mergeMap, tap, map, catchError } from 'rxjs/operators';
+import { mergeMap, tap, map, catchError, startWith } from 'rxjs/operators';
 import { map as lodashMap, startCase, flow } from 'lodash/fp';
 import { RootAction } from '../root-store';
 import { baseURL } from '../../../../express-server/src/common/network-utils';
@@ -35,6 +35,7 @@ const setContinentSelectionEpic = (action$: Observable<RootAction>): Observable<
     mergeMap((action: CompanySelectionActionGroup['setContinentSelection']) => ajax.getJSON(`${selectionUrl}/countries/${action.payload.selection}`)),
     tap(console.log),
     map(flow(mapToLabelUnit, companySelectionAction.setCountryOptions)),
+    startWith(companySelectionAction.resetCountry()),
     catchError((error) => {
       console.log(error);
       return EMPTY;
@@ -53,6 +54,7 @@ const setCountrySelectionEpic = (action$: Observable<RootAction>): Observable<Ro
         companySelectionAction.setIndiceOptions
       )
     ),
+    startWith(companySelectionAction.resetIndice()),
     catchError((error) => {
       console.log(error);
       return EMPTY;
@@ -71,12 +73,14 @@ const setIndiceSelectionEpic = (action$: Observable<RootAction>): Observable<Roo
         companySelectionAction.setCompanyOptions
       )
     ),
+    startWith(companySelectionAction.resetCompany()),
     catchError((error) => {
       console.log(error);
       return EMPTY;
     })
   );
 
+// TODO: reset epic flow
 const companySelectionEpic = combineEpics(getContinentOptionEpic, setContinentSelectionEpic, setCountrySelectionEpic, setIndiceSelectionEpic);
 
 export { companySelectionEpic };

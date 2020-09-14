@@ -1,19 +1,20 @@
 import { ReturnTypeOfGroup } from '../../utils/type-util';
 import { LabelUnit } from '../../utils/general-type';
 
+// TODO: prefix should be const
 namespace CompanySelectionActionType {
   export const GET_CONTINENT_OPTIONS = 'company-selection/GET_CONTINENT_OPTIONS';
   export const SET_CONTINENT_OPTIONS = 'company-selection/SET_CONTINENT_OPTIONS';
   export const SET_CONTINENT_SELECTION = 'company-selection/SET_CONTINENT_SELECTION';
-  export const GET_COUNTRY_OPTIONS = 'company-selection/GET_COUNTRY_OPTIONS';
   export const SET_COUNTRY_OPTIONS = 'company-selection/SET_COUNTRY_OPTIONS';
   export const SET_COUNTRY_SELECTION = 'company-selection/SET_COUNTRY_SELECTION';
-  export const GET_INDICE_OPTIONS = 'company-selection/GET_INDICE_OPTIONS';
+  export const RESET_COUNTRY = 'company-selection/RESET_COUNTRY';
   export const SET_INDICE_OPTIONS = 'company-selection/SET_INDICE_OPTIONS';
   export const SET_INDICE_SELECTION = 'company-selection/SET_INDICE_SELECTION';
-  export const GET_COMPANY_OPTIONS = 'company-selection/GET_COMPANY_OPTIONS';
+  export const RESET_INDICE = 'company-selectioin/RESET_INDICE';
   export const SET_COMPANY_OPTIONS = 'company-selection/SET_COMPANY_OPTIONS';
   export const SET_COMPANY_SELECTION = 'company-selection/SET_COMPANY_SELECTION';
+  export const RESET_COMPANY = 'company-selection/RESET_COMPANY';
 }
 const getContinentOptions = () =>
   ({
@@ -32,11 +33,6 @@ const setContinentSelection = (selection: string) =>
     payload: { selection }
   } as const);
 
-const getCountryOptions = () =>
-  ({
-    type: CompanySelectionActionType.GET_COUNTRY_OPTIONS
-  } as const);
-
 const setCountryOptions = (options: Array<LabelUnit>) =>
   ({
     type: CompanySelectionActionType.SET_COUNTRY_OPTIONS,
@@ -49,9 +45,9 @@ const setCountrySelection = (selection: string) =>
     payload: { selection }
   } as const);
 
-const getIndiceOptions = () =>
+const resetCountry = () =>
   ({
-    type: CompanySelectionActionType.GET_INDICE_OPTIONS
+    type: CompanySelectionActionType.RESET_COUNTRY
   } as const);
 
 const setIndiceOptions = (options: Array<LabelUnit>) =>
@@ -66,6 +62,10 @@ const setIndiceSelection = (selection: string) =>
     payload: { selection }
   } as const);
 
+const resetIndice = () =>
+  ({
+    type: CompanySelectionActionType.RESET_INDICE
+  } as const);
 const setCompanyOptions = (options: Array<LabelUnit>) =>
   ({
     type: CompanySelectionActionType.SET_COMPANY_OPTIONS,
@@ -77,18 +77,25 @@ const setCompanySelection = (selection: string) =>
     type: CompanySelectionActionType.SET_COMPANY_SELECTION,
     payload: { selection }
   } as const);
+
+const resetCompany = () =>
+  ({
+    type: CompanySelectionActionType.RESET_COMPANY
+  } as const);
+
 const companySelectionAction = {
   getContinentOptions,
   setContinentOptions,
   setContinentSelection,
-  getCountryOptions,
   setCountryOptions,
   setCountrySelection,
-  getIndiceOptions,
+  resetCountry,
   setIndiceOptions,
   setIndiceSelection,
+  resetIndice,
   setCompanyOptions,
-  setCompanySelection
+  setCompanySelection,
+  resetCompany
 };
 
 type CompanySelectionActionGroup = ReturnTypeOfGroup<typeof companySelectionAction>;
