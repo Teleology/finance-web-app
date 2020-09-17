@@ -6,7 +6,7 @@ import { baseURL } from '../common/network-utils';
 import { StockDataService } from './stock-data.service';
 @controller(`${baseURL}/stock`)
 class StockDataController {
-  constructor(@inject(serviceIDS.StockDataService) private stockDataService: StockDataService) {}
+  constructor(@inject(serviceIDS.stockDataService) private stockDataService: StockDataService) {}
 
   @httpGet('/days')
   public async getDailyInfo(req: Request, res: Response): Promise<void> {

@@ -40,7 +40,9 @@ const countries: Array<Country> = [
 ];
 
 type IndiceResponse = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   category_id: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   category_name: string;
   country: string;
 };
@@ -50,8 +52,10 @@ type IndiceContract = {
 };
 
 type StockResponse = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   stock_id: string;
   name: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   short_name: string;
   country: string;
 };
@@ -82,15 +86,18 @@ class CompanySelectionService {
     return this.optionAxios({ params: { country }, url: 'indices' }).then(
       flow(
         get<AxiosResponse<Array<IndiceResponse>>, 'data'>('data'),
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         map(({ category_id, category_name }: IndiceResponse) => ({ categoryId: category_id, categoryName: category_name }))
       )
     );
   }
 
   public getCompaniesByIndice(indiceId: string): Promise<Array<StockContract>> {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     return this.optionAxios({ params: { indices_id: indiceId }, url: 'list' }).then(
       flow(
         get<AxiosResponse<Array<StockResponse>>, 'data'>('data'),
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         map(({ short_name, stock_id, name, country }: StockResponse) => ({ shortName: short_name, stockId: stock_id, name, country }))
       )
     );

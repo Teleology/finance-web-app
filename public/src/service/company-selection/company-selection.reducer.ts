@@ -12,7 +12,7 @@ type CompanySelectionState = {
   company: CompanySelectionUnit;
 };
 
-const companySelectionDefaultState = {
+const defaultState = {
   continent: {
     value: '',
     options: []
@@ -30,7 +30,7 @@ const companySelectionDefaultState = {
     options: []
   }
 };
-const companySelectionReducer = (prevState: CompanySelectionState = companySelectionDefaultState, action: RootAction): CompanySelectionState => {
+const companySelectionReducer = (prevState: CompanySelectionState = defaultState, action: RootAction): CompanySelectionState => {
   switch (action.type) {
     case CompanySelectionActionType.SET_CONTINENT_OPTIONS: {
       const prevContinentState = prevState.continent;
@@ -69,6 +69,13 @@ const companySelectionReducer = (prevState: CompanySelectionState = companySelec
       };
     }
 
+    case CompanySelectionActionType.RESET_COUNTRY: {
+      return {
+        ...prevState,
+        country: defaultState.country
+      };
+    }
+
     case CompanySelectionActionType.SET_INDICE_OPTIONS: {
       const prevIndiceState = prevState.indice;
       const nextIndiceState = { ...prevIndiceState, options: action.payload.options };
@@ -84,6 +91,13 @@ const companySelectionReducer = (prevState: CompanySelectionState = companySelec
       return {
         ...prevState,
         indice: nextIndiceState
+      };
+    }
+
+    case CompanySelectionActionType.RESET_INDICE: {
+      return {
+        ...prevState,
+        indice: defaultState.indice
       };
     }
 
@@ -105,7 +119,12 @@ const companySelectionReducer = (prevState: CompanySelectionState = companySelec
       };
     }
 
-    // TODO: reset case
+    case CompanySelectionActionType.RESET_COMPANY: {
+      return {
+        ...prevState,
+        company: defaultState.company
+      };
+    }
 
     default: {
       return prevState;

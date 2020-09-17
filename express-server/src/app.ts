@@ -14,8 +14,8 @@ import { CompanySearchService } from './company-search/company-search.service';
 import { CompanySelectionService } from './company-selection/company-selection.service';
 
 const container = new Container();
-container.bind(serviceIDS.StockDataService).to(StockDataService);
-container.bind(serviceIDS.CompanySearchService).to(CompanySearchService);
+container.bind(serviceIDS.stockDataService).to(StockDataService);
+container.bind(serviceIDS.companySearchService).to(CompanySearchService);
 container.bind(serviceIDS.companySelectionService).to(CompanySelectionService);
 const server = new InversifyExpressServer(container);
 server.setConfig((app: express.Application) => {

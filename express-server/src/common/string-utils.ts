@@ -7,9 +7,8 @@ enum AlphaFunction {
 }
 
 const serviceIDS = {
-  // TODO rename to camel case
-  StockDataService: Symbol.for('StockDataService'),
-  CompanySearchService: Symbol.for('CompanySearch'),
+  stockDataService: Symbol.for('StockDataService'),
+  companySearchService: Symbol.for('CompanySearch'),
   companySelectionService: Symbol.for('companySelection')
 };
 

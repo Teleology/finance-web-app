@@ -36,10 +36,15 @@ const stockLatestKeyMapping = {
 } as const;
 
 const fieldKeyMapping = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'Meta Data': 'metaData',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'Time Series (Daily)': 'series',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'Weekly Time Series': 'series',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'Monthly Time Series': 'series',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'Global Quote': 'globalQuote'
 } as const;
 

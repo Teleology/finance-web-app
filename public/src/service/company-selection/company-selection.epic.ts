@@ -1,7 +1,7 @@
-import { Observable, EMPTY } from 'rxjs';
+import { Observable, EMPTY, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { combineEpics, ofType } from 'redux-observable';
-import { mergeMap, tap, map, catchError, startWith } from 'rxjs/operators';
+import { mergeMap, tap, map, catchError, concat } from 'rxjs/operators';
 import { map as lodashMap, startCase, flow } from 'lodash/fp';
 import { RootAction } from '../root-store';
 import { baseURL } from '../../../../express-server/src/common/network-utils';
@@ -17,6 +17,7 @@ type CompanyOptionContract = {
 };
 const selectionUrl = `${baseURL}/company-selection`;
 const mapToLabelUnit = lodashMap((option: string): LabelUnit => ({ value: option, label: startCase(option) }));
+const resetActionList = [companySelectionAction.resetCountry(), companySelectionAction.resetIndice(), companySelectionAction.resetCountry()];
 const getContinentOptionEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
     ofType(CompanySelectionActionType.GET_CONTINENT_OPTIONS),
@@ -35,15 +36,17 @@ const setContinentSelectionEpic = (action$: Observable<RootAction>): Observable<
     mergeMap((action: CompanySelectionActionGroup['setContinentSelection']) => ajax.getJSON(`${selectionUrl}/countries/${action.payload.selection}`)),
     tap(console.log),
     map(flow(mapToLabelUnit, companySelectionAction.setCountryOptions)),
-    startWith(companySelectionAction.resetCountry()),
+    concat(of(companySelectionAction.resetCountry(), companySelectionAction.resetIndice())),
+    tap(console.log),
     catchError((error) => {
       console.log(error);
       return EMPTY;
     })
   );
 
-const setCountrySelectionEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
-  action$.pipe(
+const setCountrySelectionEpic = (action$: Observable<RootAction>): Observable<RootAction> => {
+  console.log('I set country execute');
+  return action$.pipe(
     ofType(CompanySelectionActionType.SET_COUNTRY_SELECTION),
     mergeMap<CompanySelectionActionGroup['setCountrySelection'], Observable<Array<IndiceOptionContract>>>(
       (action: CompanySelectionActionGroup['setCountrySelection']) => ajax.getJSON(`${selectionUrl}/indices/${action.payload.selection}`)
@@ -54,12 +57,12 @@ const setCountrySelectionEpic = (action$: Observable<RootAction>): Observable<Ro
         companySelectionAction.setIndiceOptions
       )
     ),
-    startWith(companySelectionAction.resetIndice()),
     catchError((error) => {
       console.log(error);
       return EMPTY;
     })
   );
+};
 
 const setIndiceSelectionEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
@@ -73,7 +76,6 @@ const setIndiceSelectionEpic = (action$: Observable<RootAction>): Observable<Roo
         companySelectionAction.setCompanyOptions
       )
     ),
-    startWith(companySelectionAction.resetCompany()),
     catchError((error) => {
       console.log(error);
       return EMPTY;

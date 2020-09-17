@@ -58,14 +58,14 @@ const SelectionPanel = (props: Props): React.ReactElement => {
     (event: React.ChangeEvent<{ value: unknown }>) => {
       setCompanySelection(event.target.value as string);
     },
-    [setIndiceSelection]
+    [setCompanySelection]
   );
 
   return (
     <Grid spacing={2} container={true} item={true} direction="column" xs={4}>
       <Grid item={true}>
         <FormControl fullWidth={true}>
-          <InputLabel>Age</InputLabel>
+          <InputLabel>Continent</InputLabel>
           <Select value={continent.value} onChange={setSelection1} displayEmpty={false}>
             {map(continent.options, (option: LabelUnit) => (
               <MenuItem value={option.value} key={option.value}>

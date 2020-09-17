@@ -6,7 +6,7 @@ import { CompanySearchService } from './company-search.service';
 
 @controller('/api/v1/search')
 class CompanySearchController {
-  constructor(@inject(serviceIDS.CompanySearchService) private companySearchService: CompanySearchService) {}
+  constructor(@inject(serviceIDS.companySearchService) private companySearchService: CompanySearchService) {}
   @httpGet('')
   public async getMatchedCompanies(req: Request, res: Response): Promise<void> {
     const {
