@@ -61,6 +61,7 @@ const SelectionPanel = (props: Props): React.ReactElement => {
     [setCompanySelection]
   );
 
+  // TODO: repeated code
   return (
     <Grid spacing={2} container={true} item={true} direction="column" xs={4}>
       <Grid item={true}>

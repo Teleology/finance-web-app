@@ -67,7 +67,7 @@
     "axios": "^0.20.0",
     "connected-react-router": "^6.8.0",
     "d3": "^5.7.2",
-    "dayjs": "^1.8.35",
+    "dayjs": "^1.8.36",
     "history": "^4.9.0",
     "lodash": "^4.17.15",
     "query-string": "^6.13.2",

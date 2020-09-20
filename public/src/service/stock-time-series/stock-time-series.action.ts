@@ -2,13 +2,16 @@ import { StockTimeSeries } from '../../typing/stock-time-series.typing';
 import { ReturnTypeOfGroup } from '../../utils/type-util';
 
 namespace StockTimeSeriesActionType {
-  export const GET_TIME_SERIES = 'stock-time-series/GET_TIME_SERIES_DATA';
-  export const SET_TIME_SERIES = 'stock-time-series/SET_TIME_SERIES_DATA';
+  export const GET_TIME_SERIES = 'stock-time-series/GET_TIME_SERIES';
+  export const SET_TIME_SERIES = 'stock-time-series/SET_TIME_SERIES';
 }
 
-const getTimeSeries = () =>
+const getTimeSeries = (symbol: string) =>
   ({
-    type: StockTimeSeriesActionType.GET_TIME_SERIES
+    type: StockTimeSeriesActionType.GET_TIME_SERIES,
+    payload: {
+      symbol
+    }
   } as const);
 
 const setTimeSeries = (series: StockTimeSeries) =>

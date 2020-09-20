@@ -3,19 +3,19 @@ import { RouterState, routerMiddleware, connectRouter } from 'connected-react-ro
 import { createBrowserHistory } from 'history';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
-import { StockTimeSeries } from '../typing/stock-time-series.typing';
 import { CompanySelectionActionUnion } from './company-selection/company-selection.action';
 import { companySelectionEpic } from './company-selection/company-selection.epic';
 import { companySelectionReducer, CompanySelectionState } from './company-selection/company-selection.reducer';
 import { StockTimeSeriesActionUnion } from './stock-time-series/stock-time-series.action';
-import { stockTimeSeriesReducer } from './stock-time-series/stock-time-series.reducer';
+import { stockTimeSeriesReducer, StockTimeSeriesState } from './stock-time-series/stock-time-series.reducer';
+import { stockTimeSeriesEpic } from './stock-time-series/stock-time-series.epic';
 
 type RootAction = CompanySelectionActionUnion | StockTimeSeriesActionUnion;
 
 type RootState = {
   router: RouterState;
   companySelection: CompanySelectionState;
-  stockTimeSeries: StockTimeSeries;
+  stockTimeSeries: StockTimeSeriesState;
 };
 
 // middlewares
@@ -34,6 +34,6 @@ const rootReducer = combineReducers<RootState>({
 const isLocal = process.env.NODE_ENV === 'development';
 const store = isLocal ? createStore(rootReducer, enhancers) : createStore(rootReducer, middlewares);
 
-const rootEpic = combineEpics(companySelectionEpic);
+const rootEpic = combineEpics(companySelectionEpic, stockTimeSeriesEpic);
 epicMiddleware.run(rootEpic);
 export { store, isLocal, history, RootState, RootAction };

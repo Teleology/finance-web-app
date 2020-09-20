@@ -20,4 +20,4 @@ const stockTimeSeriesReducer = (prevState: StockTimeSeriesState = defaultState, 
   }
 };
 
-export { stockTimeSeriesReducer };
+export { stockTimeSeriesReducer, StockTimeSeriesState };
