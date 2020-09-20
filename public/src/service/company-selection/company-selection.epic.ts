@@ -4,8 +4,8 @@ import { combineEpics, ofType } from 'redux-observable';
 import { mergeMap, tap, map, catchError, concatMap } from 'rxjs/operators';
 import { map as lodashMap, startCase, flow } from 'lodash/fp';
 import { RootAction } from '../root-store';
-import { baseURL } from '../../../../express-server/src/common/network-utils';
 import { LabelUnit } from '../../utils/general-type';
+import { baseUrl } from '../../utils/network-util';
 import { companySelectionAction, CompanySelectionActionGroup, CompanySelectionActionType } from './company-selection.action';
 
 type IndiceOptionContract = { categoryId: string; categoryName: string };
@@ -15,7 +15,7 @@ type CompanyOptionContract = {
   name: string;
   country: string;
 };
-const selectionUrl = `${baseURL}/company-selection`;
+const selectionUrl = `${baseUrl}/company-selection`;
 const mapToLabelUnit = lodashMap((option: string): LabelUnit => ({ value: option, label: startCase(option) }));
 const resetActionList: Array<RootAction> = [companySelectionAction.resetCountry(), companySelectionAction.resetIndice(), companySelectionAction.resetCompany()];
 const getContinentOptionEpic = (action$: Observable<RootAction>): Observable<RootAction> =>

@@ -3,4 +3,6 @@ type ReturnTypeOfGroup<Group> = {
   [key in keyof Group]: Group[key] extends (...args: Array<any>) => any ? ReturnType<Group[key]> : never;
 };
 
-export { ReturnTypeOfGroup };
+type Nullable<T> = { [P in keyof T]: T[P] | null };
+
+export { Nullable, ReturnTypeOfGroup };
