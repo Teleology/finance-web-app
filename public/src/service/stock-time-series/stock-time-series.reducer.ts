@@ -1,9 +1,6 @@
 import { RootAction } from '../root-store';
-import { StockTimeSeries } from '../../typing/stock-time-series.typing';
-import { Nullable } from '../../utils/type-util';
+import { StockTimeSeriesState } from './stock-time-series.typing';
 import { StockTimeSeriesActionType } from './stock-time-series.action';
-
-type StockTimeSeriesState = Nullable<StockTimeSeries>;
 
 const defaultState: StockTimeSeriesState = {
   metaData: null,

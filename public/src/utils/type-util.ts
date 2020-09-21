@@ -5,4 +5,6 @@ type ReturnTypeOfGroup<Group> = {
 
 type Nullable<T> = { [P in keyof T]: T[P] | null };
 
-export { Nullable, ReturnTypeOfGroup };
+type Override<T1, T2> = Omit<T1, keyof T2> & T2;
+
+export { Nullable, ReturnTypeOfGroup, Override };

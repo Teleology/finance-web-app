@@ -1,5 +1,5 @@
-import { StockTimeSeries } from '../../typing/stock-time-series.typing';
 import { ReturnTypeOfGroup } from '../../utils/type-util';
+import { StockTimeSeries } from './stock-time-series.typing';
 
 namespace StockTimeSeriesActionType {
   export const GET_TIME_SERIES = 'stock-time-series/GET_TIME_SERIES';

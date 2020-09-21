@@ -8,7 +8,7 @@ import { SelectionPanelContainer } from './containers/selection-panel/selection-
 import { CompanySearch } from './containers/company-search.component';
 import { NewsSection } from './components/news-section/news-section.component';
 import { CompanyWatcher } from './containers/company-watcher.component';
-import { TimeSeriesChartContainer } from './containers/time-series-chart/time-series-chart.component';
+import { StockTimeSeriesChartContainer } from './containers/time-series-chart/stock-time-series-chart.component';
 
 export const App = (): React.ReactElement => (
   <Provider store={store}>
@@ -20,7 +20,7 @@ export const App = (): React.ReactElement => (
             <Grid item={true} xs={4}>
               <CompanySearch />
             </Grid>
-            <TimeSeriesChartContainer />
+            <StockTimeSeriesChartContainer />
             <NewsSection title="" content="" />
             <CompanyWatcher />
           </Grid>
