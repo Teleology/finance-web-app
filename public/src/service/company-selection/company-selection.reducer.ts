@@ -1,8 +1,9 @@
 import { RootAction } from '../root-store';
+import { LabelText } from '../../utils/type-util';
 import { CompanySelectionActionType } from './company-selection.action';
 type CompanySelectionUnit = {
-  value: string | null;
-  options: Array<{ value: string; label: string }>;
+  value: string;
+  options: Array<LabelText<string>>;
 };
 
 type CompanySelectionState = {

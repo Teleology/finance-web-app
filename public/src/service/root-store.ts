@@ -9,13 +9,16 @@ import { companySelectionReducer, CompanySelectionState } from './company-select
 import { StockTimeSeriesActionUnion } from './stock-time-series/stock-time-series.action';
 import { stockTimeSeriesReducer, StockTimeSeriesState } from './stock-time-series/stock-time-series.reducer';
 import { stockTimeSeriesEpic } from './stock-time-series/stock-time-series.epic';
+import { CompanyCollectionActionUnion } from './company-collection/company-collection.action';
+import { companyCollectionReducer, CompanyCollectionState } from './company-collection/company-collection.reducer';
 
-type RootAction = CompanySelectionActionUnion | StockTimeSeriesActionUnion;
+type RootAction = CompanySelectionActionUnion | StockTimeSeriesActionUnion | CompanyCollectionActionUnion;
 
 type RootState = {
   router: RouterState;
   companySelection: CompanySelectionState;
   stockTimeSeries: StockTimeSeriesState;
+  companyRecommendation: CompanyCollectionState;
 };
 
 // middlewares
@@ -28,7 +31,8 @@ const enhancers = composeWithDevTools({})(middlewares);
 const rootReducer = combineReducers<RootState>({
   router: connectRouter(history),
   companySelection: companySelectionReducer,
-  stockTimeSeries: stockTimeSeriesReducer
+  stockTimeSeries: stockTimeSeriesReducer,
+  companyRecommendation: companyCollectionReducer
 });
 
 const isLocal = process.env.NODE_ENV === 'development';
