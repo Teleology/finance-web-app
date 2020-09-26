@@ -1,10 +1,13 @@
 import * as React from 'react';
-import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
+import { Observable, combineLatest } from 'rxjs';
+import { isEmpty, negate } from 'lodash/fp';
+import { mergeMap, pluck, filter, debounceTime, startWith } from 'rxjs/operators';
+import { useEventCallback } from 'rxjs-hooks';
 import { TextField } from '@material-ui/core';
-import { get } from 'lodash/fp';
-import { noop } from 'lodash';
-import { fromEventPattern } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
+import { stringifyUrl } from 'query-string';
 import { LabelText } from '../utils/type-util';
+import { baseURL } from '../../../express-server/src/common/network-utils';
 
 // TODO: consider extraction
 type Company = LabelText<string>;
@@ -33,17 +36,27 @@ type Company = LabelText<string>;
 //   // );
 //   return <Autocomplete<Company> renderInput={renderInput} options={options} getOptionLabel={getOptionLabel} getOptionSelected={getOptionSelected} />;
 // };
-
+// const reducer = (input: string)
 const CompanySearch = (): React.ReactElement => {
-  let myHandler = noop;
+  const [changeCallBack, [value, options]] = useEventCallback(
+    (event$: Observable<React.ChangeEvent<HTMLInputElement>>) => {
+      const keyword$ = event$.pipe(pluck('target', 'value'));
+      const response$ = keyword$.pipe(
+        filter(negate(isEmpty)),
+        debounceTime(1000),
+        mergeMap((keywords: string) => ajax.getJSON(stringifyUrl({ url: `${baseURL}/search`, query: { keywords } }))),
+        startWith([])
+      );
+      return combineLatest([keyword$, response$]);
+    },
+    ['', []]
+  );
 
-  const stream$ = fromEventPattern((handler) => {
-    myHandler = handler;
-  });
-
-  stream$.subscribe(console.log);
-
-  return <TextField onChange={myHandler} defaultValue={'default value'} />;
+  return (
+    <div>
+      <p>{JSON.stringify(options)}</p>
+      <TextField onChange={changeCallBack} value={value} />
+    </div>
+  );
 };
-
 export { CompanySearch };
