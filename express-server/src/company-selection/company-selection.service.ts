@@ -72,6 +72,7 @@ class CompanySelectionService {
   constructor() {
     this.optionAxios = axios.create({
       ...fcsApiBasicSettings,
+      baseURL: 'https://fcsapi.com/api-v2/stock',
       transformResponse: flow(JSON.parse, get('response'))
     });
   }
@@ -83,7 +84,7 @@ class CompanySelectionService {
   }
 
   public getIndicesByCountry(country: string): Promise<Array<IndiceContract>> {
-    return this.optionAxios({ params: { country }, url: 'indices' }).then(
+    return this.optionAxios({ params: { country }, url: '/indices' }).then(
       flow(
         get<AxiosResponse<Array<IndiceResponse>>, 'data'>('data'),
         // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -94,7 +95,7 @@ class CompanySelectionService {
 
   public getCompaniesByIndice(indiceId: string): Promise<Array<StockContract>> {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    return this.optionAxios({ params: { indices_id: indiceId }, url: 'list' }).then(
+    return this.optionAxios({ params: { indices_id: indiceId }, url: '/list' }).then(
       flow(
         get<AxiosResponse<Array<StockResponse>>, 'data'>('data'),
         // eslint-disable-next-line @typescript-eslint/naming-convention

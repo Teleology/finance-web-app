@@ -21,6 +21,7 @@ class CompanySelectionController {
   @httpGet('/countries/:continent')
   public getCountriesByContinent(request: Request, response: Response): void {
     try {
+      console.log(123);
       const { continent } = request.params;
       const countries = this.companySelectionService.getCountriesByContinent(continent as Continent);
       response.status(200).json(countries);

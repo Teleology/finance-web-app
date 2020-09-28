@@ -17,6 +17,7 @@ const mapState = ({ companySelection: localState }: RootState) =>
 
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 
+// TODO: use virtualization for long list ?
 const SelectionPanel = (props: Props): React.ReactElement => {
   const {
     getContinentOptions,

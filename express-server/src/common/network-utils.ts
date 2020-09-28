@@ -1,6 +1,6 @@
 import { encode } from 'querystring';
-import { AxiosRequestConfig } from 'axios';
-import { assign, flow } from 'lodash/fp';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { assign, flow, get } from 'lodash/fp';
 
 const baseURL = '/api/v1';
 
@@ -14,8 +14,10 @@ const alphaApiBasicSettings: AxiosRequestConfig = {
 
 const fcsApiBasicSettings: AxiosRequestConfig = {
   method: 'GET',
-  baseURL: 'https://fcsapi.com/api-v2/stock',
   // eslint-disable-next-line @typescript-eslint/naming-convention
   paramsSerializer: flow(assign({ access_key: 'fJdJdNzONFfvCJKow8BFU8OzuuxRAqVVI2BG24PhGrH0HEIcPR' }), encode)
 };
-export { alphaApiBasicSettings, baseURL, fcsApiBasicSettings };
+
+const getAxiosData = get<AxiosResponse, 'data'>('data');
+
+export { alphaApiBasicSettings, baseURL, fcsApiBasicSettings, getAxiosData };

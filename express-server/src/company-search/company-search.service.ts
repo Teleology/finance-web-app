@@ -5,7 +5,7 @@ import { alphaApiBasicSettings } from '../common/network-utils';
 import { ValueUnionOfObject } from '../common/type-utils';
 import { AlphaFunction } from '../common/string-utils';
 
-const mapCompanyInfoKey = {
+const searchResultKey = {
   '1. symbol': 'symbol',
   '2. name': 'name',
   '3. type': 'type',
@@ -17,7 +17,7 @@ const mapCompanyInfoKey = {
   '9. matchScore': 'matchScore'
 } as const;
 
-type CompanyInfo = Record<ValueUnionOfObject<typeof mapCompanyInfoKey>, string>;
+type CompanyInfo = Record<ValueUnionOfObject<typeof searchResultKey>, string>;
 
 @injectable()
 export class CompanySearchService {
@@ -25,7 +25,7 @@ export class CompanySearchService {
   private transformCompanySearchResponse = flow(
     JSON.parse,
     get('bestMatches'),
-    map(mapKeys((key: string) => mapCompanyInfoKey[key as keyof typeof mapCompanyInfoKey] ?? key))
+    map(mapKeys((key: string) => searchResultKey[key as keyof typeof searchResultKey] ?? key))
   );
 
   constructor() {
