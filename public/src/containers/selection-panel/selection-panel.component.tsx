@@ -104,8 +104,8 @@ const SelectionPanel = (props: Props): React.ReactElement => {
         <FormControl fullWidth={true}>
           <InputLabel>Company</InputLabel>
           <Select value={company.value} onChange={setSelection4} displayEmpty={true}>
-            {map(company.options, (option: LabelUnit) => (
-              <MenuItem value={option.value} key={option.value}>
+            {map(company.options, (option: LabelUnit, index: number) => (
+              <MenuItem value={option.value} key={`${option.value}-${index}`}>
                 {option.label}
               </MenuItem>
             ))}

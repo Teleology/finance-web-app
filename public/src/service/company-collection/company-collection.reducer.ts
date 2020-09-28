@@ -1,21 +1,24 @@
-import { LabelText } from '../../utils/type-util';
+import { LabelText, Nullable } from '../../utils/type-util';
 import { RootAction } from '../root-store';
-import { CompanyCollectionActionType } from './company-collection.action';
+import { SharedActionType } from '../shared.action';
 
 type CompanyCollectionState = {
-  collections: Array<LabelText<string>>;
+  collection: Nullable<LabelText<string>>;
 };
 
 // TODO: null or array ? think about it
 const defaultState: CompanyCollectionState = {
-  collections: []
+  collection: {
+    value: null,
+    label: null
+  }
 };
 
 const companyCollectionReducer = (prevState: CompanyCollectionState = defaultState, action: RootAction): CompanyCollectionState => {
   switch (action.type) {
-    case CompanyCollectionActionType.ADD_COMPANY: {
+    case SharedActionType.COLLECT_COMPANY: {
       return {
-        collections: [...prevState.collections, action.payload.company]
+        collection: action.payload.company
       };
     }
     default: {

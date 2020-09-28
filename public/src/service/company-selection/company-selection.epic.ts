@@ -1,11 +1,14 @@
 import { Observable, EMPTY, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
-import { combineEpics, ofType } from 'redux-observable';
-import { mergeMap, tap, map, catchError, concatMap } from 'rxjs/operators';
+import { combineEpics, ofType, StateObservable } from 'redux-observable';
+import { mergeMap, tap, map, catchError, concatMap, withLatestFrom } from 'rxjs/operators';
 import { map as lodashMap, startCase, flow } from 'lodash/fp';
-import { RootAction } from '../root-store';
+import * as lodash from 'lodash';
+import { RootAction, RootState } from '../root-store';
 import { LabelUnit } from '../../utils/general-type';
 import { baseUrl } from '../../utils/network-util';
+import { LabelText } from '../../utils/type-util';
+import { sharedAction } from '../shared.action';
 import { companySelectionAction, CompanySelectionActionGroup, CompanySelectionActionType } from './company-selection.action';
 
 type IndiceOptionContract = { categoryId: string; categoryName: string };
@@ -84,6 +87,22 @@ const setIndiceSelectionEpic = (action$: Observable<RootAction>): Observable<Roo
     })
   );
 
-const companySelectionEpic = combineEpics(getContinentOptionEpic, setContinentSelectionEpic, setCountrySelectionEpic, setIndiceSelectionEpic);
+const setCompanySelectionEpic = (action$: Observable<RootAction>, state$: StateObservable<RootState>): Observable<RootAction> =>
+  action$.pipe(
+    ofType<RootAction, CompanySelectionActionGroup['setCompanySelection']>(CompanySelectionActionType.SET_COMPANY_SELECTION),
+    withLatestFrom(state$.pipe(map((state: RootState) => state.companySelection.company.options))),
+    map(([action, options]: [CompanySelectionActionGroup['setCompanySelection'], Array<LabelText<string>>]) => {
+      const symbol = action.payload.selection;
+      return lodash.find<LabelText<string>>(options, { value: symbol }) as LabelText<string>;
+    }),
+    map(sharedAction.setCollection)
+  );
+const companySelectionEpic = combineEpics(
+  getContinentOptionEpic,
+  setContinentSelectionEpic,
+  setCountrySelectionEpic,
+  setIndiceSelectionEpic,
+  setCompanySelectionEpic
+);
 
 export { companySelectionEpic };

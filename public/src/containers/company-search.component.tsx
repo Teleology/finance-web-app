@@ -1,14 +1,17 @@
 import * as React from 'react';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 import { isEmpty, negate } from 'lodash/fp';
-import { mergeMap, pluck, filter, debounceTime, startWith, map } from 'rxjs/operators';
-import { useEventCallback, useObservable } from 'rxjs-hooks';
+import { pick } from 'lodash';
+import { filter, debounce, map, switchMap } from 'rxjs/operators';
+import { useObservable } from 'rxjs-hooks';
 import { TextField } from '@material-ui/core';
 import { ajax } from 'rxjs/ajax';
 import { stringifyUrl } from 'query-string';
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
-import { LabelText } from '../utils/type-util';
+import { connect } from 'react-redux';
 import { baseURL } from '../../../express-server/src/common/network-utils';
+import { sharedAction } from '../service/shared.action';
+import { debounceWithEnterKey } from '../utils/stream';
 
 type Company = {
   symbol: string;
@@ -22,21 +25,31 @@ type Company = {
   matchScore: string;
 };
 
-const CompanySearch = (): React.ReactElement => {
+const mapDispatch = pick<typeof sharedAction, 'setCollection'>(sharedAction, ['setCollection']);
+type Props = typeof mapDispatch;
+const CompanySearch = ({ setCollection }: Props): React.ReactElement => {
   const [input, setInput] = React.useState('');
+  const [selection, setSelection] = React.useState<Company | null>(null);
   const onInputChange = React.useCallback(
     (event: object, value: string) => {
       setInput(value);
     },
     [setInput]
   );
+  const onSelectionChange = React.useCallback(
+    (event: object, value: Company | null): void => {
+      setSelection(value);
+      value !== null && setCollection({ label: value.name, value: value.symbol });
+    },
+    [setSelection, setCollection]
+  );
   const options = useObservable(
     (noUse: Observable<unknown>, input$: Observable<[string]>) => {
       const response$ = input$.pipe(
         map((input: [string]) => input[0]),
         filter(negate(isEmpty)),
-        debounceTime(1000),
-        mergeMap((keywords: string) => ajax.getJSON<Array<Company>>(stringifyUrl({ url: `${baseURL}/search`, query: { keywords } })))
+        debounce(() => debounceWithEnterKey),
+        switchMap((keywords: string) => ajax.getJSON<Array<Company>>(stringifyUrl({ url: `${baseURL}/search`, query: { keywords } })))
       );
       return response$;
     },
@@ -55,10 +68,15 @@ const CompanySearch = (): React.ReactElement => {
     <Autocomplete<Company>
       renderInput={renderInput}
       options={options}
+      value={selection}
+      onChange={onSelectionChange}
+      inputValue={input}
       onInputChange={onInputChange}
       getOptionLabel={getOptionLabel}
       getOptionSelected={getOptionSelected}
     />
   );
 };
-export { CompanySearch };
+
+const CompanySearchContainer = connect(null, mapDispatch)(CompanySearch);
+export { CompanySearchContainer };

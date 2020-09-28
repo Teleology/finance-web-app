@@ -5,7 +5,7 @@ import { Container, ThemeProvider, Grid } from '@material-ui/core';
 import { store, history } from './service/root-store';
 import { theme } from './theme';
 import { SelectionPanelContainer } from './containers/selection-panel/selection-panel.component';
-import { CompanySearch } from './containers/company-search.component';
+import { CompanySearchContainer } from './containers/company-search.component';
 import { NewsSection } from './components/news-section/news-section.component';
 import { CompanyWatcher } from './containers/company-watcher.component';
 import { StockTimeSeriesChartContainer } from './containers/time-series-chart/stock-time-series-chart.component';
@@ -18,7 +18,7 @@ export const App = (): React.ReactElement => (
           <Grid container={true}>
             <SelectionPanelContainer />
             <Grid item={true} xs={4}>
-              <CompanySearch />
+              <CompanySearchContainer />
             </Grid>
             <StockTimeSeriesChartContainer />
             <NewsSection title="" content="" />

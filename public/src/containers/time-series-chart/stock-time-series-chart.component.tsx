@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { pick, isEmpty } from 'lodash';
+import { pick } from 'lodash';
 import { connect } from 'react-redux';
 
 import { stockTimeSeriesAction } from '../../service/stock-time-series/stock-time-series.action';
@@ -8,16 +8,16 @@ import { stockTimeSeriesChartConverter } from '../../service/stock-time-series/s
 import { LineChart } from '../../components/line-chart/line-chart.component';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries'>(stockTimeSeriesAction, ['getTimeSeries']);
-const mapState = ({ stockTimeSeries, companySelection }: RootState) =>
+const mapState = ({ stockTimeSeries, companyCollection }: RootState) =>
   ({
     series: stockTimeSeriesChartConverter(stockTimeSeries),
-    selectedCompany: companySelection.company.value
+    company: companyCollection.collection.value
   } as const);
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
-const StockTimeSeriesChart = ({ getTimeSeries, series, selectedCompany }: Props): React.ReactElement => {
+const StockTimeSeriesChart = ({ getTimeSeries, series, company }: Props): React.ReactElement => {
   React.useEffect(() => {
-    !isEmpty(selectedCompany) && getTimeSeries(selectedCompany);
-  }, [getTimeSeries, selectedCompany]);
+    company !== null && getTimeSeries(company);
+  }, [getTimeSeries, company]);
   return <LineChart data={series} />;
 };
 

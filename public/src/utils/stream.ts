@@ -13,3 +13,9 @@
 //   }, [subscriber]);
 //
 // export { useEventStream };
+
+import { fromEvent, race, timer } from 'rxjs';
+import { filter } from 'rxjs/operators';
+const debounceWithEnterKey = race(fromEvent<KeyboardEvent>(document, 'keyup').pipe(filter((event: KeyboardEvent) => event.key === 'Enter')), timer(1000));
+
+export { debounceWithEnterKey };
