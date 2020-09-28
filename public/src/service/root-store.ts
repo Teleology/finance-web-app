@@ -11,14 +11,17 @@ import { stockTimeSeriesReducer, StockTimeSeriesState } from './stock-time-serie
 import { stockTimeSeriesEpic } from './stock-time-series/stock-time-series.epic';
 import { SharedActionUnion } from './shared.action';
 import { companyCollectionReducer, CompanyCollectionState } from './company-collection/company-collection.reducer';
+import { NewsActionUnion } from './news/news.action';
+import { newsReducer, NewsState } from './news/news.reducer';
 
-type RootAction = CompanySelectionActionUnion | StockTimeSeriesActionUnion | SharedActionUnion;
+type RootAction = CompanySelectionActionUnion | StockTimeSeriesActionUnion | NewsActionUnion | SharedActionUnion;
 
 type RootState = {
   router: RouterState;
   companySelection: CompanySelectionState;
   stockTimeSeries: StockTimeSeriesState;
   companyCollection: CompanyCollectionState;
+  news: NewsState;
 };
 
 // middlewares
@@ -32,7 +35,8 @@ const rootReducer = combineReducers<RootState>({
   router: connectRouter(history),
   companySelection: companySelectionReducer,
   stockTimeSeries: stockTimeSeriesReducer,
-  companyCollection: companyCollectionReducer
+  companyCollection: companyCollectionReducer,
+  news: newsReducer
 });
 
 const isLocal = process.env.NODE_ENV === 'development';
