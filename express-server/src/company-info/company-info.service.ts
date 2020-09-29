@@ -1,6 +1,5 @@
 import { injectable } from 'inversify';
-import { mapKeys, camelCase, get } from 'lodash/fp';
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { alphaApiBasicSettings, fcsApiBasicSettings, getAxiosData } from '../common/network-utils';
 import { AlphaFunction } from '../common/string-utils';
 
@@ -93,7 +92,7 @@ class CompanyInfoService {
   }
 
   public getNews(keywords: string): Promise<Array<NewsUnit>> {
-    return this.fcsAxios({ params: { find_title: keywords } }).then(getAxiosData);
+    return this.fcsAxios({ params: { find_title: keywords } }).then((response) => response.data.response);
   }
 }
 

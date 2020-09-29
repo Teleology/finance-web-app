@@ -13,6 +13,7 @@ import { SharedActionUnion } from './shared.action';
 import { companyCollectionReducer, CompanyCollectionState } from './company-collection/company-collection.reducer';
 import { NewsActionUnion } from './company-info/company-info.action';
 import { companyInfoReducer, CompanyInfoState } from './company-info/company-info.reducer';
+import { companyInfoEpic } from './company-info/company-info.epic';
 
 type RootAction = CompanySelectionActionUnion | StockTimeSeriesActionUnion | NewsActionUnion | SharedActionUnion;
 
@@ -42,6 +43,6 @@ const rootReducer = combineReducers<RootState>({
 const isLocal = process.env.NODE_ENV === 'development';
 const store = isLocal ? createStore(rootReducer, enhancers) : createStore(rootReducer, middlewares);
 
-const rootEpic = combineEpics(companySelectionEpic, stockTimeSeriesEpic);
+const rootEpic = combineEpics(companySelectionEpic, stockTimeSeriesEpic, companyInfoEpic);
 epicMiddleware.run(rootEpic);
 export { store, isLocal, history, RootState, RootAction };

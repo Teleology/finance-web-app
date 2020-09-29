@@ -7,9 +7,27 @@ type NewsUnit = {
   site: string;
 };
 
+type CompanyDetail = {
+  symbol: string;
+  name: string;
+  description: string;
+  exchange: string;
+  country: string;
+  industry: string;
+  address: string;
+  fullTimeEmployees: string;
+  marketCapitalization: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  EBITDA: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  PEGRatio: string;
+};
+
 namespace CompanyInfoActionType {
   export const GET_NEWS = 'company-info/GET_NEWS';
   export const SET_NEWS = 'company-info/SET_NEWS';
+  export const GET_DETAIL = 'company-info/GET_DETAIL';
+  export const SET_DETAIL = 'company-info/SET_DETAIL';
 }
 
-export { NewsUnit, CompanyInfoActionType };
+export { NewsUnit, CompanyDetail, CompanyInfoActionType };
