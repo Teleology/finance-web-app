@@ -9,6 +9,7 @@ import { CompanySearchContainer } from './containers/company-search.component';
 import { CompanyWatcher } from './containers/company-watcher.component';
 import { StockTimeSeriesChartContainer } from './containers/time-series-chart/stock-time-series-chart.component';
 import { NewsSectionContainer } from './components/news/news-section.component';
+import { CompanyDetailContainer } from './components/company-detail/company-detail.component';
 
 export const App = (): React.ReactElement => (
   <Provider store={store}>
@@ -22,6 +23,7 @@ export const App = (): React.ReactElement => (
             </Grid>
             <StockTimeSeriesChartContainer />
             <NewsSectionContainer />
+            <CompanyDetailContainer />
             <CompanyWatcher />
           </Grid>
         </Container>

@@ -24,9 +24,7 @@ type CompanyDetail = {
 };
 
 namespace CompanyInfoActionType {
-  export const GET_NEWS = 'company-info/GET_NEWS';
   export const SET_NEWS = 'company-info/SET_NEWS';
-  export const GET_DETAIL = 'company-info/GET_DETAIL';
   export const SET_DETAIL = 'company-info/SET_DETAIL';
 }
 

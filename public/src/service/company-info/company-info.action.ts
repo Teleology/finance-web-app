@@ -1,5 +1,5 @@
 import { ReturnTypeOfGroup } from '../../utils/type-util';
-import { NewsUnit, CompanyInfoActionType } from './company-info-util';
+import { NewsUnit, CompanyInfoActionType, CompanyDetail } from './company-info-util';
 
 const setNews = (newsList: Array<NewsUnit>) =>
   ({
@@ -9,11 +9,20 @@ const setNews = (newsList: Array<NewsUnit>) =>
     }
   } as const);
 
-const newsActions = {
-  setNews
+const setDetail = (detail: CompanyDetail) =>
+  ({
+    type: CompanyInfoActionType.SET_DETAIL,
+    payload: {
+      detail
+    }
+  } as const);
+
+const companyInfoAction = {
+  setNews,
+  setDetail
 };
 
-type NewsActionGroup = ReturnTypeOfGroup<typeof newsActions>;
-type NewsActionUnion = NewsActionGroup[keyof NewsActionGroup];
+type CompanyActionGroup = ReturnTypeOfGroup<typeof companyInfoAction>;
+type CompanyActionUnion = CompanyActionGroup[keyof CompanyActionGroup];
 
-export { newsActions, NewsActionGroup, CompanyInfoActionType, NewsActionUnion };
+export { companyInfoAction, CompanyActionGroup, CompanyInfoActionType, CompanyActionUnion };

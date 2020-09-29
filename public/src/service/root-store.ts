@@ -11,11 +11,11 @@ import { stockTimeSeriesReducer, StockTimeSeriesState } from './stock-time-serie
 import { stockTimeSeriesEpic } from './stock-time-series/stock-time-series.epic';
 import { SharedActionUnion } from './shared.action';
 import { companyCollectionReducer, CompanyCollectionState } from './company-collection/company-collection.reducer';
-import { NewsActionUnion } from './company-info/company-info.action';
+import { CompanyActionUnion } from './company-info/company-info.action';
 import { companyInfoReducer, CompanyInfoState } from './company-info/company-info.reducer';
 import { companyInfoEpic } from './company-info/company-info.epic';
 
-type RootAction = CompanySelectionActionUnion | StockTimeSeriesActionUnion | NewsActionUnion | SharedActionUnion;
+type RootAction = CompanySelectionActionUnion | StockTimeSeriesActionUnion | CompanyActionUnion | SharedActionUnion;
 
 type RootState = {
   router: RouterState;
