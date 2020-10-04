@@ -55,6 +55,10 @@
         "format": ["UPPER_CASE"]
       },
       {
+        "selector": "parameter",
+        "format": ["camelCase", "PascalCase"]
+      },
+      {
         "selector": "variable",
         "modifiers": ["const"],
         "types": ["string"],
