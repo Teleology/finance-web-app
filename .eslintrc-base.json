@@ -44,7 +44,11 @@
       "error",
       {
         "selector": "default",
-        "format": ["camelCase"]
+        "format": ["camelCase"],
+        "custom": {
+          "regex": "\b(error|type|(f|F)unction|(o|O)bject|(u|U)ndefined|(B|b)oolean|any|(S|s)tring|(N|n)umber)\b",
+          "match": false
+        }
       },
       {
         "selector": "typeLike",
@@ -61,22 +65,18 @@
       {
         "selector": "variable",
         "modifiers": ["const"],
-        "types": ["string"],
-        "format": ["camelCase","UPPER_CASE"]
-      },
-      {
-        "selector": "variable",
-        "modifiers": ["const"],
-        "types": ["function"],
         "format": ["camelCase", "PascalCase"]
       },
       {
         "selector": "variable",
-        "format": ["camelCase"],
-        "custom": {
-          "regex": "\b(error|type|(f|F)unction|(o|O)bject|(u|U)ndefined|(B|b)oolean|any|(S|s)tring|(N|n)umber)\b",
-          "match": false
-        }
+        "modifiers": ["const"],
+        "types": ["string"],
+        "format": ["camelCase","UPPER_CASE"]
+      },
+
+      {
+        "selector": "variable",
+        "format": ["camelCase"]
       },
       {
         "selector": "interface",
