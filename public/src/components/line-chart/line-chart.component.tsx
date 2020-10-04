@@ -7,7 +7,6 @@ import { scaleTime, scaleLinear } from '@vx/scale';
 import { AxisLeft, AxisBottom } from '@vx/axis';
 import { LinePath } from '@vx/shape';
 import { TimeChartDataUnit } from '../../service/stock-time-series/stock-time-series.typing';
-
 type Coordinate = TimeChartDataUnit;
 
 type Setting = {

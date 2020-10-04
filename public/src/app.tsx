@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Container, ThemeProvider, Grid } from '@material-ui/core';
+import { Container, ThemeProvider, Grid, CssBaseline } from '@material-ui/core';
 import { store, history } from './service/root-store';
 import { theme } from './theme';
 import { SelectionPanelContainer } from './containers/selection-panel/selection-panel.component';
@@ -11,10 +11,10 @@ import { StockTimeSeriesChartContainer } from './containers/time-series-chart/st
 import { NewsSectionContainer } from './components/news/news-section.component';
 import { CompanyDetailContainer } from './components/company-detail/company-detail.component';
 import { FinanceAppBar } from './components/finance-app-bar/finance-app-bar.component';
-
 export const App = (): React.ReactElement => (
   <Provider store={store}>
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <ConnectedRouter history={history}>
         <Container maxWidth="xl">
           <FinanceAppBar />

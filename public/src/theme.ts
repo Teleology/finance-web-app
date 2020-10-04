@@ -44,38 +44,52 @@ const theme = createMuiTheme({
     '0 0 1px 0 rgba(0,0,0,0.31), 0 24px 36px -8px rgba(0,0,0,0.25)'
   ],
   typography: {
+    htmlFontSize: 10,
     h1: {
       fontWeight: 500,
-      fontSize: 35,
+      fontSize: '3.5rem',
       letterSpacing: '-0.24px'
     },
     h2: {
       fontWeight: 500,
-      fontSize: 29,
+      fontSize: '2.9rem',
       letterSpacing: '-0.24px'
     },
     h3: {
       fontWeight: 500,
-      fontSize: 24,
+      fontSize: '2.4rem',
       letterSpacing: '-0.06px'
     },
     h4: {
       fontWeight: 500,
-      fontSize: 20,
+      fontSize: '2rem',
       letterSpacing: '-0.06px'
     },
     h5: {
       fontWeight: 500,
-      fontSize: 16,
+      fontSize: '1.6rem',
       letterSpacing: '-0.05px'
     },
     h6: {
       fontWeight: 500,
-      fontSize: 14,
+      fontSize: '1.4rem',
       letterSpacing: '-0.05px'
     },
     overline: {
       fontWeight: 500
+    }
+  },
+  overrides: {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    MuiCssBaseline: {
+      '@global': {
+        html: {
+          fontSize: '62.5%'
+        },
+        body: {
+          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+        }
+      }
     }
   }
 });
