@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Drawer } from '@material-ui/core';
+import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Business as BusinessIcon } from '@material-ui/icons';
 type Props = { isOpen: boolean; close: () => void };
 
 const AppDrawer = React.memo(
@@ -8,7 +9,14 @@ const AppDrawer = React.memo(
 
     return (
       <Drawer anchor="left" open={isOpen} onClose={close}>
-        123
+        <List component="nav">
+          <ListItem button={true}>
+            <ListItemIcon>
+              <BusinessIcon />
+            </ListItemIcon>
+            <ListItemText primary="Search" />
+          </ListItem>
+        </List>
       </Drawer>
     );
   }
