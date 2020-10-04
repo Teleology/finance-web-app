@@ -10,14 +10,25 @@ import { CompanyWatcher } from './ui/containers/company-watcher.component';
 import { StockTimeSeriesChartContainer } from './ui/containers/time-series-chart/stock-time-series-chart.component';
 import { NewsSectionContainer } from './ui/components/news/news-section.component';
 import { CompanyDetailContainer } from './ui/components/company-detail/company-detail.component';
-import { FinanceAppBar } from './ui/components/finance-app-bar/finance-app-bar.component';
+import { AppHeader } from './ui/components/app-header/app-header.component';
+import { AppDrawer } from './ui/components/app-drawer/app-drawer.component';
+import { AppDrawerManager } from './ui/components/app-drawer-manager.component';
+
 export const App = (): React.ReactElement => (
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ConnectedRouter history={history}>
         <Container maxWidth="xl">
-          <FinanceAppBar />
+          <AppDrawerManager>
+            {(isOpen: boolean, close: () => void, open: () => void): React.ReactElement => (
+              <>
+                <AppHeader openDrawer={open} />
+                <AppDrawer close={close} isOpen={isOpen} />
+              </>
+            )}
+          </AppDrawerManager>
+
           <Grid container={true}>
             <SelectionPanelContainer />
             <Grid item={true} xs={4}>
