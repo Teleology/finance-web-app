@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { RootState } from '../../service/root-store';
+import { RootState } from '../../../service/root-store';
 
 const mapState = ({ companyInfo }: RootState) =>
   ({

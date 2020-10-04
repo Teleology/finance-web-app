@@ -9,9 +9,9 @@ import { ajax } from 'rxjs/ajax';
 import { stringifyUrl } from 'query-string';
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 import { connect } from 'react-redux';
-import { baseURL } from '../../../express-server/src/common/network-utils';
-import { sharedAction } from '../service/shared.action';
-import { debounceWithEnterKey } from '../utils/stream';
+import { baseURL } from '../../../../express-server/src/common/network-utils';
+import { sharedAction } from '../../service/shared.action';
+import { debounceWithEnterKey } from '../../utils/stream';
 
 type Company = {
   symbol: string;

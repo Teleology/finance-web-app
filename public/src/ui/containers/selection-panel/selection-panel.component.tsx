@@ -2,9 +2,9 @@ import * as React from 'react';
 import { FormControl, Grid, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { map } from 'lodash';
-import { companySelectionAction } from '../../service/company-selection/company-selection.action';
-import { RootState } from '../../service/root-store';
-import { LabelUnit } from '../../utils/general-type';
+import { companySelectionAction } from '../../../service/company-selection/company-selection.action';
+import { RootState } from '../../../service/root-store';
+import { LabelUnit } from '../../../utils/general-type';
 const mapDispatch = companySelectionAction;
 
 const mapState = ({ companySelection: localState }: RootState) =>

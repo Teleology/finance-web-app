@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import * as _ from 'lodash';
 import { connect } from 'react-redux';
-import { RootState } from '../../service/root-store';
-import { NewsUnit } from '../../service/company-info/company-info-util';
+import { RootState } from '../../../service/root-store';
+import { NewsUnit } from '../../../service/company-info/company-info-util';
 const mapState = ({ companyInfo }: RootState) =>
   ({
     newsList: companyInfo.newsList

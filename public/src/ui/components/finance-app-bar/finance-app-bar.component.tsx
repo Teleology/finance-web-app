@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
-import AppIcon from '../../assets/svg/gs-logo.svg';
+import AppIcon from '../../../assets/svg/gs-logo.svg';
 import useStyles from './finance-app-bar.style';
 
 const FinanceAppBar = (): React.ReactElement => {
