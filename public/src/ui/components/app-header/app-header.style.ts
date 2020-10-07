@@ -1,10 +1,16 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { CSSProperties } from '@material-ui/core/styles/withStyles';
-
-const title: CSSProperties = {
-  flexGrow: 1
-};
-
-export default makeStyles({
-  title
+const useTitleStyles = makeStyles({
+  h1: {
+    flexGrow: 1
+  }
 });
+
+const usePlainStyles = makeStyles({
+  iconContainer: {
+    position: 'absolute'
+  }
+});
+export default {
+  useTitleStyles,
+  usePlainStyles
+};

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, IconButton, Toolbar, Typography, Box } from '@material-ui/core';
 import { Menu as MenuIcon } from '@material-ui/icons';
 import AppIcon from '../../../assets/svg/gs-logo.svg';
-import useStyles from './app-header.style';
+import styles from './app-header.style';
 
 // TODO: APPIcon float then overflow bfc?
 type Props = {
@@ -10,16 +10,19 @@ type Props = {
 };
 const AppHeader = React.memo(
   (props: Props): React.ReactElement => {
-    const { title } = useStyles();
+    const { useTitleStyles, usePlainStyles } = styles;
+    const { iconContainer } = usePlainStyles();
     const { openDrawer } = props;
     return (
-      <AppBar elevation={0}>
+      <AppBar position="static">
         <Toolbar>
-          <AppIcon />
-          <IconButton onClick={openDrawer} color="inherit">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h1" classes={{ h1: title }} align="center">
+          <Box display="flex" alignItems="center" className={iconContainer}>
+            <IconButton onClick={openDrawer} color="inherit">
+              <MenuIcon fontSize="large" />
+            </IconButton>
+            <AppIcon />
+          </Box>
+          <Typography variant="h1" classes={useTitleStyles()} align="center">
             Finance Web App
           </Typography>
         </Toolbar>

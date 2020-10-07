@@ -87,7 +87,8 @@ const theme = createMuiTheme({
           fontSize: '62.5%'
         },
         body: {
-          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+          backgroundColor: '#f4f6f8'
         }
       }
     }

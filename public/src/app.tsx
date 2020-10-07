@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Container, ThemeProvider, Grid, CssBaseline } from '@material-ui/core';
+import { ThemeProvider, Paper, CssBaseline } from '@material-ui/core';
 import { store, history } from './service/root-store';
 import { theme } from './theme';
 import { SelectionPanelContainer } from './ui/containers/selection-panel/selection-panel.component';
@@ -19,27 +19,24 @@ export const App = (): React.ReactElement => (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ConnectedRouter history={history}>
-        <Container maxWidth="xl">
-          <AppDrawerManager>
-            {(isOpen: boolean, close: () => void, open: () => void): React.ReactElement => (
-              <>
-                <AppHeader openDrawer={open} />
-                <AppDrawer close={close} isOpen={isOpen} />
-              </>
-            )}
-          </AppDrawerManager>
+        <AppDrawerManager>
+          {(isOpen: boolean, close: () => void, open: () => void): React.ReactElement => (
+            <>
+              <AppHeader openDrawer={open} />
+              <AppDrawer close={close} isOpen={isOpen} />
+            </>
+          )}
+        </AppDrawerManager>
 
-          <Grid container={true}>
-            <SelectionPanelContainer />
-            <Grid item={true} xs={4}>
-              <CompanySearchContainer />
-            </Grid>
-            <StockTimeSeriesChartContainer />
-            <NewsSectionContainer />
-            <CompanyDetailContainer />
-            <CompanyWatcher />
-          </Grid>
-        </Container>
+        <Paper>
+          <SelectionPanelContainer />
+          <CompanySearchContainer />
+        </Paper>
+
+        <StockTimeSeriesChartContainer />
+        <NewsSectionContainer />
+        <CompanyDetailContainer />
+        <CompanyWatcher />
       </ConnectedRouter>
     </ThemeProvider>
   </Provider>
