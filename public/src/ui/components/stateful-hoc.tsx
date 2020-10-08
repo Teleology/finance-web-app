@@ -13,7 +13,7 @@ import { isEmpty } from 'lodash';
 //   return branch;
 // };
 
-const StatefulHoc = <L, B, P extends L & B>(test: (props: P) => boolean, LeftComponent: React.FC<L>) => (BaseComponent: React.FC<P>) => (
+const StatefulHoc = <L, P extends L>(test: (props: P) => boolean, LeftComponent: React.FC<L>) => (BaseComponent: React.FC<P>) => (
   props: P
 ): React.ReactElement => {
   if (test(props)) {
