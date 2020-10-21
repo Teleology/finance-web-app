@@ -4,6 +4,7 @@
     "camelcase": "off",
     "consistent-return": "error",
     "constructor-super": "error",
+    "curly": "error",
     "default-case": "warn",
     "dot-notation": "error",
     "eqeqeq": "error",
