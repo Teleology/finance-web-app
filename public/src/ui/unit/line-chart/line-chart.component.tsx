@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { get, pipe, map } from 'lodash/fp';
+import { get, flow, map } from 'lodash/fp';
 import { extent } from 'd3-array';
 import { ScaleTime, ScaleLinear } from 'd3-scale';
-import { timeFormat } from 'd3-time-format';
-import { scaleTime, scaleLinear } from '@vx/scale';
-import { AxisLeft, AxisBottom } from '@vx/axis';
-import { LinePath } from '@vx/shape';
+import { scaleTime, scaleLinear } from '@visx/scale';
+import { AxisLeft, AxisBottom } from '@visx/axis';
+import { LinePath } from '@visx/shape';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series.typing';
 type Coordinate = TimeChartDataUnit;
 
@@ -42,8 +41,9 @@ const settingFactory = (width: number, height: number, padding: number) => (data
     range: [yMaxRange, padding],
     domain: extent(data, ySelector) as [number, number]
   });
-  const renderX: Setting['renderX'] = pipe(xSelector, xScale);
-  const renderY: Setting['renderY'] = pipe(ySelector, yScale);
+  // TODO: undefined check
+  const renderX = flow(xSelector, xScale) as Setting['renderX'];
+  const renderY = flow(ySelector, yScale) as Setting['renderY'];
   return {
     width,
     height,
@@ -59,12 +59,13 @@ const settingFactory = (width: number, height: number, padding: number) => (data
 
 const getDefaultSetting = settingFactory(800, 800, 50);
 
+// eslint-disable-next-line react/display-name
 const lineChartFactory = (getSetting: ReturnType<typeof settingFactory>) => ({ data }: Props): React.ReactElement => {
   const { width, height, padding, renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => getSetting(data), [data]);
 
   return (
     <svg width={width} height={height}>
-      <AxisBottom scale={xScale} top={yMaxRange} tickFormat={timeFormat('%m/%d')} />
+      <AxisBottom<ScaleTime<number, number>> scale={xScale} top={yMaxRange} />
       <AxisLeft scale={yScale} left={padding} hideZero={true} />
       <LinePath data={data} x={renderX} y={renderY} strokeWidth={5} stroke="#000000" fill="transparent" />
       {map((datum: Coordinate) => {
