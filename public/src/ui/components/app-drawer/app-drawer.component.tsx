@@ -11,7 +11,7 @@ const AppDrawer = (props: Props): React.ReactElement => {
   const { useContainerStyles, useListItemIconStyles } = styles;
   return (
     <Drawer anchor="left" open={isOpen} onClose={close} classes={useContainerStyles()}>
-      <List component="nav">
+      <List component="nav" onClick={close}>
         <AppLink to={searchLink}>
           <ListItem button={true}>
             <ListItemIcon classes={useListItemIconStyles()}>
