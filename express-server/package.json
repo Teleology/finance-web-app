@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./dist/app.js",
+    "nodemon": "nodemon ./dist/app.js",
     "watch": "concurrently -k \"npm run watch-ts\" \"npm run start\"",
     "debug": "nodemon --inspect ./dist/app.js",
     "clean-dist": "rimraf ./dist",
