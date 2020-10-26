@@ -1,5 +1,4 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import { StyleRules } from '@material-ui/styles/withStyles';
+import { makeStyles, Theme, StyleRules } from '@material-ui/core/styles';
 import { CardClassKey } from '@material-ui/core';
 
 const useCardStyles = makeStyles(
@@ -9,7 +8,7 @@ const useCardStyles = makeStyles(
         minHeight: 200,
         margin: spacing(2)
       }
-    } as StyleRules<{}, CardClassKey>)
+    } as StyleRules<CardClassKey>)
 );
 
 export default {

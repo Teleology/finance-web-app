@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Grid, Divider, Paper, Card, CardHeader, CardContent } from '@material-ui/core';
-import { CompanySearchContainer } from '../middle-level/company-search.component';
+import { CompanySearchContainer } from '../middle-level/company-search/company-search.component';
 import { CompanyDetailContainer } from '../middle-level/company-detail/company-detail.component';
 import { SelectionPanelContainer } from '../middle-level/selection-panel/selection-panel.component';
 import styles from './search-page.styles';
@@ -20,7 +20,6 @@ const SearchPage = (): React.ReactElement => {
         </Card>
         <Card classes={cardClasses}>
           <CardHeader subheader="type a company name in the below line" title="Search" />
-          <Divider />
           <CardContent>
             <CompanySearchContainer />
           </CardContent>

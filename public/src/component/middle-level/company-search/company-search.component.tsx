@@ -9,10 +9,10 @@ import { ajax } from 'rxjs/ajax';
 import { stringifyUrl } from 'query-string';
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 import { connect } from 'react-redux';
-import { baseURL } from '../../../../express-server/src/common/network-utils';
-import { sharedAction } from '../../service/shared.action';
-import { debounceWithEnterKey } from '../../utils/stream';
-
+import { baseURL } from '../../../../../express-server/src/common/network-utils';
+import { sharedAction } from '../../../service/shared.action';
+import { debounceWithEnterKey } from '../../../utils/stream';
+import styles from './company-search.styles';
 type Company = {
   symbol: string;
   name: string;
@@ -28,6 +28,7 @@ type Company = {
 const mapDispatch = pick<typeof sharedAction, 'setCollection'>(sharedAction, ['setCollection']);
 type Props = typeof mapDispatch;
 const CompanySearch = ({ setCollection }: Props): React.ReactElement => {
+  const { useAutoCompleteStyles } = styles;
   const [input, setInput] = React.useState('');
   const [selection, setSelection] = React.useState<Company | null>(null);
   const onInputChange = React.useCallback(
@@ -59,10 +60,7 @@ const CompanySearch = ({ setCollection }: Props): React.ReactElement => {
 
   const getOptionLabel = React.useCallback((company: Company) => company.name, []);
   const getOptionSelected = React.useCallback((option: Company, value: Company) => option.symbol === value.symbol, []);
-  const renderInput = React.useCallback(
-    (params: AutocompleteRenderInputParams): React.ReactElement => <TextField {...params} label="Combo box" variant="outlined" />,
-    []
-  );
+  const renderInput = React.useCallback((params: AutocompleteRenderInputParams): React.ReactElement => <TextField {...params} />, []);
 
   return (
     <Autocomplete<Company>
@@ -74,6 +72,8 @@ const CompanySearch = ({ setCollection }: Props): React.ReactElement => {
       onInputChange={onInputChange}
       getOptionLabel={getOptionLabel}
       getOptionSelected={getOptionSelected}
+      fullWidth={true}
+      classes={useAutoCompleteStyles()}
     />
   );
 };
