@@ -64,7 +64,7 @@ const SelectionPanel = (props: Props): React.ReactElement => {
 
   // TODO: repeated code
   return (
-    <Grid spacing={2} container={true} item={true} direction="column" xs={4}>
+    <Grid spacing={2} container={true} direction="column">
       <Grid item={true}>
         <FormControl fullWidth={true}>
           <InputLabel>Continent</InputLabel>
