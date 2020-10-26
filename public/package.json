@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start-dev": "webpack-dev-server --config=configs/webpack-dev.js",
+    "webpack-dev-server": "webpack-dev-server --config=configs/webpack-dev.js",
     "build-prod": "npm run lint-ts && npm run clean-dist && webpack -p --config=configs/webpack-prod.js",
     "clean-dist": "rimraf ./dist",
     "lint-ts": "eslint ./src/**/*.{ts,tsx}"
