@@ -1,4 +1,6 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { RouterState, routerMiddleware, connectRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -32,6 +34,7 @@ const epicMiddleware = createEpicMiddleware();
 const middlewares = applyMiddleware(connectedRouterMiddleware, epicMiddleware);
 const enhancers = composeWithDevTools({})(middlewares);
 
+// reducer
 const rootReducer = combineReducers<RootState>({
   router: connectRouter(history),
   companySelection: companySelectionReducer,
@@ -40,9 +43,21 @@ const rootReducer = combineReducers<RootState>({
   companyInfo: companyInfoReducer
 });
 
-const isLocal = process.env.NODE_ENV === 'development';
-const store = isLocal ? createStore(rootReducer, enhancers) : createStore(rootReducer, middlewares);
+const persistRootReducer = persistReducer(
+  {
+    key: 'root',
+    storage,
+    blacklist: ['router', 'stockTimeSeries'] as Array<keyof RootState>
+  },
+  rootReducer
+);
 
+// store
+const isLocal = process.env.NODE_ENV === 'development';
+const store = isLocal ? createStore(persistRootReducer, enhancers) : createStore(persistRootReducer, middlewares);
+const persistor = persistStore(store);
+
+// redux observable
 const rootEpic = combineEpics(companySelectionEpic, stockTimeSeriesEpic, companyInfoEpic);
 epicMiddleware.run(rootEpic);
-export { store, isLocal, history, RootState, RootAction };
+export { store, persistor, isLocal, history, RootState, RootAction };

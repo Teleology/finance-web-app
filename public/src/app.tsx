@@ -3,7 +3,8 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { ThemeProvider, CssBaseline } from '@material-ui/core';
 import { Route, Switch } from 'react-router';
-import { store, history } from './service/root-store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, history, persistor } from './service/root-store';
 import { theme } from './theme';
 import { CompanyWatcher } from './ui/components/company-watcher.component';
 import { StockTimeSeriesChartContainer } from './ui/components/time-series-chart/stock-time-series-chart.component';
@@ -16,30 +17,32 @@ import { SearchPage } from './ui/pages/search-page.component';
 
 export const App = (): React.ReactElement => (
   <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <ConnectedRouter history={history}>
-        <AppDrawerManager>
-          {(isOpen: boolean, close: () => void, open: () => void): React.ReactElement => (
-            <>
-              <AppHeader openDrawer={open} />
-              <AppDrawer close={close} isOpen={isOpen} />
-            </>
-          )}
-        </AppDrawerManager>
-        <Switch>
-          <Route exact={true} path={infoLink}>
-            <StockTimeSeriesChartContainer />
-            <NewsSectionContainer />
-          </Route>
-          <Route exact={true} path={compareLink}>
-            <CompanyWatcher />
-          </Route>
-          <Route exact={true} path={['/', searchLink]}>
-            <SearchPage />
-          </Route>
-        </Switch>
-      </ConnectedRouter>
-    </ThemeProvider>
+    <PersistGate persistor={persistor}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <ConnectedRouter history={history}>
+          <AppDrawerManager>
+            {(isOpen: boolean, close: () => void, open: () => void): React.ReactElement => (
+              <>
+                <AppHeader openDrawer={open} />
+                <AppDrawer close={close} isOpen={isOpen} />
+              </>
+            )}
+          </AppDrawerManager>
+          <Switch>
+            <Route exact={true} path={infoLink}>
+              <StockTimeSeriesChartContainer />
+              <NewsSectionContainer />
+            </Route>
+            <Route exact={true} path={compareLink}>
+              <CompanyWatcher />
+            </Route>
+            <Route exact={true} path={['/', searchLink]}>
+              <SearchPage />
+            </Route>
+          </Switch>
+        </ConnectedRouter>
+      </ThemeProvider>
+    </PersistGate>
   </Provider>
 );
