@@ -6,14 +6,14 @@ const theme = createMuiTheme({
       paper: colors.common.white
     },
     primary: {
-      main: colors.indigo[500]
+      main: '#3f51b5'
     },
     secondary: {
-      main: colors.indigo[500]
+      main: '#3f51b5'
     },
     text: {
-      primary: colors.blueGrey[900],
-      secondary: colors.blueGrey[600]
+      primary: '#263238',
+      secondary: '#546e7a'
     }
   },
   shadows: [
@@ -70,10 +70,13 @@ const theme = createMuiTheme({
       fontSize: '1.6rem',
       letterSpacing: '-0.05px'
     },
-    h6: {
+    subtitle1: {
       fontWeight: 500,
-      fontSize: '1.4rem',
-      letterSpacing: '-0.05px'
+      fontSize: '1.4rem'
+    },
+    body1: {
+      fontWeight: 400,
+      fontSize: '1.4rem'
     },
     overline: {
       fontWeight: 500

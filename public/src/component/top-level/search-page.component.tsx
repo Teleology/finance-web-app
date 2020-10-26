@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Grid, Divider, Paper, Card, CardHeader, CardContent } from '@material-ui/core';
+import { Grid, Divider, Card, CardHeader, CardContent } from '@material-ui/core';
 import { CompanySearchContainer } from '../middle-level/company-search/company-search.component';
 import { CompanyDetailContainer } from '../middle-level/company-detail/company-detail.component';
 import { SelectionPanelContainer } from '../middle-level/selection-panel/selection-panel.component';
 import styles from './search-page.styles';
-
 const SearchPage = (): React.ReactElement => {
   const { useCardStyles } = styles;
   const cardClasses = useCardStyles();
@@ -26,9 +25,7 @@ const SearchPage = (): React.ReactElement => {
         </Card>
       </Grid>
       <Grid item={true} xs={9}>
-        <Paper>
-          <CompanyDetailContainer />
-        </Paper>
+        <CompanyDetailContainer />
       </Grid>
     </Grid>
   );
