@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { stockTimeSeriesAction } from '../../../service/stock-time-series/stock-time-series.action';
 import { RootState } from '../../../service/root-store';
 import { stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
-import { LineChart } from '../../unit/line-chart/line-chart.component';
+import { LineChart } from '../../bottom-level/line-chart/line-chart.component';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries'>(stockTimeSeriesAction, ['getTimeSeries']);
 const mapState = ({ stockTimeSeries, companyCollection }: RootState) =>

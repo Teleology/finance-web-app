@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { Business as BusinessIcon, Timeline as TimeLineIcon, Compare as CompareIcon } from '@material-ui/icons';
-import { AppLink } from '../../unit/link';
+import { AppLink } from '../../bottom-level/link';
 import { infoLink, compareLink, searchLink } from '../../../utils/network-util';
 import styles from './app-drawer.styles';
 type Props = { isOpen: boolean; close: () => void };
