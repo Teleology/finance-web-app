@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { isEmpty } from 'lodash';
+// import * as React from 'react';
+// import { isEmpty } from 'lodash';
 // eslint-disable-next-line @typescript-eslint/naming-convention
 // type ReturnedType =
 // const StatefulHoc = function <T>(test: (props: T) => boolean, LeftComponent: React.FC<T>): (BaseComponent: React.FC<T>) => React.FC<T> {
@@ -13,24 +13,24 @@ import { isEmpty } from 'lodash';
 //   return branch;
 // };
 
-const StatefulHoc = <L, P extends L>(test: (props: P) => boolean, LeftComponent: React.FC<L>) => (BaseComponent: React.FC<P>) => (
-  props: P
-): React.ReactElement => {
-  if (test(props)) {
-    return <LeftComponent {...props} />;
-  } else {
-    return <BaseComponent {...props} />;
-  }
-};
+// const StatefulHoc = <L, P extends L>(test: (props: P) => boolean, LeftComponent: React.FC<L>) => (BaseComponent: React.FC<P>) => (
+//   props: P
+// ): React.ReactElement => {
+//   if (test(props)) {
+//     return <LeftComponent {...props} />;
+//   } else {
+//     return <BaseComponent {...props} />;
+//   }
+// };
 
-const TestComponent: React.FC<{ randomProp: Array<string> }> = (props: { randomProp: Array<string> }): React.ReactElement => (
-  <div>123123123 {props.randomProp}</div>
-);
-
-StatefulHoc(
-  (props: { randomProp: Array<string> }) => isEmpty(props.randomProp),
-  () => <div>I am empty</div>
-)(TestComponent);
+// const TestComponent: React.FC<{ randomProp: Array<string> }> = (props: { randomProp: Array<string> }): React.ReactElement => (
+//   <div>123123123 {props.randomProp}</div>
+// );
+//
+// StatefulHoc(
+//   (props: { randomProp: Array<string> }) => isEmpty(props.randomProp),
+//   () => <div>I am empty</div>
+// )(TestComponent);
 
 // const ProcessComponentXXX = StatefulHoc(
 //   (props: { randomProp: Array<string> | null }): boolean => {

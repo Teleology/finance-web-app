@@ -6,14 +6,15 @@ const theme = createMuiTheme({
       paper: colors.common.white
     },
     primary: {
-      main: '#3f51b5'
+      light: '#5850EC',
+      main: '#3F51B5'
     },
     secondary: {
-      main: '#3f51b5'
+      main: '#3F51B5'
     },
     text: {
       primary: '#263238',
-      secondary: '#546e7a'
+      secondary: '#546E7A'
     }
   },
   shadows: [
@@ -76,7 +77,8 @@ const theme = createMuiTheme({
     },
     body1: {
       fontWeight: 400,
-      fontSize: '1.4rem'
+      fontSize: '1.4rem',
+      letterSpacing: '1px'
     },
     overline: {
       fontWeight: 500

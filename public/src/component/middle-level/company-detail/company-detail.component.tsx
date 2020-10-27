@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Card, CardContent, CardHeader, Divider, Grid, GridProps, Typography, TypographyProps } from '@material-ui/core';
 import { LocationOn as LocationOnIcon } from '@material-ui/icons';
 import { RootState } from '../../../service/root-store';
+import { ReadMoreTypography } from '../../bottom-level/read-more/read-more.component';
 import styles from './company-detail.styles';
 const mapState = ({ companyInfo }: RootState) =>
   ({
@@ -15,10 +16,11 @@ const textGridItemProps: GridProps = { item: true, xs: 6 };
 const textSubTitleProps: TypographyProps = { variant: 'subtitle1' };
 const textBodyProps: TypographyProps = { variant: 'body1', color: 'textSecondary' };
 
+// TODO: link for stock symbol
 const CompanyDetail = (props: Props): React.ReactElement => {
   const { useCardStyles, useCardHeaderStyles, useCardHeaderIconStyles } = styles;
   // TODO use branch
-  const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector } = props.detail!!!;
+  const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = props.detail!!!;
   return (
     <Card classes={useCardStyles()}>
       <CardHeader
@@ -68,6 +70,10 @@ const CompanyDetail = (props: Props): React.ReactElement => {
             </Grid>
           </Grid>
         </Grid>
+      </CardContent>
+      <Divider />
+      <CardContent>
+        <ReadMoreTypography>{description}</ReadMoreTypography>
       </CardContent>
     </Card>
   );
