@@ -9,6 +9,7 @@ type NewsUnit = {
 
 type CompanyDetail = {
   symbol: string;
+  sector: string;
   name: string;
   description: string;
   exchange: string;
@@ -17,10 +18,8 @@ type CompanyDetail = {
   address: string;
   fullTimeEmployees: string;
   marketCapitalization: string;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  EBITDA: string;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  PEGRatio: string;
+  ebitda: string;
+  pegRatio: string;
 };
 
 namespace CompanyInfoActionType {

@@ -22,6 +22,7 @@ const newsEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
 
 const pickedDetailField = [
   'Symbol',
+  'Sector',
   'Name',
   'Description',
   'Exchange',
