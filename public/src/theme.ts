@@ -77,11 +77,16 @@ const theme = createMuiTheme({
     },
     body1: {
       fontWeight: 400,
-      fontSize: '1.4rem',
-      letterSpacing: '1px'
+      fontSize: '1.4rem'
     },
     overline: {
       fontWeight: 500
+    }
+  },
+  props: {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    MuiTypography: {
+      variant: 'inherit'
     }
   },
   overrides: {
@@ -100,6 +105,5 @@ const theme = createMuiTheme({
   }
 });
 
-console.log(theme);
 
 export { theme };

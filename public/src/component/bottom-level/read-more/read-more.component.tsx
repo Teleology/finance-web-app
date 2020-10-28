@@ -1,19 +1,16 @@
 import * as React from 'react';
 import { IconButton, Typography, TypographyProps } from '@material-ui/core';
 import { ArrowDownward as ArrowDownwardIcon, ArrowUpward as ArrowUpwardIcon } from '@material-ui/icons';
+import { branch, renderComponent } from 'recompose';
 import styles from './read-more.styles';
-// TODO: overrride type utility
-type Props = Omit<TypographyProps, 'children'> & { children: string | number } & { delimiter?: number };
-// const ReadMoreTypography = branch<Props, Props>(
-//   ({ children }: Props) => (typeof children === 'string' || children === 'number') && (children + '').length > 500,
-//   ({ children, ...rest }: Props) => <Typography {...rest}>{children}</Typography>
-// )(Typography);
+type BaseProps = Omit<TypographyProps, 'children'> & { children: React.ReactText } & { delimiter?: number };
+type Props = TypographyProps & { delimiter?: number };
 
-// TODO: default typography
-const ReadMoreTypography: React.FC<Props> = (props: Props): React.ReactElement => {
+const defaultDelimiter = 1000;
+const ReadMoreTypographyBase: React.FC<BaseProps> = (props: BaseProps): React.ReactElement => {
   const { useIconStyles, useIconButtonStyles } = styles;
   const iconStyles = useIconStyles();
-  const { children, delimiter, ...typographyProps } = props;
+  const { children, delimiter = defaultDelimiter, ...typographyProps } = props;
   const [isFull, setIsFull] = React.useState(false);
   const toggleIsFull = React.useCallback(() => {
     setIsFull((isFull: boolean) => !isFull);
@@ -22,12 +19,15 @@ const ReadMoreTypography: React.FC<Props> = (props: Props): React.ReactElement =
     <Typography {...typographyProps}>
       {isFull ? children : children.toString().substring(0, delimiter) + '...'}
       <IconButton onClick={toggleIsFull} classes={useIconButtonStyles()}>
-        {isFull ? <ArrowUpwardIcon classes={iconStyles} /> : <ArrowDownwardIcon classes={iconStyles} />}
+        {isFull ? [' Less', <ArrowUpwardIcon classes={iconStyles} key={1} />] : [' More', <ArrowDownwardIcon classes={iconStyles} key={1} />]}
       </IconButton>
     </Typography>
   );
 };
-ReadMoreTypography.defaultProps = {
-  delimiter: 500
-};
+
+const ReadMoreTypography = branch(
+  ({ children, delimiter = defaultDelimiter }: Props) => (typeof children === 'string' || typeof children === 'number') && (children + '').length > delimiter,
+  renderComponent(ReadMoreTypographyBase)
+)(Typography);
+
 export { ReadMoreTypography };

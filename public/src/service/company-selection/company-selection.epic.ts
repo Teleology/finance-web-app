@@ -1,7 +1,7 @@
 import { Observable, EMPTY, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { combineEpics, ofType, StateObservable } from 'redux-observable';
-import { mergeMap, tap, map, catchError, concatMap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, tap, map, catchError, concatMap, withLatestFrom } from 'rxjs/operators';
 import { map as lodashMap, startCase, flow } from 'lodash/fp';
 import * as lodash from 'lodash';
 import { RootAction, RootState } from '../root-store';
@@ -24,7 +24,7 @@ const resetActionList: Array<RootAction> = [companySelectionAction.resetCountry(
 const getContinentOptionEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
     ofType(CompanySelectionActionType.GET_CONTINENT_OPTIONS),
-    mergeMap(() => ajax.getJSON(`${selectionUrl}/continents`)),
+    switchMap(() => ajax.getJSON(`${selectionUrl}/continents`)),
     tap(console.log),
     map(flow(mapToLabelUnit, companySelectionAction.setContinentOptions)),
     catchError((error) => {
@@ -36,7 +36,7 @@ const getContinentOptionEpic = (action$: Observable<RootAction>): Observable<Roo
 const setContinentSelectionEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
     ofType<RootAction, CompanySelectionActionGroup['setContinentSelection']>(CompanySelectionActionType.SET_CONTINENT_SELECTION),
-    mergeMap((action: CompanySelectionActionGroup['setContinentSelection']) => ajax.getJSON(`${selectionUrl}/countries/${action.payload.selection}`)),
+    switchMap((action: CompanySelectionActionGroup['setContinentSelection']) => ajax.getJSON(`${selectionUrl}/countries/${action.payload.selection}`)),
     tap(console.log),
     map(flow(mapToLabelUnit, companySelectionAction.setCountryOptions)),
     concatMap((action: CompanySelectionActionGroup['setCountryOptions']) => of(...resetActionList, action)),
@@ -51,7 +51,7 @@ const setCountrySelectionEpic = (action$: Observable<RootAction>): Observable<Ro
   console.log('I set country execute');
   return action$.pipe(
     ofType(CompanySelectionActionType.SET_COUNTRY_SELECTION),
-    mergeMap<CompanySelectionActionGroup['setCountrySelection'], Observable<Array<IndiceOptionContract>>>(
+    switchMap<CompanySelectionActionGroup['setCountrySelection'], Observable<Array<IndiceOptionContract>>>(
       (action: CompanySelectionActionGroup['setCountrySelection']) => ajax.getJSON(`${selectionUrl}/indices/${action.payload.selection}`)
     ),
     map(
@@ -71,7 +71,7 @@ const setCountrySelectionEpic = (action$: Observable<RootAction>): Observable<Ro
 const setIndiceSelectionEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
     ofType(CompanySelectionActionType.SET_INDICE_SELECTION),
-    mergeMap<CompanySelectionActionGroup['setIndiceSelection'], Observable<Array<CompanyOptionContract>>>(
+    switchMap<CompanySelectionActionGroup['setIndiceSelection'], Observable<Array<CompanyOptionContract>>>(
       (action: CompanySelectionActionGroup['setIndiceSelection']) => ajax.getJSON(`${selectionUrl}/companies/${action.payload.selection}`)
     ),
     map(
