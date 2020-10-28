@@ -1,6 +1,7 @@
 import { RootAction } from '../root-store';
 import { LabelText } from '../../utils/type-util';
 import { CompanySelectionActionType } from './company-selection.action';
+import { CompanyInIndice } from './company-selection-utils';
 type CompanySelectionUnit = {
   value: string;
   options: Array<LabelText<string>>;
@@ -10,7 +11,7 @@ type CompanySelectionState = {
   continent: CompanySelectionUnit;
   country: CompanySelectionUnit;
   indice: CompanySelectionUnit;
-  company: CompanySelectionUnit;
+  companies: Array<CompanyInIndice>;
 };
 
 const defaultState = {
@@ -26,10 +27,7 @@ const defaultState = {
     value: '',
     options: []
   },
-  company: {
-    value: '',
-    options: []
-  }
+  companies: []
 };
 const companySelectionReducer = (prevState: CompanySelectionState = defaultState, action: RootAction): CompanySelectionState => {
   switch (action.type) {
@@ -102,30 +100,43 @@ const companySelectionReducer = (prevState: CompanySelectionState = defaultState
       };
     }
 
-    case CompanySelectionActionType.SET_COMPANY_OPTIONS: {
-      const prevCompanyState = prevState.company;
-      const nextCompanyState: CompanySelectionUnit = { ...prevCompanyState, options: action.payload.options };
+    case CompanySelectionActionType.SET_COMPANY_IN_INDICE: {
       return {
         ...prevState,
-        company: nextCompanyState
+        companies: action.payload.companies
       };
     }
 
-    case CompanySelectionActionType.SET_COMPANY_SELECTION: {
-      const prevCompanyState = prevState.company;
-      const nextCompanyState: CompanySelectionUnit = { ...prevCompanyState, value: action.payload.selection };
+    case CompanySelectionActionType.RESET_COMPANY_IN_INDICE: {
       return {
         ...prevState,
-        company: nextCompanyState
+        companies: defaultState.companies
       };
     }
-
-    case CompanySelectionActionType.RESET_COMPANY: {
-      return {
-        ...prevState,
-        company: defaultState.company
-      };
-    }
+    // case CompanySelectionActionType.SET_COMPANY_OPTIONS: {
+    //   const prevCompanyState = prevState.company;
+    //   const nextCompanyState: CompanySelectionUnit = { ...prevCompanyState, options: action.payload.options };
+    //   return {
+    //     ...prevState,
+    //     company: nextCompanyState
+    //   };
+    // }
+    //
+    // case CompanySelectionActionType.SET_COMPANY_SELECTION: {
+    //   const prevCompanyState = prevState.company;
+    //   const nextCompanyState: CompanySelectionUnit = { ...prevCompanyState, value: action.payload.selection };
+    //   return {
+    //     ...prevState,
+    //     company: nextCompanyState
+    //   };
+    // }
+    //
+    // case CompanySelectionActionType.RESET_COMPANY: {
+    //   return {
+    //     ...prevState,
+    //     company: defaultState.company
+    //   };
+    // }
 
     default: {
       return prevState;

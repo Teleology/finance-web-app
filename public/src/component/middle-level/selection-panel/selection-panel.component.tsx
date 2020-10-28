@@ -12,7 +12,7 @@ const mapState = ({ companySelection: localState }: RootState) =>
     continent: localState.continent,
     country: localState.country,
     indice: localState.indice,
-    company: localState.company
+    companies: localState.companies
   } as const);
 
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
@@ -26,9 +26,9 @@ const SelectionPanel = (props: Props): React.ReactElement => {
     country,
     setCountrySelection,
     indice,
-    setIndiceSelection,
-    company,
-    setCompanySelection
+    setIndiceSelection
+    // company,
+    // setCompanySelection
   } = props;
   React.useEffect(() => {
     getContinentOptions();
@@ -55,12 +55,12 @@ const SelectionPanel = (props: Props): React.ReactElement => {
     [setIndiceSelection]
   );
 
-  const setSelection4 = React.useCallback(
-    (event: React.ChangeEvent<{ value: unknown }>) => {
-      setCompanySelection(event.target.value as string);
-    },
-    [setCompanySelection]
-  );
+  // const setSelection4 = React.useCallback(
+  //   (event: React.ChangeEvent<{ value: unknown }>) => {
+  //     setCompanySelection(event.target.value as string);
+  //   },
+  //   [setCompanySelection]
+  // );
 
   // TODO: repeated code
   return (
@@ -101,18 +101,18 @@ const SelectionPanel = (props: Props): React.ReactElement => {
           </Select>
         </FormControl>
       </Grid>
-      <Grid item={true}>
-        <FormControl fullWidth={true}>
-          <InputLabel>Company</InputLabel>
-          <Select value={company.value} onChange={setSelection4} displayEmpty={true}>
-            {map(company.options, (option: LabelUnit, index: number) => (
-              <MenuItem value={option.value} key={`${option.value}-${index}`}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
+      {/*<Grid item={true}>*/}
+      {/*  <FormControl fullWidth={true}>*/}
+      {/*    <InputLabel>Company</InputLabel>*/}
+      {/*    <Select value={company.value} onChange={setSelection4} displayEmpty={true}>*/}
+      {/*      {map(company.options, (option: LabelUnit, index: number) => (*/}
+      {/*        <MenuItem value={option.value} key={`${option.value}-${index}`}>*/}
+      {/*          {option.label}*/}
+      {/*        </MenuItem>*/}
+      {/*      ))}*/}
+      {/*    </Select>*/}
+      {/*  </FormControl>*/}
+      {/*</Grid>*/}
     </Grid>
   );
 };

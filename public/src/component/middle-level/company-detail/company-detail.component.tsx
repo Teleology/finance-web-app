@@ -16,7 +16,7 @@ const textGridItemProps: GridProps = { item: true, xs: 6 };
 const textSubTitleProps: TypographyProps = { variant: 'subtitle1' };
 const textBodyProps: TypographyProps = { variant: 'body1', color: 'textSecondary' };
 
-// TODO: link for stock symbol
+// TODO: link for stock symbol, $, s format for number and strings
 const CompanyDetail = (props: Props): React.ReactElement => {
   const { useCardStyles, useCardHeaderStyles, useCardHeaderIconStyles } = styles;
   // TODO use branch

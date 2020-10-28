@@ -1,5 +1,6 @@
 import { ReturnTypeOfGroup } from '../../utils/type-util';
 import { LabelUnit } from '../../utils/general-type';
+import { CompanyInIndice } from './company-selection-utils';
 
 // TODO: prefix should be const
 namespace CompanySelectionActionType {
@@ -12,9 +13,11 @@ namespace CompanySelectionActionType {
   export const SET_INDICE_OPTIONS = 'company-selection/SET_INDICE_OPTIONS';
   export const SET_INDICE_SELECTION = 'company-selection/SET_INDICE_SELECTION';
   export const RESET_INDICE = 'company-selectioin/RESET_INDICE';
-  export const SET_COMPANY_OPTIONS = 'company-selection/SET_COMPANY_OPTIONS';
-  export const SET_COMPANY_SELECTION = 'company-selection/SET_COMPANY_SELECTION';
-  export const RESET_COMPANY = 'company-selection/RESET_COMPANY';
+  export const SET_COMPANY_IN_INDICE = 'company-selectioin/SET_COMPANY_IN_INDICE';
+  export const RESET_COMPANY_IN_INDICE = 'company-selectioin/RESET_COMPANY_IN_INDICE';
+  // export const SET_COMPANY_OPTIONS = 'company-selection/SET_COMPANY_OPTIONS';
+  // export const SET_COMPANY_SELECTION = 'company-selection/SET_COMPANY_SELECTION';
+  // export const RESET_COMPANY = 'company-selection/RESET_COMPANY';
 }
 const getContinentOptions = () =>
   ({
@@ -66,22 +69,33 @@ const resetIndice = () =>
   ({
     type: CompanySelectionActionType.RESET_INDICE
   } as const);
-const setCompanyOptions = (options: Array<LabelUnit>) =>
+
+const setCompaniesInIndice = (companies: Array<CompanyInIndice>) =>
   ({
-    type: CompanySelectionActionType.SET_COMPANY_OPTIONS,
-    payload: { options }
+    type: CompanySelectionActionType.SET_COMPANY_IN_INDICE,
+    payload: { companies }
   } as const);
 
-const setCompanySelection = (selection: string) =>
+const resetCompaniesInIndice = () =>
   ({
-    type: CompanySelectionActionType.SET_COMPANY_SELECTION,
-    payload: { selection }
+    type: CompanySelectionActionType.RESET_COMPANY_IN_INDICE
   } as const);
-
-const resetCompany = () =>
-  ({
-    type: CompanySelectionActionType.RESET_COMPANY
-  } as const);
+// const setCompanyOptions = (options: Array<LabelUnit>) =>
+//   ({
+//     type: CompanySelectionActionType.SET_COMPANY_OPTIONS,
+//     payload: { options }
+//   } as const);
+//
+// const setCompanySelection = (selection: string) =>
+//   ({
+//     type: CompanySelectionActionType.SET_COMPANY_SELECTION,
+//     payload: { selection }
+//   } as const);
+//
+// const resetCompany = () =>
+//   ({
+//     type: CompanySelectionActionType.RESET_COMPANY
+//   } as const);
 
 const companySelectionAction = {
   getContinentOptions,
@@ -93,9 +107,8 @@ const companySelectionAction = {
   setIndiceOptions,
   setIndiceSelection,
   resetIndice,
-  setCompanyOptions,
-  setCompanySelection,
-  resetCompany
+  setCompaniesInIndice,
+  resetCompaniesInIndice
 };
 
 type CompanySelectionActionGroup = ReturnTypeOfGroup<typeof companySelectionAction>;
