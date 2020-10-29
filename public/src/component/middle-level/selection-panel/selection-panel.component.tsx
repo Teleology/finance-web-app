@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { FormControl, Grid, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { FormControl, Grid, InputLabel, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { map } from 'lodash';
+import { map as _map } from 'lodash';
 import { companySelectionAction } from '../../../service/company-selection/company-selection.action';
 import { RootState } from '../../../service/root-store';
 import { LabelUnit } from '../../../utils/general-type';
+import { CompanyInIndice } from '../../../service/company-selection/company-selection-utils';
+import styles from './selection-panel.styles';
 const mapDispatch = companySelectionAction;
 
 const mapState = ({ companySelection: localState }: RootState) =>
@@ -26,10 +28,11 @@ const SelectionPanel = (props: Props): React.ReactElement => {
     country,
     setCountrySelection,
     indice,
-    setIndiceSelection
-    // company,
+    setIndiceSelection,
+    companies
     // setCompanySelection
   } = props;
+  const tableContainerStyles = styles.useTableContainerStyles();
   React.useEffect(() => {
     getContinentOptions();
   }, [getContinentOptions]);
@@ -64,56 +67,82 @@ const SelectionPanel = (props: Props): React.ReactElement => {
 
   // TODO: repeated code
   return (
-    <Grid spacing={2} container={true} direction="column">
-      <Grid item={true}>
-        <FormControl fullWidth={true}>
-          <InputLabel>Continent</InputLabel>
-          <Select value={continent.value} onChange={setSelection1} displayEmpty={false}>
-            {map(continent.options, (option: LabelUnit) => (
-              <MenuItem value={option.value} key={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+    <>
+      <Grid spacing={2} container={true} direction="column">
+        <Grid item={true}>
+          <FormControl fullWidth={true}>
+            <InputLabel>Continent</InputLabel>
+            <Select value={continent.value} onChange={setSelection1} displayEmpty={false}>
+              {_map(continent.options, (option: LabelUnit) => (
+                <MenuItem value={option.value} key={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item={true}>
+          <FormControl fullWidth={true}>
+            <InputLabel>Country</InputLabel>
+            <Select value={country.value} onChange={setSelection2} displayEmpty={true}>
+              {_map(country.options, (option: LabelUnit) => (
+                <MenuItem value={option.value} key={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item={true}>
+          <FormControl fullWidth={true}>
+            <InputLabel>Indice</InputLabel>
+            <Select value={indice.value} onChange={setSelection3} displayEmpty={true}>
+              {_map(indice.options, (option: LabelUnit) => (
+                <MenuItem value={option.value} key={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        {/*<Grid item={true}>*/}
+        {/*  <FormControl fullWidth={true}>*/}
+        {/*    <InputLabel>Company</InputLabel>*/}
+        {/*    <Select value={company.value} onChange={setSelection4} displayEmpty={true}>*/}
+        {/*      {map(company.options, (option: LabelUnit, index: number) => (*/}
+        {/*        <MenuItem value={option.value} key={`${option.value}-${index}`}>*/}
+        {/*          {option.label}*/}
+        {/*        </MenuItem>*/}
+        {/*      ))}*/}
+        {/*    </Select>*/}
+        {/*  </FormControl>*/}
+        {/*</Grid>*/}
+        <Grid item={true}>
+          <TableContainer classes={tableContainerStyles}>
+            <Table stickyHeader={true}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Country</TableCell>
+                  <TableCell>Short Name</TableCell>
+                  <TableCell>Stock ID</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {_map(companies, ({ name, country, shortName, stockId }: CompanyInIndice) => (
+                  <TableRow>
+                    <TableCell>{name}</TableCell>
+                    <TableCell>{shortName}</TableCell>
+                    <TableCell>{country}</TableCell>
+                    <TableCell>{stockId}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
       </Grid>
-      <Grid item={true}>
-        <FormControl fullWidth={true}>
-          <InputLabel>Country</InputLabel>
-          <Select value={country.value} onChange={setSelection2} displayEmpty={true}>
-            {map(country.options, (option: LabelUnit) => (
-              <MenuItem value={option.value} key={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item={true}>
-        <FormControl fullWidth={true}>
-          <InputLabel>Indice</InputLabel>
-          <Select value={indice.value} onChange={setSelection3} displayEmpty={true}>
-            {map(indice.options, (option: LabelUnit) => (
-              <MenuItem value={option.value} key={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-      {/*<Grid item={true}>*/}
-      {/*  <FormControl fullWidth={true}>*/}
-      {/*    <InputLabel>Company</InputLabel>*/}
-      {/*    <Select value={company.value} onChange={setSelection4} displayEmpty={true}>*/}
-      {/*      {map(company.options, (option: LabelUnit, index: number) => (*/}
-      {/*        <MenuItem value={option.value} key={`${option.value}-${index}`}>*/}
-      {/*          {option.label}*/}
-      {/*        </MenuItem>*/}
-      {/*      ))}*/}
-      {/*    </Select>*/}
-      {/*  </FormControl>*/}
-      {/*</Grid>*/}
-    </Grid>
+    </>
   );
 };
 

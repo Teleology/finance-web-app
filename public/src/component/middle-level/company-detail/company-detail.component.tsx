@@ -2,6 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Card, CardContent, CardHeader, Divider, Grid, GridProps, Typography, TypographyProps } from '@material-ui/core';
 import { LocationOn as LocationOnIcon } from '@material-ui/icons';
+import { branch, renderComponent } from 'recompose';
+import { isEmpty as _isEmpty } from 'lodash';
 import { RootState } from '../../../service/root-store';
 import { ReadMoreTypography } from '../../bottom-level/read-more/read-more.component';
 import styles from './company-detail.styles';
@@ -17,9 +19,9 @@ const textSubTitleProps: TypographyProps = { variant: 'subtitle1' };
 const textBodyProps: TypographyProps = { variant: 'body1', color: 'textSecondary' };
 
 // TODO: link for stock symbol, $, s format for number and strings
-const CompanyDetail = (props: Props): React.ReactElement => {
+const CompanyDetailBase = (props: Props): React.ReactElement => {
   const { useCardStyles, useCardHeaderStyles, useCardHeaderIconStyles } = styles;
-  // TODO use branch
+  // TODO remove null check
   const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = props.detail!!!;
   return (
     <Card classes={useCardStyles()}>
@@ -78,6 +80,12 @@ const CompanyDetail = (props: Props): React.ReactElement => {
     </Card>
   );
 };
+
+const CompanyDetail = branch(
+  (props: Props) => _isEmpty(props.detail),
+  //TODO: empty content component
+  renderComponent(() => <span>Empty Content</span>)
+)(CompanyDetailBase);
 
 const CompanyDetailContainer = connect(mapState)(CompanyDetail);
 
