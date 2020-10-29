@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { FormControl, Grid, InputLabel, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { map as _map } from 'lodash';
+import { map as _map, pick as _pick } from 'lodash';
 import { companySelectionAction } from '../../../service/company-selection/company-selection.action';
 import { RootState } from '../../../service/root-store';
 import { LabelUnit } from '../../../utils/general-type';
 import { CompanyInIndice } from '../../../service/company-selection/company-selection-utils';
+import { sharedAction } from '../../../service/shared.action';
 import styles from './selection-panel.styles';
-const mapDispatch = companySelectionAction;
+const mapDispatch = { ...companySelectionAction, ..._pick(sharedAction, 'setCollection') };
 
 const mapState = ({ companySelection: localState }: RootState) =>
   ({
@@ -21,17 +22,7 @@ type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 
 // TODO: use virtualization for long list ?
 const SelectionPanel = (props: Props): React.ReactElement => {
-  const {
-    getContinentOptions,
-    continent,
-    setContinentSelection,
-    country,
-    setCountrySelection,
-    indice,
-    setIndiceSelection,
-    companies
-    // setCompanySelection
-  } = props;
+  const { getContinentOptions, continent, setContinentSelection, country, setCountrySelection, indice, setIndiceSelection, companies, setCollection } = props;
   const tableContainerStyles = styles.useTableContainerStyles();
   React.useEffect(() => {
     getContinentOptions();
@@ -58,6 +49,9 @@ const SelectionPanel = (props: Props): React.ReactElement => {
     [setIndiceSelection]
   );
 
+  const handleRowClick = React.useCallback(() => {
+    set;
+  });
   // const setSelection4 = React.useCallback(
   //   (event: React.ChangeEvent<{ value: unknown }>) => {
   //     setCompanySelection(event.target.value as string);
@@ -118,28 +112,40 @@ const SelectionPanel = (props: Props): React.ReactElement => {
         {/*  </FormControl>*/}
         {/*</Grid>*/}
         <Grid item={true}>
-          <TableContainer classes={tableContainerStyles}>
-            <Table stickyHeader={true}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Country</TableCell>
-                  <TableCell>Short Name</TableCell>
-                  <TableCell>Stock ID</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {_map(companies, ({ name, country, shortName, stockId }: CompanyInIndice) => (
+          <div
+            onClick={(e) => {
+              console.log(e.nativeEvent.target);
+            }}
+          >
+            <TableContainer classes={tableContainerStyles}>
+              <Table
+                stickyHeader={true}
+                onClick={(e) => {
+                  console.log(e.nativeEvent.target.closest('tr').rowIndex);
+                  console.log(e.nativeEvent.target);
+                }}
+              >
+                <TableHead>
                   <TableRow>
-                    <TableCell>{name}</TableCell>
-                    <TableCell>{shortName}</TableCell>
-                    <TableCell>{country}</TableCell>
-                    <TableCell>{stockId}</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Country</TableCell>
+                    <TableCell>Short Name</TableCell>
+                    <TableCell>Stock ID</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {_map(companies, ({ name, country, shortName, stockId }: CompanyInIndice) => (
+                    <TableRow data-info={22222} hover={true}>
+                      <TableCell>{name}</TableCell>
+                      <TableCell>{shortName}</TableCell>
+                      <TableCell>{country}</TableCell>
+                      <TableCell>{stockId}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
         </Grid>
       </Grid>
     </>
