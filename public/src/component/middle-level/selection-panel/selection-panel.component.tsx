@@ -24,6 +24,7 @@ type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 const SelectionPanel = (props: Props): React.ReactElement => {
   const { getContinentOptions, continent, setContinentSelection, country, setCountrySelection, indice, setIndiceSelection, companies, setCollection } = props;
   const tableContainerStyles = styles.useTableContainerStyles();
+  const tableRowStyles = styles.useTableRowStyles();
   React.useEffect(() => {
     getContinentOptions();
   }, [getContinentOptions]);
@@ -49,9 +50,17 @@ const SelectionPanel = (props: Props): React.ReactElement => {
     [setIndiceSelection]
   );
 
-  const handleRowClick = React.useCallback(() => {
-    set;
-  });
+  const handleTableClick = React.useCallback(
+    (e: React.MouseEvent) => {
+      const rowIndex = (e.nativeEvent.target as Element)?.closest('tr')?.rowIndex;
+      if (rowIndex == null) {
+        return;
+      }
+      const company = companies[rowIndex - 1];
+      setCollection({ value: company.shortName, label: company.name });
+    },
+    [companies, setCollection]
+  );
   // const setSelection4 = React.useCallback(
   //   (event: React.ChangeEvent<{ value: unknown }>) => {
   //     setCompanySelection(event.target.value as string);
@@ -112,40 +121,28 @@ const SelectionPanel = (props: Props): React.ReactElement => {
         {/*  </FormControl>*/}
         {/*</Grid>*/}
         <Grid item={true}>
-          <div
-            onClick={(e) => {
-              console.log(e.nativeEvent.target);
-            }}
-          >
-            <TableContainer classes={tableContainerStyles}>
-              <Table
-                stickyHeader={true}
-                onClick={(e) => {
-                  console.log(e.nativeEvent.target.closest('tr').rowIndex);
-                  console.log(e.nativeEvent.target);
-                }}
-              >
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Country</TableCell>
-                    <TableCell>Short Name</TableCell>
-                    <TableCell>Stock ID</TableCell>
+          <TableContainer classes={tableContainerStyles}>
+            <Table stickyHeader={true} onClick={handleTableClick}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Country</TableCell>
+                  <TableCell>Short Name</TableCell>
+                  <TableCell>Stock ID</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {_map(companies, ({ name, country, shortName, stockId }: CompanyInIndice) => (
+                  <TableRow data-info={22222} hover={true} classes={tableRowStyles}>
+                    <TableCell>{name}</TableCell>
+                    <TableCell>{shortName}</TableCell>
+                    <TableCell>{country}</TableCell>
+                    <TableCell>{stockId}</TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {_map(companies, ({ name, country, shortName, stockId }: CompanyInIndice) => (
-                    <TableRow data-info={22222} hover={true}>
-                      <TableCell>{name}</TableCell>
-                      <TableCell>{shortName}</TableCell>
-                      <TableCell>{country}</TableCell>
-                      <TableCell>{stockId}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Grid>
       </Grid>
     </>

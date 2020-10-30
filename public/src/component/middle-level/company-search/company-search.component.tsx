@@ -4,7 +4,7 @@ import { isEmpty, negate } from 'lodash/fp';
 import { pick } from 'lodash';
 import { filter, debounce, map, switchMap } from 'rxjs/operators';
 import { useObservable } from 'rxjs-hooks';
-import { TextField } from '@material-ui/core';
+import { Grid, Table, TableCell, TableHead, TableRow, TextField } from '@material-ui/core';
 import { ajax } from 'rxjs/ajax';
 import { stringifyUrl } from 'query-string';
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
@@ -63,18 +63,34 @@ const CompanySearch = ({ setCollection }: Props): React.ReactElement => {
   const renderInput = React.useCallback((params: AutocompleteRenderInputParams): React.ReactElement => <TextField {...params} />, []);
 
   return (
-    <Autocomplete<Company>
-      renderInput={renderInput}
-      options={options}
-      value={selection}
-      onChange={onSelectionChange}
-      inputValue={input}
-      onInputChange={onInputChange}
-      getOptionLabel={getOptionLabel}
-      getOptionSelected={getOptionSelected}
-      fullWidth={true}
-      classes={useAutoCompleteStyles()}
-    />
+    <Grid container={true} direction="column" spacing={2}>
+      <Grid item={true}>
+        <Autocomplete<Company>
+          renderInput={renderInput}
+          options={options}
+          value={selection}
+          onChange={onSelectionChange}
+          inputValue={input}
+          onInputChange={onInputChange}
+          getOptionLabel={getOptionLabel}
+          getOptionSelected={getOptionSelected}
+          fullWidth={true}
+          classes={useAutoCompleteStyles()}
+        />
+      </Grid>
+      <Grid item={true}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Region</TableCell>
+              <TableCell>Symbol</TableCell>
+              <TableCell>Type</TableCell>
+            </TableRow>
+          </TableHead>
+        </Table>
+      </Grid>
+    </Grid>
   );
 };
 

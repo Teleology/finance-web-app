@@ -1,5 +1,5 @@
 import { makeStyles, StyleRules } from '@material-ui/core/styles';
-import { TableContainerClassKey } from '@material-ui/core';
+import { TableContainerClassKey, TableRowClassKey } from '@material-ui/core';
 
 const useTableContainerStyles = makeStyles({
   root: {
@@ -7,4 +7,9 @@ const useTableContainerStyles = makeStyles({
   }
 } as StyleRules<TableContainerClassKey>);
 
-export default { useTableContainerStyles };
+const useTableRowStyles = makeStyles({
+  hover: {
+    cursor: 'pointer'
+  }
+} as StyleRules<TableRowClassKey>);
+export default { useTableContainerStyles, useTableRowStyles };
