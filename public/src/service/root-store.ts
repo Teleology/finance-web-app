@@ -13,15 +13,18 @@ import { stockTimeSeriesReducer, StockTimeSeriesState } from './stock-time-serie
 import { stockTimeSeriesEpic } from './stock-time-series/stock-time-series.epic';
 import { SharedActionUnion } from './shared.action';
 import { companyCollectionReducer, CompanyCollectionState } from './company-collection/company-collection.reducer';
-import { CompanyActionUnion } from './company-info/company-info.action';
+import { CompanyInfoActionUnion } from './company-info/company-info.action';
 import { companyInfoReducer, CompanyInfoState } from './company-info/company-info.reducer';
 import { companyInfoEpic } from './company-info/company-info.epic';
+import { CompanySearchActionUnion } from './company-search/company-search.action';
+import { companySearchReducer, CompanySearchState } from './company-search/company-search.reducer';
 
-type RootAction = CompanySelectionActionUnion | StockTimeSeriesActionUnion | CompanyActionUnion | SharedActionUnion;
+type RootAction = CompanySelectionActionUnion | StockTimeSeriesActionUnion | CompanyInfoActionUnion | CompanySearchActionUnion | SharedActionUnion;
 
 type RootState = {
   router: RouterState;
   companySelection: CompanySelectionState;
+  companySearch: CompanySearchState;
   stockTimeSeries: StockTimeSeriesState;
   companyCollection: CompanyCollectionState;
   companyInfo: CompanyInfoState;
@@ -38,6 +41,7 @@ const enhancers = composeWithDevTools({})(middlewares);
 const rootReducer = combineReducers<RootState>({
   router: connectRouter(history),
   companySelection: companySelectionReducer,
+  companySearch: companySearchReducer,
   stockTimeSeries: stockTimeSeriesReducer,
   companyCollection: companyCollectionReducer,
   companyInfo: companyInfoReducer

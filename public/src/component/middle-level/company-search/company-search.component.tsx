@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Observable } from 'rxjs';
 import { isEmpty, negate } from 'lodash/fp';
-import { pick } from 'lodash';
+import { pick as _pick, map as _map } from 'lodash';
 import { filter, debounce, map, switchMap } from 'rxjs/operators';
 import { useObservable } from 'rxjs-hooks';
-import { Grid, Table, TableCell, TableHead, TableRow, TextField } from '@material-ui/core';
+import { Grid, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@material-ui/core';
 import { ajax } from 'rxjs/ajax';
 import { stringifyUrl } from 'query-string';
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
@@ -12,6 +12,9 @@ import { connect } from 'react-redux';
 import { baseURL } from '../../../../../express-server/src/common/network-utils';
 import { sharedAction } from '../../../service/shared.action';
 import { debounceWithEnterKey } from '../../../utils/stream';
+import { companySearchAction } from '../../../service/company-search/company-search.action';
+import { RootState } from '../../../service/root-store';
+import { CompanyInSearch } from '../../../service/company-search/company-search-utils';
 import styles from './company-search.styles';
 type Company = {
   symbol: string;
@@ -25,9 +28,19 @@ type Company = {
   matchScore: string;
 };
 
-const mapDispatch = pick<typeof sharedAction, 'setCollection'>(sharedAction, ['setCollection']);
-type Props = typeof mapDispatch;
-const CompanySearch = ({ setCollection }: Props): React.ReactElement => {
+const mapDispatch = {
+  ..._pick<typeof sharedAction, 'setCollection'>(sharedAction, ['setCollection']),
+  ..._pick<typeof companySearchAction, 'setMatches'>(companySearchAction, ['setMatches'])
+};
+const mapState = ({ companySearch }: RootState) =>
+  ({
+    matchedCompanies: companySearch.matches
+  } as const);
+
+type Props = ReturnType<typeof mapState> & typeof mapDispatch;
+
+const CompanySearch = (props: Props): React.ReactElement => {
+  const { setCollection, setMatches, matchedCompanies } = props;
   const { useAutoCompleteStyles } = styles;
   const [input, setInput] = React.useState('');
   const [selection, setSelection] = React.useState<Company | null>(null);
@@ -57,6 +70,10 @@ const CompanySearch = ({ setCollection }: Props): React.ReactElement => {
     [],
     [input]
   );
+
+  React.useEffect(() => {
+    setMatches(options);
+  }, [options, setMatches]);
 
   const getOptionLabel = React.useCallback((company: Company) => company.name, []);
   const getOptionSelected = React.useCallback((option: Company, value: Company) => option.symbol === value.symbol, []);
@@ -88,11 +105,21 @@ const CompanySearch = ({ setCollection }: Props): React.ReactElement => {
               <TableCell>Type</TableCell>
             </TableRow>
           </TableHead>
+          <TableBody>
+            {_map(matchedCompanies, ({ name, region, symbol, type }: CompanyInSearch) => (
+              <TableRow hover={true}>
+                <TableCell>{name}</TableCell>
+                <TableCell>{region}</TableCell>
+                <TableCell>{symbol}</TableCell>
+                <TableCell>{type}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
       </Grid>
     </Grid>
   );
 };
 
-const CompanySearchContainer = connect(null, mapDispatch)(CompanySearch);
+const CompanySearchContainer = connect(mapState, mapDispatch)(CompanySearch);
 export { CompanySearchContainer };

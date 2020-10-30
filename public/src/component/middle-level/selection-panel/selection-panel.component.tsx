@@ -133,7 +133,7 @@ const SelectionPanel = (props: Props): React.ReactElement => {
               </TableHead>
               <TableBody>
                 {_map(companies, ({ name, country, shortName, stockId }: CompanyInIndice) => (
-                  <TableRow data-info={22222} hover={true} classes={tableRowStyles}>
+                  <TableRow hover={true} classes={tableRowStyles}>
                     <TableCell>{name}</TableCell>
                     <TableCell>{shortName}</TableCell>
                     <TableCell>{country}</TableCell>

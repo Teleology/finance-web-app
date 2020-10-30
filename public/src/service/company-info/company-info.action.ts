@@ -22,7 +22,7 @@ const companyInfoAction = {
   setDetail
 };
 
-type CompanyActionGroup = ReturnTypeOfGroup<typeof companyInfoAction>;
-type CompanyActionUnion = CompanyActionGroup[keyof CompanyActionGroup];
+type CompanyInfoActionGroup = ReturnTypeOfGroup<typeof companyInfoAction>;
+type CompanyInfoActionUnion = CompanyInfoActionGroup[keyof CompanyInfoActionGroup];
 
-export { companyInfoAction, CompanyActionGroup, CompanyInfoActionType, CompanyActionUnion };
+export { companyInfoAction, CompanyInfoActionGroup, CompanyInfoActionType, CompanyInfoActionUnion };
