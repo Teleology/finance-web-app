@@ -7,7 +7,7 @@
     "curly": "error",
     "default-case": "warn",
     "dot-notation": "error",
-    "eqeqeq": "error",
+    "eqeqeq": ["error", "always", {"null": "ignore"}],
     "import/order": "error",
     "import/no-unresolved": "error",
     "import/named": "off",
