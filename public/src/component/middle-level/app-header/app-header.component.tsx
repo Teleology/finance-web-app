@@ -10,19 +10,21 @@ type Props = {
 };
 const AppHeader = React.memo(
   (props: Props): React.ReactElement => {
-    const { useTitleStyles, usePlainStyles } = styles;
-    const { iconContainer } = usePlainStyles();
+    const titleStyles = styles.useTitleStyles(),
+      plainStyles = styles.usePlainStyles(),
+      toolbarStyles = styles.useToolBarStyles();
+    const { iconContainer } = plainStyles;
     const { openDrawer } = props;
     return (
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar classes={toolbarStyles}>
           <Box display="flex" alignItems="center" className={iconContainer}>
-            <IconButton onClick={openDrawer} color="inherit">
+            <IconButton onClick={openDrawer} color="inherit" edge="start">
               <MenuIcon fontSize="large" />
             </IconButton>
             <AppIcon />
           </Box>
-          <Typography variant="h1" classes={useTitleStyles()} align="center">
+          <Typography variant="h1" classes={titleStyles} align="center">
             Finance Web App
           </Typography>
         </Toolbar>

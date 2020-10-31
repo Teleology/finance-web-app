@@ -9,7 +9,7 @@ const SearchPage = (): React.ReactElement => {
   const cardClasses = useCardStyles();
   return (
     <Grid direction="row" container={true}>
-      <Grid item={true} xs={3}>
+      <Grid item={true} xs={4}>
         <Card classes={cardClasses}>
           <CardHeader subheader="choose a company from the below options" title="Selection" />
           <Divider />
@@ -17,14 +17,17 @@ const SearchPage = (): React.ReactElement => {
             <SelectionPanelContainer />
           </CardContent>
         </Card>
+      </Grid>
+      <Grid item={true} xs={4}>
         <Card classes={cardClasses}>
           <CardHeader subheader="type a company name in the below line" title="Search" />
+          <Divider />
           <CardContent>
             <CompanySearchContainer />
           </CardContent>
         </Card>
       </Grid>
-      <Grid item={true} xs={9}>
+      <Grid item={true} xs={4}>
         <CompanyDetailContainer />
       </Grid>
     </Grid>

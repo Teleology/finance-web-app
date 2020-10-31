@@ -41,25 +41,24 @@ type Props = ReturnType<typeof mapState> & typeof mapDispatch;
 
 const CompanySearch = (props: Props): React.ReactElement => {
   const { setCollection, setMatches, matchedCompanies } = props;
-  const autoCompleteStyles = styles.useAutoCompleteStyles(),
-    tableContainerStyles = styles.useTableContainerStyles(),
+  const tableContainerStyles = styles.useTableContainerStyles(),
     tableRowStyles = styles.useTableRowStyles();
   // TODO: persist search state
   const [input, setInput] = React.useState('');
-  const [selection, setSelection] = React.useState<Company | null>(null);
-  const onInputChange = React.useCallback(
-    (event: object, value: string) => {
-      setInput(value);
+  // const [selection, setSelection] = React.useState<Company | null>(null);
+  const onChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setInput(event.target.value);
     },
     [setInput]
   );
-  const onSelectionChange = React.useCallback(
-    (event: object, value: Company | null): void => {
-      setSelection(value);
-      value !== null && setCollection({ label: value.name, value: value.symbol });
-    },
-    [setSelection, setCollection]
-  );
+  // const onSelectionChange = React.useCallback(
+  //   (event: object, value: Company | null): void => {
+  //     setSelection(value);
+  //     value !== null && setCollection({ label: value.name, value: value.symbol });
+  //   },
+  //   [setSelection, setCollection]
+  // );
   const options = useObservable(
     (noUse: Observable<unknown>, input$: Observable<[string]>) => {
       const response$ = input$.pipe(
@@ -78,9 +77,6 @@ const CompanySearch = (props: Props): React.ReactElement => {
     setMatches(options);
   }, [options, setMatches]);
 
-  const getOptionLabel = React.useCallback((company: Company) => company.name, []);
-  const getOptionSelected = React.useCallback((option: Company, value: Company) => option.symbol === value.symbol, []);
-  const renderInput = React.useCallback((params: AutocompleteRenderInputParams): React.ReactElement => <TextField {...params} />, []);
   const handleTableClick = React.useCallback(
     (e: React.MouseEvent) => {
       const rowIndex = (e.nativeEvent.target as Element)?.closest('tr')?.rowIndex;
@@ -98,18 +94,7 @@ const CompanySearch = (props: Props): React.ReactElement => {
   return (
     <Grid container={true} direction="column" spacing={2}>
       <Grid item={true}>
-        <Autocomplete<Company>
-          renderInput={renderInput}
-          options={options}
-          value={selection}
-          onChange={onSelectionChange}
-          inputValue={input}
-          onInputChange={onInputChange}
-          getOptionLabel={getOptionLabel}
-          getOptionSelected={getOptionSelected}
-          fullWidth={true}
-          classes={autoCompleteStyles}
-        />
+        <TextField value={input} onChange={onChange} fullWidth={true} size="medium" margin="normal" />
       </Grid>
       <Grid item={true}>
         <TableContainer classes={tableContainerStyles}>
@@ -138,6 +123,8 @@ const CompanySearch = (props: Props): React.ReactElement => {
     </Grid>
   );
 };
-
+/**
+ *   const getOptionLabel = React.useCallback((company: Company) => company.name, []);
+ */
 const CompanySearchContainer = connect(mapState, mapDispatch)(CompanySearch);
 export { CompanySearchContainer };
