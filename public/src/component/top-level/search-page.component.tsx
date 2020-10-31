@@ -31,5 +31,4 @@ const SearchPage = (): React.ReactElement => {
   );
 };
 
-
 export { SearchPage };

@@ -4,7 +4,7 @@ import { isEmpty, negate } from 'lodash/fp';
 import { pick as _pick, map as _map } from 'lodash';
 import { filter, debounce, map, switchMap } from 'rxjs/operators';
 import { useObservable } from 'rxjs-hooks';
-import { Grid, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@material-ui/core';
+import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@material-ui/core';
 import { ajax } from 'rxjs/ajax';
 import { stringifyUrl } from 'query-string';
 import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
@@ -41,7 +41,10 @@ type Props = ReturnType<typeof mapState> & typeof mapDispatch;
 
 const CompanySearch = (props: Props): React.ReactElement => {
   const { setCollection, setMatches, matchedCompanies } = props;
-  const { useAutoCompleteStyles } = styles;
+  const autoCompleteStyles = styles.useAutoCompleteStyles(),
+    tableContainerStyles = styles.useTableContainerStyles(),
+    tableRowStyles = styles.useTableRowStyles();
+  // TODO: persist search state
   const [input, setInput] = React.useState('');
   const [selection, setSelection] = React.useState<Company | null>(null);
   const onInputChange = React.useCallback(
@@ -78,6 +81,19 @@ const CompanySearch = (props: Props): React.ReactElement => {
   const getOptionLabel = React.useCallback((company: Company) => company.name, []);
   const getOptionSelected = React.useCallback((option: Company, value: Company) => option.symbol === value.symbol, []);
   const renderInput = React.useCallback((params: AutocompleteRenderInputParams): React.ReactElement => <TextField {...params} />, []);
+  const handleTableClick = React.useCallback(
+    (e: React.MouseEvent) => {
+      const rowIndex = (e.nativeEvent.target as Element)?.closest('tr')?.rowIndex;
+      if (rowIndex == null) {
+        return;
+      }
+
+      // TODO: branch
+      const company = matchedCompanies!!![rowIndex - 1];
+      setCollection({ value: company.symbol, label: company.name });
+    },
+    [matchedCompanies, setCollection]
+  );
 
   return (
     <Grid container={true} direction="column" spacing={2}>
@@ -92,30 +108,32 @@ const CompanySearch = (props: Props): React.ReactElement => {
           getOptionLabel={getOptionLabel}
           getOptionSelected={getOptionSelected}
           fullWidth={true}
-          classes={useAutoCompleteStyles()}
+          classes={autoCompleteStyles}
         />
       </Grid>
       <Grid item={true}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Region</TableCell>
-              <TableCell>Symbol</TableCell>
-              <TableCell>Type</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {_map(matchedCompanies, ({ name, region, symbol, type }: CompanyInSearch) => (
-              <TableRow hover={true}>
-                <TableCell>{name}</TableCell>
-                <TableCell>{region}</TableCell>
-                <TableCell>{symbol}</TableCell>
-                <TableCell>{type}</TableCell>
+        <TableContainer classes={tableContainerStyles}>
+          <Table stickyHeader={true} onClick={handleTableClick}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Region</TableCell>
+                <TableCell>Symbol</TableCell>
+                <TableCell>Type</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {_map(matchedCompanies, ({ name, region, symbol, type }: CompanyInSearch) => (
+                <TableRow hover={true} classes={tableRowStyles}>
+                  <TableCell>{name}</TableCell>
+                  <TableCell>{region}</TableCell>
+                  <TableCell>{symbol}</TableCell>
+                  <TableCell>{type}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Grid>
     </Grid>
   );

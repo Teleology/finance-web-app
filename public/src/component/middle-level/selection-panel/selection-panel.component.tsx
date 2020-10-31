@@ -50,6 +50,7 @@ const SelectionPanel = (props: Props): React.ReactElement => {
     [setIndiceSelection]
   );
 
+  // TODO: repeated code
   const handleTableClick = React.useCallback(
     (e: React.MouseEvent) => {
       const rowIndex = (e.nativeEvent.target as Element)?.closest('tr')?.rowIndex;
@@ -61,12 +62,6 @@ const SelectionPanel = (props: Props): React.ReactElement => {
     },
     [companies, setCollection]
   );
-  // const setSelection4 = React.useCallback(
-  //   (event: React.ChangeEvent<{ value: unknown }>) => {
-  //     setCompanySelection(event.target.value as string);
-  //   },
-  //   [setCompanySelection]
-  // );
 
   // TODO: repeated code
   return (
@@ -108,18 +103,6 @@ const SelectionPanel = (props: Props): React.ReactElement => {
             </Select>
           </FormControl>
         </Grid>
-        {/*<Grid item={true}>*/}
-        {/*  <FormControl fullWidth={true}>*/}
-        {/*    <InputLabel>Company</InputLabel>*/}
-        {/*    <Select value={company.value} onChange={setSelection4} displayEmpty={true}>*/}
-        {/*      {map(company.options, (option: LabelUnit, index: number) => (*/}
-        {/*        <MenuItem value={option.value} key={`${option.value}-${index}`}>*/}
-        {/*          {option.label}*/}
-        {/*        </MenuItem>*/}
-        {/*      ))}*/}
-        {/*    </Select>*/}
-        {/*  </FormControl>*/}
-        {/*</Grid>*/}
         <Grid item={true}>
           <TableContainer classes={tableContainerStyles}>
             <Table stickyHeader={true} onClick={handleTableClick}>
@@ -152,3 +135,25 @@ const SelectionPanel = (props: Props): React.ReactElement => {
 const SelectionPanelContainer = connect(mapState, mapDispatch)(SelectionPanel);
 
 export { SelectionPanelContainer };
+/**
+ *   const setSelection4 = React.useCallback(
+ (event: React.ChangeEvent<{ value: unknown }>) => {
+      setCompanySelection(event.target.value as string);
+    },
+ [setCompanySelection]
+ );
+ */
+/*
+        <Grid item={true}>
+          <FormControl fullWidth={true}>
+            <InputLabel>Company</InputLabel>
+            <Select value={company.value} onChange={setSelection4} displayEmpty={true}>
+              {map(company.options, (option: LabelUnit, index: number) => (
+                <MenuItem value={option.value} key={`${option.value}-${index}`}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+ */
