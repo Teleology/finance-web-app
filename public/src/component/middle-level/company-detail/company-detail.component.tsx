@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Card, CardContent, CardHeader, Divider, Grid, GridProps, Typography, TypographyProps } from '@material-ui/core';
-import { LocationOn as LocationOnIcon } from '@material-ui/icons';
+import { LocationOn as LocationOnIcon, DesktopAccessDisabled as DesktopAccessDisabledIcon, Description as DescriptionIcon } from '@material-ui/icons';
 import { branch, renderComponent } from 'recompose';
 import { isEmpty as _isEmpty } from 'lodash';
 import { RootState } from '../../../service/root-store';
 import { ReadMoreTypography } from '../../bottom-level/read-more/read-more.component';
+import { EmptyContent } from '../../bottom-level/empty-content/empty-content.component';
 import styles from './company-detail.styles';
+import { emptyIconProps } from '../../common-props';
 const mapState = ({ companyInfo }: RootState) =>
   ({
     detail: companyInfo.detail
@@ -83,8 +85,7 @@ const CompanyDetailBase = (props: Props): React.ReactElement => {
 
 const CompanyDetail = branch(
   (props: Props) => _isEmpty(props.detail),
-  //TODO: empty content component
-  renderComponent(() => <span>Empty Content</span>)
+  renderComponent(() => <EmptyContent icon={<DesktopAccessDisabledIcon {...emptyIconProps} />} text="Please use search for or select a company" />)
 )(CompanyDetailBase);
 
 const CompanyDetailContainer = connect(mapState)(CompanyDetail);

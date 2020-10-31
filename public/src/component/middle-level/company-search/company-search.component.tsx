@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Observable } from 'rxjs';
 import { isEmpty, negate } from 'lodash/fp';
-import { pick as _pick, map as _map } from 'lodash';
+import { pick as _pick, map as _map, isEmpty as _isEmpty } from 'lodash';
 import { filter, debounce, map, switchMap } from 'rxjs/operators';
 import { useObservable } from 'rxjs-hooks';
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@material-ui/core';
+import { Description as DescriptionIcon } from '@material-ui/icons';
 import { ajax } from 'rxjs/ajax';
 import { stringifyUrl } from 'query-string';
-import { Autocomplete, AutocompleteRenderInputParams } from '@material-ui/lab';
 import { connect } from 'react-redux';
 import { baseURL } from '../../../../../express-server/src/common/network-utils';
 import { sharedAction } from '../../../service/shared.action';
@@ -15,6 +15,8 @@ import { debounceWithEnterKey } from '../../../utils/stream';
 import { companySearchAction } from '../../../service/company-search/company-search.action';
 import { RootState } from '../../../service/root-store';
 import { CompanyInSearch } from '../../../service/company-search/company-search-utils';
+import { EmptyContentWrapper } from '../../bottom-level/empty-content/empty-content.component';
+import { emptyIconProps } from '../../common-props';
 import styles from './company-search.styles';
 type Company = {
   symbol: string;
@@ -91,34 +93,41 @@ const CompanySearch = (props: Props): React.ReactElement => {
     [matchedCompanies, setCollection]
   );
 
+  // TODO: common empty icon styling ?
   return (
     <Grid container={true} direction="column" spacing={2}>
       <Grid item={true}>
         <TextField value={input} onChange={onChange} fullWidth={true} size="medium" margin="normal" />
       </Grid>
       <Grid item={true}>
-        <TableContainer classes={tableContainerStyles}>
-          <Table stickyHeader={true} onClick={handleTableClick}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Region</TableCell>
-                <TableCell>Symbol</TableCell>
-                <TableCell>Type</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {_map(matchedCompanies, ({ name, region, symbol, type }: CompanyInSearch) => (
-                <TableRow hover={true} classes={tableRowStyles}>
-                  <TableCell>{name}</TableCell>
-                  <TableCell>{region}</TableCell>
-                  <TableCell>{symbol}</TableCell>
-                  <TableCell>{type}</TableCell>
+        <EmptyContentWrapper
+          icon={<DescriptionIcon {...emptyIconProps} />}
+          text="Sorry, no companies found based on your current search"
+          isEmpty={_isEmpty(matchedCompanies)}
+        >
+          <TableContainer classes={tableContainerStyles}>
+            <Table stickyHeader={true} onClick={handleTableClick}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Region</TableCell>
+                  <TableCell>Symbol</TableCell>
+                  <TableCell>Type</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {_map(matchedCompanies, ({ name, region, symbol, type }: CompanyInSearch) => (
+                  <TableRow hover={true} classes={tableRowStyles}>
+                    <TableCell>{name}</TableCell>
+                    <TableCell>{region}</TableCell>
+                    <TableCell>{symbol}</TableCell>
+                    <TableCell>{type}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </EmptyContentWrapper>
       </Grid>
     </Grid>
   );
