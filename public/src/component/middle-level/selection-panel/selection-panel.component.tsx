@@ -1,5 +1,19 @@
 import * as React from 'react';
-import { FormControl, Grid, InputLabel, MenuItem, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import {
+  FormControl,
+  Grid,
+  CircularProgress,
+  InputLabel,
+  MenuItem,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  SelectProps
+} from '@material-ui/core';
 import { Description as DescriptionIcon } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import { map as _map, pick as _pick, isEmpty as _isEmpty } from 'lodash';
@@ -9,10 +23,11 @@ import { LabelUnit } from '../../../utils/general-type';
 import { CompanyInIndice } from '../../../service/company-selection/company-selection-utils';
 import { sharedAction } from '../../../service/shared.action';
 import { EmptyContentWrapper } from '../../bottom-level/empty-content/empty-content.component';
-import styles from './selection-panel.styles';
 import { emptyIconProps } from '../../common-props';
+import styles from './selection-panel.styles';
 const mapDispatch = { ...companySelectionAction, ..._pick(sharedAction, 'setCollection') };
 
+// TODO: eslint no unused imports
 const mapState = ({ companySelection: localState }: RootState) =>
   ({
     continent: localState.continent,
@@ -23,9 +38,17 @@ const mapState = ({ companySelection: localState }: RootState) =>
 
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 
+const getSelectionCommonProps = (props: Partial<SelectProps>): SelectProps => ({
+  displayEmpty: false,
+  // eslint-disable-next-line @typescript-eslint/naming-convention,react/display-name
+  IconComponent: (): React.ReactElement => <CircularProgress color="primary" size="2rem" />,
+  ...props
+});
+
 // TODO: use virtualization for long list ?
 const SelectionPanel = (props: Props): React.ReactElement => {
   const { getContinentOptions, continent, setContinentSelection, country, setCountrySelection, indice, setIndiceSelection, companies, setCollection } = props;
+  const selectionCommonProps = React.useMemo(() => getSelectionCommonProps({ classes: styles.useSelectStyles() }), []);
   const tableContainerStyles = styles.useTableContainerStyles();
   const tableRowStyles = styles.useTableRowStyles();
   React.useEffect(() => {
@@ -73,7 +96,7 @@ const SelectionPanel = (props: Props): React.ReactElement => {
         <Grid item={true}>
           <FormControl fullWidth={true}>
             <InputLabel>Continent</InputLabel>
-            <Select value={continent.value} onChange={setSelection1} displayEmpty={false}>
+            <Select value={continent.value} onChange={setSelection1} {...selectionCommonProps}>
               {_map(continent.options, (option: LabelUnit) => (
                 <MenuItem value={option.value} key={option.value}>
                   {option.label}
@@ -85,7 +108,7 @@ const SelectionPanel = (props: Props): React.ReactElement => {
         <Grid item={true}>
           <FormControl fullWidth={true}>
             <InputLabel>Country</InputLabel>
-            <Select value={country.value} onChange={setSelection2} displayEmpty={true}>
+            <Select value={country.value} onChange={setSelection2} {...selectionCommonProps}>
               {_map(country.options, (option: LabelUnit) => (
                 <MenuItem value={option.value} key={option.value}>
                   {option.label}
@@ -97,7 +120,7 @@ const SelectionPanel = (props: Props): React.ReactElement => {
         <Grid item={true}>
           <FormControl fullWidth={true}>
             <InputLabel>Indice</InputLabel>
-            <Select value={indice.value} onChange={setSelection3} displayEmpty={true}>
+            <Select value={indice.value} onChange={setSelection3} {...selectionCommonProps}>
               {_map(indice.options, (option: LabelUnit) => (
                 <MenuItem value={option.value} key={option.value}>
                   {option.label}

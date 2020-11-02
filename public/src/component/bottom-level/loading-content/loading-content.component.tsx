@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CircularProgress, Grid } from '@material-ui/core';
+import { CircularProgress, CircularProgressProps, Grid } from '@material-ui/core';
 import { branch, renderComponent } from 'recompose';
 import { get } from 'lodash/fp';
 import styles from './loading-content.styles';

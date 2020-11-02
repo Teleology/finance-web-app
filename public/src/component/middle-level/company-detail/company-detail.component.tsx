@@ -28,7 +28,7 @@ const CompanyDetailBase = (props: Props): React.ReactElement => {
   const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = props.detail!!!;
   return (
     <Card classes={useCardStyles()}>
-      <LoadingContentWrapper isLoading={true}>
+      <LoadingContentWrapper isLoading={false}>
         <CardHeader
           title={symbol}
           classes={useCardHeaderStyles()}

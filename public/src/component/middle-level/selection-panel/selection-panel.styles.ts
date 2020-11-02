@@ -1,5 +1,5 @@
 import { makeStyles, StyleRules } from '@material-ui/core/styles';
-import { TableContainerClassKey, TableRowClassKey } from '@material-ui/core';
+import { SelectClassKey, TableContainerClassKey, TableRowClassKey } from '@material-ui/core';
 
 // TODO: should be common styles ?
 const useTableContainerStyles = makeStyles({
@@ -13,4 +13,11 @@ const useTableRowStyles = makeStyles({
     cursor: 'pointer'
   }
 } as StyleRules<TableRowClassKey>);
-export default { useTableContainerStyles, useTableRowStyles };
+
+const useSelectStyles = makeStyles({
+  icon: {
+    position: 'initial'
+  }
+} as StyleRules<SelectClassKey>);
+
+export default { useTableContainerStyles, useTableRowStyles, useSelectStyles };
