@@ -7,8 +7,9 @@ import { isEmpty as _isEmpty } from 'lodash';
 import { RootState } from '../../../service/root-store';
 import { ReadMoreTypography } from '../../bottom-level/read-more/read-more.component';
 import { EmptyContent } from '../../bottom-level/empty-content/empty-content.component';
-import styles from './company-detail.styles';
 import { emptyIconProps } from '../../common-props';
+import { LoadingContentWrapper } from '../../bottom-level/loading-content/loading-content.component';
+import styles from './company-detail.styles';
 const mapState = ({ companyInfo }: RootState) =>
   ({
     detail: companyInfo.detail
@@ -27,58 +28,60 @@ const CompanyDetailBase = (props: Props): React.ReactElement => {
   const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = props.detail!!!;
   return (
     <Card classes={useCardStyles()}>
-      <CardHeader
-        title={symbol}
-        classes={useCardHeaderStyles()}
-        subheader={
-          <>
-            {name}
-            &nbsp;&nbsp;&nbsp;
-            <LocationOnIcon classes={useCardHeaderIconStyles()} />
-            {address}
-          </>
-        }
-        titleTypographyProps={{ variant: 'h3' }}
-      />
-      <Divider />
-      <CardContent>
-        <Grid container={true} spacing={2} direction="column">
-          <Grid {...textGridContainerProps}>
-            <Grid {...textGridItemProps}>
-              <Typography {...textSubTitleProps}>Stock Symbol</Typography>
-              <Typography {...textBodyProps}>{exchange + ':' + symbol}</Typography>
+      <LoadingContentWrapper isLoading={true}>
+        <CardHeader
+          title={symbol}
+          classes={useCardHeaderStyles()}
+          subheader={
+            <>
+              {name}
+              &nbsp;&nbsp;&nbsp;
+              <LocationOnIcon classes={useCardHeaderIconStyles()} />
+              {address}
+            </>
+          }
+          titleTypographyProps={{ variant: 'h3' }}
+        />
+        <Divider />
+        <CardContent>
+          <Grid container={true} spacing={2} direction="column">
+            <Grid {...textGridContainerProps}>
+              <Grid {...textGridItemProps}>
+                <Typography {...textSubTitleProps}>Stock Symbol</Typography>
+                <Typography {...textBodyProps}>{exchange + ':' + symbol}</Typography>
+              </Grid>
+              <Grid {...textGridItemProps}>
+                <Typography {...textSubTitleProps}>Industry</Typography>
+                <Typography {...textBodyProps}>{industry + ' ' + sector}</Typography>
+              </Grid>
             </Grid>
-            <Grid {...textGridItemProps}>
-              <Typography {...textSubTitleProps}>Industry</Typography>
-              <Typography {...textBodyProps}>{industry + ' ' + sector}</Typography>
+            <Grid {...textGridContainerProps}>
+              <Grid {...textGridItemProps}>
+                <Typography {...textSubTitleProps}>FullTime Employees</Typography>
+                <Typography {...textBodyProps}>{fullTimeEmployees}</Typography>
+              </Grid>
+              <Grid {...textGridItemProps}>
+                <Typography {...textSubTitleProps}>Market Cap</Typography>
+                <Typography {...textBodyProps}>{marketCapitalization}</Typography>
+              </Grid>
+            </Grid>
+            <Grid {...textGridContainerProps}>
+              <Grid {...textGridItemProps}>
+                <Typography {...textSubTitleProps}>EBITDA</Typography>
+                <Typography {...textBodyProps}>{ebitda}</Typography>
+              </Grid>
+              <Grid {...textGridItemProps}>
+                <Typography {...textSubTitleProps}>Peg Ratio</Typography>
+                <Typography {...textBodyProps}>{pegRatio}</Typography>
+              </Grid>
             </Grid>
           </Grid>
-          <Grid {...textGridContainerProps}>
-            <Grid {...textGridItemProps}>
-              <Typography {...textSubTitleProps}>FullTime Employees</Typography>
-              <Typography {...textBodyProps}>{fullTimeEmployees}</Typography>
-            </Grid>
-            <Grid {...textGridItemProps}>
-              <Typography {...textSubTitleProps}>Market Cap</Typography>
-              <Typography {...textBodyProps}>{marketCapitalization}</Typography>
-            </Grid>
-          </Grid>
-          <Grid {...textGridContainerProps}>
-            <Grid {...textGridItemProps}>
-              <Typography {...textSubTitleProps}>EBITDA</Typography>
-              <Typography {...textBodyProps}>{ebitda}</Typography>
-            </Grid>
-            <Grid {...textGridItemProps}>
-              <Typography {...textSubTitleProps}>Peg Ratio</Typography>
-              <Typography {...textBodyProps}>{pegRatio}</Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-      </CardContent>
-      <Divider />
-      <CardContent>
-        <ReadMoreTypography>{description}</ReadMoreTypography>
-      </CardContent>
+        </CardContent>
+        <Divider />
+        <CardContent>
+          <ReadMoreTypography>{description}</ReadMoreTypography>
+        </CardContent>
+      </LoadingContentWrapper>
     </Card>
   );
 };

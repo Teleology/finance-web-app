@@ -16,3 +16,5 @@ const AppAlert = (props: Props): React.ReactElement => {
     </Alert>
   );
 };
+
+export { AppAlert };
