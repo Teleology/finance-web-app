@@ -1,10 +1,13 @@
 import { RootAction } from '../root-store';
 import { LabelText } from '../../utils/type-util';
+import { FetchStatusEnum } from '../../utils/network-util';
 import { CompanySelectionActionType } from './company-selection.action';
 import { CompanyInIndice } from './company-selection-utils';
+
 type CompanySelectionUnit = {
   value: string;
   options: Array<LabelText<string>>;
+  fetchStatus: FetchStatusEnum;
 };
 
 type CompanySelectionState = {
@@ -14,27 +17,49 @@ type CompanySelectionState = {
   companies: Array<CompanyInIndice>;
 };
 
-const defaultState = {
+const defaultState: CompanySelectionState = {
   continent: {
     value: '',
-    options: []
+    options: [],
+    fetchStatus: FetchStatusEnum.NEVER
   },
   country: {
     value: '',
-    options: []
+    options: [],
+    fetchStatus: FetchStatusEnum.NEVER
   },
   indice: {
     value: '',
-    options: []
+    options: [],
+    fetchStatus: FetchStatusEnum.NEVER
   },
   companies: []
 };
 const companySelectionReducer = (prevState: CompanySelectionState = defaultState, action: RootAction): CompanySelectionState => {
   switch (action.type) {
+    case CompanySelectionActionType.GET_CONTINENT_OPTIONS: {
+      return {
+        ...prevState,
+        continent: {
+          ...prevState.continent,
+          fetchStatus: FetchStatusEnum.PENDING
+        }
+      };
+    }
+
+    case CompanySelectionActionType.GET_CONTINENT_OPTIONS_FAILURE: {
+      return {
+        ...prevState,
+        continent: {
+          ...prevState.continent,
+          fetchStatus: FetchStatusEnum.FAIL,
+        }
+      }
+    }
     case CompanySelectionActionType.SET_CONTINENT_OPTIONS: {
       const prevContinentState = prevState.continent;
       // TODO: auto choose the first one
-      const nextContinentState = { ...prevContinentState, options: action.payload.options };
+      const nextContinentState = { ...prevContinentState, fetchStatus: FetchStatusEnum.SUCCESS, options: action.payload.options };
       return {
         ...prevState,
         continent: nextContinentState

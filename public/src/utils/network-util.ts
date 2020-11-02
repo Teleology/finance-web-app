@@ -14,7 +14,7 @@ enum FetchStatusEnum {
   NEVER = 'never',
   PENDING = 'pending',
   SUCCESS = 'success',
-  FAIL = 'fail'
+  FAIL = 'failure'
 }
 
 export { baseUrl, UrlQueryTime, FetchStatusEnum, searchLink, compareLink, infoLink };

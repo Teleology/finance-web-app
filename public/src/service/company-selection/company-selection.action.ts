@@ -5,6 +5,7 @@ import { CompanyInIndice } from './company-selection-utils';
 // TODO: prefix should be const
 namespace CompanySelectionActionType {
   export const GET_CONTINENT_OPTIONS = 'company-selection/GET_CONTINENT_OPTIONS';
+  export const GET_CONTINENT_OPTIONS_FAILURE = 'company-selection/GET_CONTINENT_OPTIONS_FAILURE';
   export const SET_CONTINENT_OPTIONS = 'company-selection/SET_CONTINENT_OPTIONS';
   export const SET_CONTINENT_SELECTION = 'company-selection/SET_CONTINENT_SELECTION';
   export const SET_COUNTRY_OPTIONS = 'company-selection/SET_COUNTRY_OPTIONS';
@@ -23,6 +24,10 @@ const getContinentOptions = () =>
   ({
     type: CompanySelectionActionType.GET_CONTINENT_OPTIONS
   } as const);
+
+const getContinentOptionsFailure = () => ({
+  type: CompanySelectionActionType.GET_CONTINENT_OPTIONS_FAILURE
+} as const);
 
 const setContinentOptions = (options: Array<LabelUnit>) =>
   ({
@@ -99,6 +104,7 @@ const resetCompaniesInIndice = () =>
 
 const companySelectionAction = {
   getContinentOptions,
+  getContinentOptionsFailure,
   setContinentOptions,
   setContinentSelection,
   setCountryOptions,

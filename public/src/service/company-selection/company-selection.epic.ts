@@ -2,7 +2,7 @@ import { Observable, EMPTY, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { combineEpics, ofType } from 'redux-observable';
 import { switchMap, tap, map, catchError, concatMap } from 'rxjs/operators';
-import { map as lodashMap, startCase, flow } from 'lodash/fp';
+import { map as fpMap, startCase as fpStartCase, flow } from 'lodash/fp';
 // import * as lodash from 'lodash';
 import { RootAction } from '../root-store';
 import { LabelUnit } from '../../utils/general-type';
@@ -13,7 +13,7 @@ import { CompanyInIndice } from './company-selection-utils';
 type IndiceOptionContract = { categoryId: string; categoryName: string };
 
 const selectionUrl = `${baseUrl}/company-selection`;
-const mapToLabelUnit = lodashMap((option: string): LabelUnit => ({ value: option, label: startCase(option) }));
+const mapToLabelUnit = fpMap((option: string): LabelUnit => ({ value: option, label: fpStartCase(option) }));
 const resetActionList: Array<RootAction> = [
   companySelectionAction.resetCountry(),
   companySelectionAction.resetIndice(),
@@ -21,13 +21,12 @@ const resetActionList: Array<RootAction> = [
 ];
 const getContinentOptionEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
-    ofType(CompanySelectionActionType.GET_CONTINENT_OPTIONS),
-    switchMap(() => ajax.getJSON(`${selectionUrl}/continents`)),
-    tap(console.log),
+    ofType<RootAction, CompanySelectionActionGroup['getContinentOptions']>(CompanySelectionActionType.GET_CONTINENT_OPTIONS),
+    switchMap<CompanySelectionActionGroup['getContinentOptions'], Observable<Array<string>>>(() => ajax.getJSON(`${selectionUrl}/continents`)),
     map(flow(mapToLabelUnit, companySelectionAction.setContinentOptions)),
     catchError((error) => {
       console.log(error);
-      return EMPTY;
+      return of(companySelectionAction.getContinentOptionsFailure());
     })
   );
 
@@ -54,7 +53,7 @@ const setCountrySelectionEpic = (action$: Observable<RootAction>): Observable<Ro
     ),
     map(
       flow(
-        lodashMap((item: IndiceOptionContract) => ({ value: item.categoryId, label: item.categoryName })),
+        fpMap((item: IndiceOptionContract) => ({ value: item.categoryId, label: item.categoryName })),
         companySelectionAction.setIndiceOptions
       )
     ),
