@@ -7,8 +7,6 @@ import { map as lodashMap, startCase, flow } from 'lodash/fp';
 import { RootAction } from '../root-store';
 import { LabelUnit } from '../../utils/general-type';
 import { baseUrl } from '../../utils/network-util';
-// import { LabelText } from '../../utils/type-util';
-// import { sharedAction } from '../shared.action';
 import { companySelectionAction, CompanySelectionActionGroup, CompanySelectionActionType } from './company-selection.action';
 import { CompanyInIndice } from './company-selection-utils';
 

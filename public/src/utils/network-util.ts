@@ -9,4 +9,12 @@ enum UrlQueryTime {
   MONTHS = 'months',
   LATEST = 'latest'
 }
-export { baseUrl, UrlQueryTime, searchLink, compareLink, infoLink };
+
+enum FetchStatusEnum {
+  NEVER = 'never',
+  PENDING = 'pending',
+  SUCCESS = 'success',
+  FAIL = 'fail'
+}
+
+export { baseUrl, UrlQueryTime, FetchStatusEnum, searchLink, compareLink, infoLink };
