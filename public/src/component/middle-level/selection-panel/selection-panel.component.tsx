@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {
+  CircularProgress,
   FormControl,
   Grid,
-  CircularProgress,
   InputLabel,
   MenuItem,
   Select,
@@ -11,12 +11,11 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  SelectProps
+  TableRow
 } from '@material-ui/core';
-import { Description as DescriptionIcon } from '@material-ui/icons';
+import { ArrowDropDown as ArrowDropDownIcon, Description as DescriptionIcon, ErrorOutline as ErrorOutlineIcon } from '@material-ui/icons';
 import { connect } from 'react-redux';
-import { map as _map, pick as _pick, isEmpty as _isEmpty } from 'lodash';
+import { isEmpty as _isEmpty, map as _map, pick as _pick } from 'lodash';
 import { companySelectionAction } from '../../../service/company-selection/company-selection.action';
 import { RootState } from '../../../service/root-store';
 import { LabelUnit } from '../../../utils/general-type';
@@ -24,7 +23,9 @@ import { CompanyInIndice } from '../../../service/company-selection/company-sele
 import { sharedAction } from '../../../service/shared.action';
 import { EmptyContentWrapper } from '../../bottom-level/empty-content/empty-content.component';
 import { emptyIconProps } from '../../common-props';
+import { FetchStatusEnum } from '../../../utils/network-util';
 import styles from './selection-panel.styles';
+
 const mapDispatch = { ...companySelectionAction, ..._pick(sharedAction, 'setCollection') };
 
 // TODO: eslint no unused imports
@@ -49,7 +50,19 @@ const SelectionPanel = (props: Props): React.ReactElement => {
     getContinentOptions();
   }, [getContinentOptions]);
 
-  const SelectionIcon = React.useCallback((): React.ReactElement => <CircularProgress color="primary" size="2rem" />, []);
+  const getSelectionIcon = React.useCallback((fetchStatus: FetchStatusEnum): React.ElementType => {
+    if (fetchStatus === FetchStatusEnum.SUCCESS) {
+      return ArrowDropDownIcon;
+    } else if (fetchStatus === FetchStatusEnum.FAIL) {
+      return ErrorOutlineIcon;
+    } else if (fetchStatus === FetchStatusEnum.PENDING) {
+      // eslint-disable-next-line react/display-name
+      return (): React.ReactElement => <CircularProgress color="primary" size="2rem" />;
+    } else {
+      // eslint-disable-next-line react/display-name
+      return (): React.ReactElement => <></>;
+    }
+  }, []);
   const setSelection1 = React.useCallback(
     (event: React.ChangeEvent<{ value: unknown }>) => {
       setContinentSelection(event.target.value as string);
@@ -91,7 +104,13 @@ const SelectionPanel = (props: Props): React.ReactElement => {
         <Grid item={true}>
           <FormControl fullWidth={true}>
             <InputLabel>Continent</InputLabel>
-            <Select value={continent.value} onChange={setSelection1} displayEmpty={false} classes={selectionStyles} IconComponent={SelectionIcon}>
+            <Select
+              value={continent.value}
+              onChange={setSelection1}
+              displayEmpty={false}
+              classes={selectionStyles}
+              IconComponent={getSelectionIcon(continent.fetchStatus)}
+            >
               {_map(continent.options, (option: LabelUnit) => (
                 <MenuItem value={option.value} key={option.value}>
                   {option.label}
@@ -103,7 +122,13 @@ const SelectionPanel = (props: Props): React.ReactElement => {
         <Grid item={true}>
           <FormControl fullWidth={true}>
             <InputLabel>Country</InputLabel>
-            <Select value={country.value} onChange={setSelection2} displayEmpty={false} classes={selectionStyles} IconComponent={SelectionIcon}>
+            <Select
+              value={country.value}
+              onChange={setSelection2}
+              displayEmpty={false}
+              classes={selectionStyles}
+              IconComponent={getSelectionIcon(country.fetchStatus)}
+            >
               {_map(country.options, (option: LabelUnit) => (
                 <MenuItem value={option.value} key={option.value}>
                   {option.label}
@@ -115,7 +140,13 @@ const SelectionPanel = (props: Props): React.ReactElement => {
         <Grid item={true}>
           <FormControl fullWidth={true}>
             <InputLabel>Indice</InputLabel>
-            <Select value={indice.value} onChange={setSelection3} displayEmpty={false} classes={selectionStyles} IconComponent={SelectionIcon}>
+            <Select
+              value={indice.value}
+              onChange={setSelection3}
+              displayEmpty={false}
+              classes={selectionStyles}
+              IconComponent={getSelectionIcon(indice.fetchStatus)}
+            >
               {_map(indice.options, (option: LabelUnit) => (
                 <MenuItem value={option.value} key={option.value}>
                   {option.label}

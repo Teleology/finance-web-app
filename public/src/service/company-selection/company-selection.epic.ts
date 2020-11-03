@@ -1,7 +1,7 @@
-import { Observable, EMPTY, of } from 'rxjs';
+import { Observable, EMPTY, of, throwError } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { combineEpics, ofType } from 'redux-observable';
-import { switchMap, tap, map, catchError, concatMap } from 'rxjs/operators';
+import { switchMap, map, catchError, concatMap } from 'rxjs/operators';
 import { map as fpMap, startCase as fpStartCase, flow } from 'lodash/fp';
 // import * as lodash from 'lodash';
 import { RootAction } from '../root-store';
@@ -33,19 +33,26 @@ const getContinentOptionEpic = (action$: Observable<RootAction>): Observable<Roo
 const setContinentSelectionEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
     ofType<RootAction, CompanySelectionActionGroup['setContinentSelection']>(CompanySelectionActionType.SET_CONTINENT_SELECTION),
-    switchMap((action: CompanySelectionActionGroup['setContinentSelection']) => ajax.getJSON(`${selectionUrl}/countries/${action.payload.selection}`)),
-    tap(console.log),
-    map(flow(mapToLabelUnit, companySelectionAction.setCountryOptions)),
-    concatMap((action: CompanySelectionActionGroup['setCountryOptions']) => of(...resetActionList, action)),
-    tap(console.log),
+    switchMap<CompanySelectionActionGroup['setContinentSelection'], Observable<Array<string>>>((action: CompanySelectionActionGroup['setContinentSelection']) =>
+      ajax.getJSON(`${selectionUrl}/countries/${action.payload.selection}`)
+    ),
     catchError((error) => {
       console.log(error);
-      return EMPTY;
+      return throwError({ error, action: companySelectionAction.getCountryOptionsFailure() });
+    }),
+    map(flow(mapToLabelUnit, companySelectionAction.setCountryOptions)),
+    concatMap((action: CompanySelectionActionGroup['setCountryOptions']) => of(...resetActionList, action)),
+    catchError((error) => {
+      console.log(error);
+      if (error.action != null) {
+        return of(error.action);
+      } else {
+        return EMPTY;
+      }
     })
   );
 
 const setCountrySelectionEpic = (action$: Observable<RootAction>): Observable<RootAction> => {
-  console.log('I set country execute');
   return action$.pipe(
     ofType(CompanySelectionActionType.SET_COUNTRY_SELECTION),
     switchMap<CompanySelectionActionGroup['setCountrySelection'], Observable<Array<IndiceOptionContract>>>(
@@ -60,7 +67,7 @@ const setCountrySelectionEpic = (action$: Observable<RootAction>): Observable<Ro
     concatMap((action: CompanySelectionActionGroup['setIndiceOptions']) => of(...resetActionList.slice(1), action)),
     catchError((error) => {
       console.log(error);
-      return EMPTY;
+      return of(companySelectionAction.getIndiceOptionsFailure());
     })
   );
 };
@@ -75,7 +82,7 @@ const setIndiceSelectionEpic = (action$: Observable<RootAction>): Observable<Roo
     concatMap((action: CompanySelectionActionGroup['setCompaniesInIndice']) => of(...resetActionList.slice(2), action)),
     catchError((error) => {
       console.log(error);
-      return EMPTY;
+      return of(companySelectionAction.getCompaniesInIndiceFailure());
     })
   );
 

@@ -8,12 +8,15 @@ namespace CompanySelectionActionType {
   export const GET_CONTINENT_OPTIONS_FAILURE = 'company-selection/GET_CONTINENT_OPTIONS_FAILURE';
   export const SET_CONTINENT_OPTIONS = 'company-selection/SET_CONTINENT_OPTIONS';
   export const SET_CONTINENT_SELECTION = 'company-selection/SET_CONTINENT_SELECTION';
+  export const GET_COUNTRY_OPTIONS_FAILURE = 'company-selection/GET_COUNTRY_OPTIONS_FAILURE';
   export const SET_COUNTRY_OPTIONS = 'company-selection/SET_COUNTRY_OPTIONS';
   export const SET_COUNTRY_SELECTION = 'company-selection/SET_COUNTRY_SELECTION';
   export const RESET_COUNTRY = 'company-selection/RESET_COUNTRY';
+  export const GET_INDICE_OPTIONS_FAILURE = 'company-selection/ GET_INDICE_OPTIONS_FAILURE';
   export const SET_INDICE_OPTIONS = 'company-selection/SET_INDICE_OPTIONS';
   export const SET_INDICE_SELECTION = 'company-selection/SET_INDICE_SELECTION';
   export const RESET_INDICE = 'company-selectioin/RESET_INDICE';
+  export const GET_COMPANY_IN_INDICE_FAILURE = 'company-selectioin/GET_COMPANY_IN_INDICE_FAILURE';
   export const SET_COMPANY_IN_INDICE = 'company-selectioin/SET_COMPANY_IN_INDICE';
   export const RESET_COMPANY_IN_INDICE = 'company-selectioin/RESET_COMPANY_IN_INDICE';
   // export const SET_COMPANY_OPTIONS = 'company-selection/SET_COMPANY_OPTIONS';
@@ -25,9 +28,10 @@ const getContinentOptions = () =>
     type: CompanySelectionActionType.GET_CONTINENT_OPTIONS
   } as const);
 
-const getContinentOptionsFailure = () => ({
-  type: CompanySelectionActionType.GET_CONTINENT_OPTIONS_FAILURE
-} as const);
+const getContinentOptionsFailure = () =>
+  ({
+    type: CompanySelectionActionType.GET_CONTINENT_OPTIONS_FAILURE
+  } as const);
 
 const setContinentOptions = (options: Array<LabelUnit>) =>
   ({
@@ -39,6 +43,11 @@ const setContinentSelection = (selection: string) =>
   ({
     type: CompanySelectionActionType.SET_CONTINENT_SELECTION,
     payload: { selection }
+  } as const);
+
+const getCountryOptionsFailure = () =>
+  ({
+    type: CompanySelectionActionType.GET_COUNTRY_OPTIONS_FAILURE
   } as const);
 
 const setCountryOptions = (options: Array<LabelUnit>) =>
@@ -64,6 +73,11 @@ const setIndiceOptions = (options: Array<LabelUnit>) =>
     payload: { options }
   } as const);
 
+const getIndiceOptionsFailure = () =>
+  ({
+    type: CompanySelectionActionType.GET_INDICE_OPTIONS_FAILURE
+  } as const);
+
 const setIndiceSelection = (selection: string) =>
   ({
     type: CompanySelectionActionType.SET_INDICE_SELECTION,
@@ -74,6 +88,10 @@ const resetIndice = () =>
   ({
     type: CompanySelectionActionType.RESET_INDICE
   } as const);
+
+const getCompaniesInIndiceFailure = () => ({
+  type: CompanySelectionActionType.GET_COMPANY_IN_INDICE_FAILURE
+} as const);
 
 const setCompaniesInIndice = (companies: Array<CompanyInIndice>) =>
   ({
@@ -107,12 +125,15 @@ const companySelectionAction = {
   getContinentOptionsFailure,
   setContinentOptions,
   setContinentSelection,
+  getCountryOptionsFailure,
   setCountryOptions,
   setCountrySelection,
   resetCountry,
+  getIndiceOptionsFailure,
   setIndiceOptions,
   setIndiceSelection,
   resetIndice,
+  getCompaniesInIndiceFailure,
   setCompaniesInIndice,
   resetCompaniesInIndice
 };

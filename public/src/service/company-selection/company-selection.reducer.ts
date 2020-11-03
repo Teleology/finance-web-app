@@ -52,9 +52,9 @@ const companySelectionReducer = (prevState: CompanySelectionState = defaultState
         ...prevState,
         continent: {
           ...prevState.continent,
-          fetchStatus: FetchStatusEnum.FAIL,
+          fetchStatus: FetchStatusEnum.FAIL
         }
-      }
+      };
     }
     case CompanySelectionActionType.SET_CONTINENT_OPTIONS: {
       const prevContinentState = prevState.continent;
@@ -71,13 +71,27 @@ const companySelectionReducer = (prevState: CompanySelectionState = defaultState
       const nextContinentState = { ...prevContinentState, value: action.payload.selection };
       return {
         ...prevState,
-        continent: nextContinentState
+        continent: nextContinentState,
+        country: {
+          ...prevState.country,
+          fetchStatus: FetchStatusEnum.PENDING
+        }
+      };
+    }
+
+    case CompanySelectionActionType.GET_COUNTRY_OPTIONS_FAILURE: {
+      return {
+        ...prevState,
+        country: {
+          ...prevState.country,
+          fetchStatus: FetchStatusEnum.FAIL
+        }
       };
     }
 
     case CompanySelectionActionType.SET_COUNTRY_OPTIONS: {
       const prevCountryState = prevState.country;
-      const nextCountryState = { ...prevCountryState, options: action.payload.options };
+      const nextCountryState = { ...prevCountryState, options: action.payload.options, fetchStatus: FetchStatusEnum.SUCCESS };
       return {
         ...prevState,
         country: nextCountryState
@@ -89,7 +103,11 @@ const companySelectionReducer = (prevState: CompanySelectionState = defaultState
       const nextCountryState: CompanySelectionUnit = { ...prevCountryState, value: action.payload.selection };
       return {
         ...prevState,
-        country: nextCountryState
+        country: nextCountryState,
+        indice: {
+          ...prevState.indice,
+          fetchStatus: FetchStatusEnum.PENDING
+        }
       };
     }
 
@@ -100,9 +118,19 @@ const companySelectionReducer = (prevState: CompanySelectionState = defaultState
       };
     }
 
+    case CompanySelectionActionType.GET_INDICE_OPTIONS_FAILURE: {
+      return {
+        ...prevState,
+        indice: {
+          ...prevState.indice,
+          fetchStatus: FetchStatusEnum.FAIL
+        }
+      };
+    }
+
     case CompanySelectionActionType.SET_INDICE_OPTIONS: {
       const prevIndiceState = prevState.indice;
-      const nextIndiceState = { ...prevIndiceState, options: action.payload.options };
+      const nextIndiceState = { ...prevIndiceState, options: action.payload.options, fetchStatus: FetchStatusEnum.SUCCESS };
       return {
         ...prevState,
         indice: nextIndiceState
@@ -124,6 +152,16 @@ const companySelectionReducer = (prevState: CompanySelectionState = defaultState
         indice: defaultState.indice
       };
     }
+
+    // case CompanySelectionActionType.GET_COMPANY_IN_INDICE_FAILURE: {
+    //   return {
+    //     ...prevState,
+    //     companies: {
+    //       ...prevState.companies,
+    //
+    //     }
+    //   }
+    // }
 
     case CompanySelectionActionType.SET_COMPANY_IN_INDICE: {
       return {
