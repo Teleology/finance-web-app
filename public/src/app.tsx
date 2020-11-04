@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
-import {  } from 'react-linkify'
+import {} from 'react-linkify';
 import { Link } from 'react-router-dom';
 // @ts-ignore
 import * as urlRegex from 'url-regex-safe';
@@ -58,11 +58,41 @@ console.log(mathesArray4);
 // const re = /see (chapter \d+(\.\d)*)/i;
 // const found = str.match(re);
 // console.log(found);
+
+const calculateArea = (point: Coordinate, container: ISize, padding: number): string => {
+  const { left, top } = point;
+  const { width, height } = container;
+  if (left < padding && top < padding) {
+    return 'leftTop';
+  } else if (left < padding && top > height - padding) {
+    return 'leftBottom';
+  } else if (left > width - padding && top > height - padding) {
+    return 'rightBottom';
+  } else if (left > width - padding && top < padding) {
+    return 'rightTop';
+  } else if (left <= padding) {
+    return 'left';
+  } else if (top >= height - padding) {
+    return 'bottom';
+  } else if (left >= width - padding) {
+    return 'right';
+  } else if (top <= padding) {
+    return 'top';
+  } else {
+    return 'center';
+  }
+};
 const a = (): React.ReactElement => (
-  <h1>
+  <div
+    style={{ width: 500, height: 500, background: 'blue' }}
+    onMouseMove={(e: React.MouseEvent) => {
+      const result = calculateArea({ left: e.nativeEvent.offsetX, top: e.nativeEvent.offsetY }, { width: 500, height: 500 }, 10);
+      console.log(result);
+    }}
+  >
     React App
     <Link to={'/b'}>To B</Link>
-  </h1>
+  </div>
 );
 const b = (): React.ReactElement => (
   <h1>
