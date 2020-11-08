@@ -3,9 +3,9 @@ import { Button } from '@material-ui/core';
 import { ModalActionsPropsGroup } from '../../../../service/shared-service/modal/modal-utils';
 
 const AlertActionPanel = (props: ModalActionsPropsGroup['alert']): React.ReactElement => {
-  const { confirmText, confirmHandler } = props;
+  const { confirmText, handleConfirm } = props;
   return (
-    <Button onClick={confirmHandler} color="primary">
+    <Button onClick={handleConfirm} color="primary">
       {confirmText}
     </Button>
   );

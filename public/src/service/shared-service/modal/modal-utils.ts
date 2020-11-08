@@ -1,25 +1,32 @@
 import * as React from 'react';
-import { DialogProps } from '@material-ui/core';
 
-type ModalWrapperProps = DialogProps;
+type ModalWrapperProps = {
+  title: string;
+  content: string;
+  handleClose?: React.MouseEventHandler;
+};
+
+enum ModalType {
+  ALERT = 'alert',
+  CONFIRM = 'confirm'
+}
 
 type AlertAction = {
   confirmText: string;
-  confirmHandler: React.MouseEventHandler;
+  handleConfirm: React.MouseEventHandler;
 };
 type ConfirmAction = {
   confirmText: string;
-  confirmHandler: React.MouseEventHandler;
+  handlerConfirm: React.MouseEventHandler;
   closeText: string;
   closeHandler: React.MouseEventHandler;
 };
 type ModalActionsPropsGroup = {
-  alert: AlertAction;
-  confirm: ConfirmAction;
+  [ModalType.ALERT]: AlertAction;
+  [ModalType.CONFIRM]: ConfirmAction;
 };
 
 type ModalPropsGroup = { [key in keyof ModalActionsPropsGroup]: ModalActionsPropsGroup[key] & ModalWrapperProps & { modalType: key } };
+type ModalPropsUnion = ModalPropsGroup[keyof ModalPropsGroup];
 
-type ModalType = keyof ModalPropsGroup;
-
-export { ModalType, ModalActionsPropsGroup, ModalPropsGroup, ModalWrapperProps };
+export { ModalType, ModalActionsPropsGroup, ModalPropsGroup, ModalPropsUnion, ModalWrapperProps };
