@@ -1,4 +1,4 @@
-import { LabelText, ReturnTypeOfGroup } from '../utils/type-util';
+import { LabelText, ReturnTypeOfGroup } from '../../utils/type-util';
 
 namespace SharedActionType {
   export const COLLECT_COMPANY = 'shared/COLLECT_COMPANY';

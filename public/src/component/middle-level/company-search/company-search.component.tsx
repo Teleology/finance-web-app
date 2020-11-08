@@ -10,7 +10,7 @@ import { ajax } from 'rxjs/ajax';
 import { stringifyUrl } from 'query-string';
 import { connect } from 'react-redux';
 import { baseURL } from '../../../../../express-server/src/common/network-utils';
-import { sharedAction } from '../../../service/shared.action';
+import { sharedAction } from '../../../service/shared-service/shared.action';
 import { debounceWithEnterKey } from '../../../utils/stream';
 import { companySearchAction } from '../../../service/company-search/company-search.action';
 import { RootState } from '../../../service/root-store';

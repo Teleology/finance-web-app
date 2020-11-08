@@ -20,7 +20,7 @@ import { companySelectionAction } from '../../../service/company-selection/compa
 import { RootState } from '../../../service/root-store';
 import { LabelUnit } from '../../../utils/general-type';
 import { CompanyInIndice } from '../../../service/company-selection/company-selection-utils';
-import { sharedAction } from '../../../service/shared.action';
+import { sharedAction } from '../../../service/shared-service/shared.action';
 import { EmptyContentWrapper } from '../../bottom-level/empty-content/empty-content.component';
 import { emptyIconProps } from '../../common-props';
 import { FetchStatusEnum } from '../../../utils/network-util';
@@ -162,8 +162,8 @@ const SelectionPanel = (props: Props): React.ReactElement => {
                 <TableHead>
                   <TableRow>
                     <TableCell>Name</TableCell>
-                    <TableCell>Country</TableCell>
                     <TableCell>Short Name</TableCell>
+                    <TableCell>Country</TableCell>
                     <TableCell>Stock ID</TableCell>
                   </TableRow>
                 </TableHead>

@@ -11,15 +11,23 @@ import { companySelectionReducer, CompanySelectionState } from './company-select
 import { StockTimeSeriesActionUnion } from './stock-time-series/stock-time-series.action';
 import { stockTimeSeriesReducer, StockTimeSeriesState } from './stock-time-series/stock-time-series.reducer';
 import { stockTimeSeriesEpic } from './stock-time-series/stock-time-series.epic';
-import { SharedActionUnion } from './shared.action';
+import { SharedActionUnion } from './shared-service/shared.action';
 import { companyCollectionReducer, CompanyCollectionState } from './company-collection/company-collection.reducer';
 import { CompanyInfoActionUnion } from './company-info/company-info.action';
 import { companyInfoReducer, CompanyInfoState } from './company-info/company-info.reducer';
 import { companyInfoEpic } from './company-info/company-info.epic';
 import { CompanySearchActionUnion } from './company-search/company-search.action';
 import { companySearchReducer, CompanySearchState } from './company-search/company-search.reducer';
+import { modalReducer, ModalState } from './modal/modal.reducer';
+import { ModalActionUnion } from './shared-service/modal.action';
 
-type RootAction = CompanySelectionActionUnion | StockTimeSeriesActionUnion | CompanyInfoActionUnion | CompanySearchActionUnion | SharedActionUnion;
+type RootAction =
+  | CompanySelectionActionUnion
+  | StockTimeSeriesActionUnion
+  | CompanyInfoActionUnion
+  | CompanySearchActionUnion
+  | ModalActionUnion
+  | SharedActionUnion;
 
 type RootState = {
   router: RouterState;
@@ -28,6 +36,7 @@ type RootState = {
   stockTimeSeries: StockTimeSeriesState;
   companyCollection: CompanyCollectionState;
   companyInfo: CompanyInfoState;
+  modal: ModalState;
 };
 
 // middlewares
@@ -44,7 +53,8 @@ const rootReducer = combineReducers<RootState>({
   companySearch: companySearchReducer,
   stockTimeSeries: stockTimeSeriesReducer,
   companyCollection: companyCollectionReducer,
-  companyInfo: companyInfoReducer
+  companyInfo: companyInfoReducer,
+  modal: modalReducer
 });
 
 const persistRootReducer = persistReducer(

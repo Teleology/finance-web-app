@@ -1,6 +1,6 @@
 import { LabelText, Nullable } from '../../utils/type-util';
 import { RootAction } from '../root-store';
-import { SharedActionType } from '../shared.action';
+import { SharedActionType } from '../shared-service/shared.action';
 
 type CompanyCollectionState = {
   collection: Nullable<LabelText<string>>;
