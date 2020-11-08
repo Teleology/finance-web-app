@@ -1,6 +1,6 @@
-import { RootAction } from '../root-store';
+import { RootAction } from '../../root-store';
 import { ModalPropsGroup } from './modal-utils';
-import { ModalActionType } from '../shared-service/modal.action';
+import { ModalActionType } from './modal.action';
 
 type ModalState = ModalPropsGroup[keyof ModalPropsGroup] | null;
 

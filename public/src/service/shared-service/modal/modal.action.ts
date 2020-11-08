@@ -1,5 +1,5 @@
-import { ReturnTypeOfGroup } from '../../utils/type-util';
-import { ModalPropsGroup, ModalType } from '../modal/modal-utils';
+import { ReturnTypeOfGroup } from '../../../utils/type-util';
+import { ModalPropsGroup, ModalType } from './modal-utils';
 
 namespace ModalActionType {
   export const OPEN = 'modal/OPEN';

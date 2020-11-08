@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
-import { ModalActionsPropsGroup } from '../../../service/modal/modal-utils';
+import { ModalActionsPropsGroup } from '../../../service/shared-service/modal/modal-utils';
 import { ConfirmActionPanel } from './confirmation-modal/confirmation-action-panel.component';
 import { AlertActionPanel } from './alert-modal/alert-action-panel.component';
 

@@ -18,8 +18,8 @@ import { companyInfoReducer, CompanyInfoState } from './company-info/company-inf
 import { companyInfoEpic } from './company-info/company-info.epic';
 import { CompanySearchActionUnion } from './company-search/company-search.action';
 import { companySearchReducer, CompanySearchState } from './company-search/company-search.reducer';
-import { modalReducer, ModalState } from './modal/modal.reducer';
-import { ModalActionUnion } from './shared-service/modal.action';
+import { modalReducer, ModalState } from './shared-service/modal/modal.reducer';
+import { ModalActionUnion } from './shared-service/modal/modal.action';
 
 type RootAction =
   | CompanySelectionActionUnion
