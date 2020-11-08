@@ -17,7 +17,7 @@ type AlertAction = {
 };
 type ConfirmAction = {
   confirmText: string;
-  handlerConfirm: React.MouseEventHandler;
+  handleConfirm: React.MouseEventHandler;
   closeText: string;
   closeHandler: React.MouseEventHandler;
 };
