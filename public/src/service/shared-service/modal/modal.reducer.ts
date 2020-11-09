@@ -1,8 +1,8 @@
 import { RootAction } from '../../root-store';
-import { ModalPropsGroup } from './modal-utils';
+import { ModalActionPayloadGroup } from './modal-utils';
 import { ModalActionType } from './modal.action';
 
-type ModalState = ModalPropsGroup[keyof ModalPropsGroup] | null;
+type ModalState = ModalActionPayloadGroup[keyof ModalActionPayloadGroup] | null;
 
 const modalReducer = (prevState: ModalState = null, action: RootAction): ModalState => {
   switch (action.type) {

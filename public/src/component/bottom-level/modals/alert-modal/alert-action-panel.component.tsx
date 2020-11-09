@@ -1,13 +1,18 @@
 import * as React from 'react';
 import { Button } from '@material-ui/core';
-import { Dispatch } from 'redux';
-import { ModalActionsPropsGroup } from '../../../../service/shared-service/modal/modal-utils';
-import { RootAction } from '../../../../service/root-store';
+import { ModalActionComponentPropsGroup } from '../../../../service/shared-service/modal/modal-utils';
+import { modalAction } from '../../../../service/shared-service/modal/modal.action';
 
-const AlertActionPanel = (props: ModalActionsPropsGroup['alert'] & { dispatch: Dispatch<RootAction> }): React.ReactElement => {
-  const { confirmText } = props;
+const AlertActionPanel = (props: ModalActionComponentPropsGroup['alert']): React.ReactElement => {
+  const { confirmText, dispatch, confirmAction } = props;
+  const handleClose = React.useCallback(() => {
+    dispatch(modalAction.closeModal());
+    if (confirmAction !== undefined) {
+      dispatch(confirmAction);
+    }
+  }, [dispatch, confirmAction]);
   return (
-    <Button onClick={console.log} color="primary">
+    <Button onClick={handleClose} color="primary">
       {confirmText}
     </Button>
   );

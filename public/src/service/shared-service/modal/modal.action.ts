@@ -1,12 +1,12 @@
 import { ReturnTypeOfGroup } from '../../../utils/type-util';
-import { ModalPropsUnion } from './modal-utils';
+import { ModalActionPayloadGroup } from './modal-utils';
 
 namespace ModalActionType {
   export const OPEN = 'modal/OPEN';
   export const CLOSE = 'modal/CLOSE';
 }
 
-const openModal = (modalProps: ModalPropsUnion) =>
+const openModal = (modalProps: ModalActionPayloadGroup[keyof ModalActionPayloadGroup]) =>
   ({
     type: ModalActionType.OPEN,
     payload: modalProps

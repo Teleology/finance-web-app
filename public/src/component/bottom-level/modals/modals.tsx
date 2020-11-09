@@ -2,26 +2,23 @@ import * as React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { ModalActionsPropsGroup, ModalType } from '../../../service/shared-service/modal/modal-utils';
+import { ModalActionComponentPropsGroup, ModalPropsGroup, ModalType } from '../../../service/shared-service/modal/modal-utils';
 import { RootAction, RootState } from '../../../service/root-store';
 import { ModalState } from '../../../service/shared-service/modal/modal.reducer';
+import { modalAction } from '../../../service/shared-service/modal/modal.action';
 import { ConfirmActionPanel } from './confirmation-modal/confirmation-action-panel.component';
 import { AlertActionPanel } from './alert-modal/alert-action-panel.component';
-type DialogProps = {
-  title: string;
-  content: string;
-  handleClose: React.MouseEventHandler;
-};
 
-const createModal = <T extends keyof ModalActionsPropsGroup>(
-  ActionComponent: React.FC<ModalActionsPropsGroup[T] & { dispatch: Dispatch<RootAction> }>
-): React.FC<DialogProps & ModalActionsPropsGroup[T] & { dispatch: Dispatch<RootAction> }> => {
+const createModal = <T extends keyof ModalPropsGroup>(ActionComponent: React.FC<ModalActionComponentPropsGroup[T]>): React.FC<ModalPropsGroup[T]> => {
   console.log(123);
   // eslint-disable-next-line react/display-name
-  return (props: DialogProps & ModalActionsPropsGroup[T] & { dispatch: Dispatch<RootAction> }): React.ReactElement => {
-    const { title, content, handleClose, ...rest } = props;
+  return (props: ModalPropsGroup[T]): React.ReactElement => {
+    const { title, content, dispatch, ...rest } = props;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const actionComponentProps = rest as any;
+    const actionComponentProps = { ...rest, dispatch } as any;
+    const handleClose = React.useCallback(() => {
+      dispatch(modalAction.closeModal());
+    }, [dispatch]);
     return (
       <Dialog open={true} onClose={handleClose}>
         <DialogTitle>{title}</DialogTitle>

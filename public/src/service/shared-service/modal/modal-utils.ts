@@ -1,38 +1,39 @@
 import { Dispatch } from 'redux';
 import { RootAction } from '../../root-store';
 
-type ModalActionCommonPayload = {
-  title: string;
-  content: string;
-};
-
 enum ModalType {
   ALERT = 'alert',
   CONFIRM = 'confirm'
 }
 
-type AlertActionPayload = ModalActionCommonPayload & {
-  modalType: ModalType.ALERT;
+type ModalContentProps = {
+  title: string;
+  content: string;
+};
+
+type AlertActionCommonProps = {
   confirmText: string;
   confirmAction?: RootAction;
 };
 
-type ConfirmActionPayload = ModalActionCommonPayload & {
-  modalType: ModalType.CONFIRM;
+type ConfirmActionCommonProps = {
   confirmText: string;
   closeText: string;
   confirmAction?: RootAction;
   closeAction?: RootAction;
 };
 
-type AlertActionComponentProps = AlertActionPayload & { dispatch: Dispatch<RootAction> };
-type ConfirmActionComponentProps = ConfirmActionPayload & { dispatch: Dispatch<RootAction> };
-type ModalActionComponentPropsGroup = {
-  [ModalType.ALERT]: AlertActionComponentProps;
-  [ModalType.CONFIRM]: ConfirmActionComponentProps;
+type ModalActionCommonPropsGroup = {
+  [ModalType.ALERT]: AlertActionCommonProps;
+  [ModalType.CONFIRM]: ConfirmActionCommonProps;
 };
 
-type ModalPropsGroup = { [key in keyof ModalActionsPropsGroup]: ModalActionsPropsGroup[key] & ModalWrapperProps & { modalType: key } };
-type ModalPropsUnion = ModalPropsGroup[keyof ModalPropsGroup];
+type ModalActionPayloadGroup = { [key in keyof ModalActionCommonPropsGroup]: ModalActionCommonPropsGroup[key] & ModalContentProps & { modalType: key } };
+type ModalActionComponentPropsGroup = {
+  [key in keyof ModalActionCommonPropsGroup]: ModalActionCommonPropsGroup[key] & { dispatch: Dispatch<RootAction> };
+};
+type ModalPropsGroup = {
+  [key in keyof ModalActionComponentPropsGroup]: ModalActionComponentPropsGroup[key] & ModalContentProps;
+};
 
-export { ModalType, ModalActionsPropsGroup, ModalPropsGroup, ModalPropsUnion, ModalWrapperProps };
+export { ModalType, ModalPropsGroup, ModalContentProps, ModalActionComponentPropsGroup, ModalActionPayloadGroup };

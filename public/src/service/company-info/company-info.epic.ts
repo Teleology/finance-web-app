@@ -59,10 +59,9 @@ const emptyDetailEpic = (action$: Observable<RootAction>): Observable<RootAction
     map(() =>
       modalAction.openModal({
         modalType: ModalType.ALERT,
-        title: 'Error'
+        title: 'Error',
         content: 'content',
-        handleClose: console.log,
-        confirmText: 'content',
+        confirmText: 'OK'
       })
     )
   );
