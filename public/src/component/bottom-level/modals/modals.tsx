@@ -14,8 +14,7 @@ const createModal = <T extends keyof ModalPropsGroup>(ActionComponent: React.FC<
   // eslint-disable-next-line react/display-name
   return (props: ModalPropsGroup[T]): React.ReactElement => {
     const { title, content, dispatch, ...rest } = props;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const actionComponentProps = { ...rest, dispatch } as any;
+    const actionComponentProps = ({ ...rest, dispatch } as unknown) as ModalActionComponentPropsGroup[T];
     const handleClose = React.useCallback(() => {
       dispatch(modalAction.closeModal());
     }, [dispatch]);
@@ -58,6 +57,6 @@ const ModalManager = (props: ModalState & { dispatch: Dispatch<RootAction> }): R
 };
 
 // @ts-ignore
-const ModalManagerContainer = connect(mapState, (dispatch: Dispatch<RootAction>) => ({ dispatch }))(ModalManager);
+const ModalManagerContainer = connect(mapState)(ModalManager);
 
 export { ModalManagerContainer };
