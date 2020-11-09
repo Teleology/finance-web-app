@@ -3,7 +3,7 @@ import * as React from 'react';
 type ModalWrapperProps = {
   title: string;
   content: string;
-  handleClose?: React.MouseEventHandler;
+  handleClose: React.MouseEventHandler;
 };
 
 enum ModalType {

@@ -14,6 +14,7 @@ import { AppDrawer } from './component/middle-level/app-drawer/app-drawer.compon
 import { AppDrawerManager } from './component/middle-level/app-drawer-manager.component';
 import { compareLink, infoLink, searchLink } from './utils/network-util';
 import { SearchPage } from './component/top-level/search-page.component';
+import { ModalManagerContainer } from './component/bottom-level/modals/modals';
 
 export const App = (): React.ReactElement => (
   <Provider store={store}>
@@ -41,6 +42,7 @@ export const App = (): React.ReactElement => (
               <SearchPage />
             </Route>
           </Switch>
+          <ModalManagerContainer />
         </ConnectedRouter>
       </ThemeProvider>
     </PersistGate>
