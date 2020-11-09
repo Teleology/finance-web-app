@@ -1,9 +1,9 @@
-import * as React from 'react';
+import { Dispatch } from 'redux';
+import { RootAction } from '../../root-store';
 
-type ModalWrapperProps = {
+type ModalActionCommonPayload = {
   title: string;
   content: string;
-  handleClose: React.MouseEventHandler;
 };
 
 enum ModalType {
@@ -11,19 +11,25 @@ enum ModalType {
   CONFIRM = 'confirm'
 }
 
-type AlertAction = {
+type AlertActionPayload = ModalActionCommonPayload & {
+  modalType: ModalType.ALERT;
   confirmText: string;
-  handleConfirm: React.MouseEventHandler;
+  confirmAction?: RootAction;
 };
-type ConfirmAction = {
+
+type ConfirmActionPayload = ModalActionCommonPayload & {
+  modalType: ModalType.CONFIRM;
   confirmText: string;
-  handleConfirm: React.MouseEventHandler;
   closeText: string;
-  closeHandler: React.MouseEventHandler;
+  confirmAction?: RootAction;
+  closeAction?: RootAction;
 };
-type ModalActionsPropsGroup = {
-  [ModalType.ALERT]: AlertAction;
-  [ModalType.CONFIRM]: ConfirmAction;
+
+type AlertActionComponentProps = AlertActionPayload & { dispatch: Dispatch<RootAction> };
+type ConfirmActionComponentProps = ConfirmActionPayload & { dispatch: Dispatch<RootAction> };
+type ModalActionComponentPropsGroup = {
+  [ModalType.ALERT]: AlertActionComponentProps;
+  [ModalType.CONFIRM]: ConfirmActionComponentProps;
 };
 
 type ModalPropsGroup = { [key in keyof ModalActionsPropsGroup]: ModalActionsPropsGroup[key] & ModalWrapperProps & { modalType: key } };

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
-import { omit as _omit } from 'lodash';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { ModalActionsPropsGroup, ModalType } from '../../../service/shared-service/modal/modal-utils';
-import { RootState } from '../../../service/root-store';
+import { RootAction, RootState } from '../../../service/root-store';
 import { ModalState } from '../../../service/shared-service/modal/modal.reducer';
 import { ConfirmActionPanel } from './confirmation-modal/confirmation-action-panel.component';
 import { AlertActionPanel } from './alert-modal/alert-action-panel.component';
@@ -14,13 +14,14 @@ type DialogProps = {
 };
 
 const createModal = <T extends keyof ModalActionsPropsGroup>(
-  ActionComponent: React.FC<ModalActionsPropsGroup[T]>
-): React.FC<DialogProps & ModalActionsPropsGroup[T]> => {
+  ActionComponent: React.FC<ModalActionsPropsGroup[T] & { dispatch: Dispatch<RootAction> }>
+): React.FC<DialogProps & ModalActionsPropsGroup[T] & { dispatch: Dispatch<RootAction> }> => {
   console.log(123);
   // eslint-disable-next-line react/display-name
-  return (props: DialogProps & ModalActionsPropsGroup[T]): React.ReactElement => {
+  return (props: DialogProps & ModalActionsPropsGroup[T] & { dispatch: Dispatch<RootAction> }): React.ReactElement => {
     const { title, content, handleClose, ...rest } = props;
-    const actionComponentProps = (rest as ModalActionsPropsGroup[keyof ModalActionsPropsGroup]) as ModalActionsPropsGroup[T];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const actionComponentProps = rest as any;
     return (
       <Dialog open={true} onClose={handleClose}>
         <DialogTitle>{title}</DialogTitle>
@@ -36,11 +37,12 @@ const createModal = <T extends keyof ModalActionsPropsGroup>(
 };
 
 const AlertModal = createModal<ModalType.ALERT>(AlertActionPanel);
+AlertModal.displayName = 'AlertModal';
 const ConfirmationModal = createModal<ModalType.CONFIRM>(ConfirmActionPanel);
-
+ConfirmationModal.displayName = 'ConfirmationModal';
 const mapState = (state: RootState): ModalState => state.modal;
 
-const ModalManager = (props: ModalState): React.ReactElement => {
+const ModalManager = (props: ModalState & { dispatch: Dispatch<RootAction> }): React.ReactElement => {
   if (props === null) {
     return <></>;
   }
@@ -58,6 +60,7 @@ const ModalManager = (props: ModalState): React.ReactElement => {
   }
 };
 
-const ModalManagerContainer = connect(mapState, null)(ModalManager);
+// @ts-ignore
+const ModalManagerContainer = connect(mapState, (dispatch: Dispatch<RootAction>) => ({ dispatch }))(ModalManager);
 
 export { ModalManagerContainer };
