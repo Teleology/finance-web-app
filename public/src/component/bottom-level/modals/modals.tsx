@@ -19,7 +19,7 @@ const createModal = <T extends keyof ModalPropsGroup>(ActionComponent: React.FC<
       dispatch(modalAction.closeModal());
     }, [dispatch]);
     return (
-      <Dialog open={true} onClose={handleClose}>
+      <Dialog open={true} onClose={handleClose} fullWidth={true}>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">{content}</DialogContentText>

@@ -22,7 +22,7 @@ const ConfirmActionPanel = (props: ModalActionComponentPropsGroup['confirm']): R
       <Button onClick={handleClose} color="primary">
         {closeText}
       </Button>
-      <Button onClick={handleConfirm} color="primary" autoFocus={true}>
+      <Button onClick={handleConfirm} color="primary" autoFocus={true} variant="contained">
         {confirmText}
       </Button>
     </>

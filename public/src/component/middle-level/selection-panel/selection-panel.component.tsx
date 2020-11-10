@@ -28,7 +28,6 @@ import styles from './selection-panel.styles';
 
 const mapDispatch = { ...companySelectionAction, ..._pick(sharedAction, 'setCollection') };
 
-// TODO: eslint no unused imports
 const mapState = ({ companySelection: localState }: RootState) =>
   ({
     continent: localState.continent,

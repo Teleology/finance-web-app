@@ -12,7 +12,7 @@ const AlertActionPanel = (props: ModalActionComponentPropsGroup['alert']): React
     }
   }, [dispatch, confirmAction]);
   return (
-    <Button onClick={handleClose} color="primary">
+    <Button onClick={handleClose} color="primary" variant="contained">
       {confirmText}
     </Button>
   );
