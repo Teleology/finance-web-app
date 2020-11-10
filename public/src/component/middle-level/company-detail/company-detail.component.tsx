@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Card, CardContent, CardHeader, Divider, Grid, GridProps, Typography, TypographyProps } from '@material-ui/core';
-import { LocationOn as LocationOnIcon, DesktopAccessDisabled as DesktopAccessDisabledIcon, Description as DescriptionIcon } from '@material-ui/icons';
+import { LocationOn as LocationOnIcon, DesktopAccessDisabled as DesktopAccessDisabledIcon } from '@material-ui/icons';
 import { branch, renderComponent } from 'recompose';
 import { isEmpty as _isEmpty } from 'lodash';
 import { RootState } from '../../../service/root-store';
@@ -23,74 +23,84 @@ const textBodyProps: TypographyProps = { variant: 'body1', color: 'textSecondary
 
 // TODO: link for stock symbol, $, s format for number and strings
 const CompanyDetailBase = (props: Props): React.ReactElement => {
-  const { useCardStyles, useCardHeaderStyles, useCardHeaderIconStyles } = styles;
+  const { useCardHeaderStyles, useCardHeaderIconStyles } = styles;
   // TODO remove null check
   const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = props.detail!!!;
   return (
-    <Card classes={useCardStyles()}>
-      <LoadingContentWrapper isLoading={false}>
-        <CardHeader
-          title={symbol}
-          classes={useCardHeaderStyles()}
-          subheader={
-            <>
-              {name}
-              &nbsp;&nbsp;&nbsp;
-              <LocationOnIcon classes={useCardHeaderIconStyles()} />
-              {address}
-            </>
-          }
-          titleTypographyProps={{ variant: 'h3' }}
-        />
-        <Divider />
-        <CardContent>
-          <Grid container={true} spacing={2} direction="column">
-            <Grid {...textGridContainerProps}>
-              <Grid {...textGridItemProps}>
-                <Typography {...textSubTitleProps}>Stock Symbol</Typography>
-                <Typography {...textBodyProps}>{exchange + ':' + symbol}</Typography>
-              </Grid>
-              <Grid {...textGridItemProps}>
-                <Typography {...textSubTitleProps}>Industry</Typography>
-                <Typography {...textBodyProps}>{industry + ' ' + sector}</Typography>
-              </Grid>
+    <LoadingContentWrapper isLoading={false}>
+      <CardHeader
+        title={symbol}
+        classes={useCardHeaderStyles()}
+        subheader={
+          <>
+            {name}
+            &nbsp;&nbsp;&nbsp;
+            <LocationOnIcon classes={useCardHeaderIconStyles()} />
+            {address}
+          </>
+        }
+        titleTypographyProps={{ variant: 'h3' }}
+      />
+      <Divider />
+      <CardContent>
+        <Grid container={true} spacing={2} direction="column">
+          <Grid {...textGridContainerProps}>
+            <Grid {...textGridItemProps}>
+              <Typography {...textSubTitleProps}>Stock Symbol</Typography>
+              <Typography {...textBodyProps}>{exchange + ':' + symbol}</Typography>
             </Grid>
-            <Grid {...textGridContainerProps}>
-              <Grid {...textGridItemProps}>
-                <Typography {...textSubTitleProps}>FullTime Employees</Typography>
-                <Typography {...textBodyProps}>{fullTimeEmployees}</Typography>
-              </Grid>
-              <Grid {...textGridItemProps}>
-                <Typography {...textSubTitleProps}>Market Cap</Typography>
-                <Typography {...textBodyProps}>{marketCapitalization}</Typography>
-              </Grid>
-            </Grid>
-            <Grid {...textGridContainerProps}>
-              <Grid {...textGridItemProps}>
-                <Typography {...textSubTitleProps}>EBITDA</Typography>
-                <Typography {...textBodyProps}>{ebitda}</Typography>
-              </Grid>
-              <Grid {...textGridItemProps}>
-                <Typography {...textSubTitleProps}>Peg Ratio</Typography>
-                <Typography {...textBodyProps}>{pegRatio}</Typography>
-              </Grid>
+            <Grid {...textGridItemProps}>
+              <Typography {...textSubTitleProps}>Industry</Typography>
+              <Typography {...textBodyProps}>{industry + ' ' + sector}</Typography>
             </Grid>
           </Grid>
-        </CardContent>
-        <Divider />
-        <CardContent>
-          <ReadMoreTypography>{description}</ReadMoreTypography>
-        </CardContent>
-      </LoadingContentWrapper>
-    </Card>
+          <Grid {...textGridContainerProps}>
+            <Grid {...textGridItemProps}>
+              <Typography {...textSubTitleProps}>FullTime Employees</Typography>
+              <Typography {...textBodyProps}>{fullTimeEmployees}</Typography>
+            </Grid>
+            <Grid {...textGridItemProps}>
+              <Typography {...textSubTitleProps}>Market Cap</Typography>
+              <Typography {...textBodyProps}>{marketCapitalization}</Typography>
+            </Grid>
+          </Grid>
+          <Grid {...textGridContainerProps}>
+            <Grid {...textGridItemProps}>
+              <Typography {...textSubTitleProps}>EBITDA</Typography>
+              <Typography {...textBodyProps}>{ebitda}</Typography>
+            </Grid>
+            <Grid {...textGridItemProps}>
+              <Typography {...textSubTitleProps}>Peg Ratio</Typography>
+              <Typography {...textBodyProps}>{pegRatio}</Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </CardContent>
+      <Divider />
+      <CardContent>
+        <ReadMoreTypography>{description}</ReadMoreTypography>
+      </CardContent>
+    </LoadingContentWrapper>
   );
 };
 
 const CompanyDetail = branch(
   (props: Props) => _isEmpty(props.detail),
-  renderComponent(() => <EmptyContent icon={<DesktopAccessDisabledIcon {...emptyIconProps} />} text="Please use search for or select a company" />)
+  renderComponent(() => (
+    <EmptyContent
+      classes={styles.useEmptyContentStyles()}
+      icon={<DesktopAccessDisabledIcon {...emptyIconProps} />}
+      text="Please use search for or select a company"
+    />
+  ))
 )(CompanyDetailBase);
 
-const CompanyDetailContainer = connect(mapState)(CompanyDetail);
+const CompanyDetailContainer = connect(mapState)(
+  (props: Props): React.ReactElement => (
+    <Card classes={styles.useCardStyles()}>
+      <CompanyDetail {...props} />
+    </Card>
+  )
+);
 
 export { CompanyDetailContainer };

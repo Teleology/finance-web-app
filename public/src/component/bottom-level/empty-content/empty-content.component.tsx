@@ -5,12 +5,15 @@ import { get } from 'lodash/fp';
 type Props = {
   icon: React.ReactElement;
   text: string;
+  classes?: {
+    root: string;
+  };
 };
 
 const EmptyContent = (props: Props): React.ReactElement => {
-  const { icon, text } = props;
+  const { icon, text, classes } = props;
   return (
-    <Grid container={true} spacing={1} direction="column" alignItems="center">
+    <Grid container={true} spacing={1} direction="column" alignItems="center" classes={{ root: classes?.root }}>
       <Grid item={true}>{icon}</Grid>
       <Grid item={true}>
         <Typography variant="h5" color="primary" align="center">

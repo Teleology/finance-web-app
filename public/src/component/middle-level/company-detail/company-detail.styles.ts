@@ -6,6 +6,12 @@ const useCardStyles = makeStyles({
   root: commonStyles.cardStyles
 } as StyleRules<CardClassKey>);
 
+const useEmptyContentStyles = makeStyles(({ spacing }: Theme) => ({
+  root: {
+    paddingTop: spacing(2),
+    paddingBottom: spacing(2)
+  }
+}));
 const useCardHeaderStyles = makeStyles(
   (theme: Theme) =>
     ({
@@ -19,4 +25,4 @@ const useCardHeaderIconStyles = makeStyles({
   }
 } as StyleRules<IconClassKey>);
 
-export default { useCardStyles, useCardHeaderStyles, useCardHeaderIconStyles };
+export default { useCardStyles, useCardHeaderStyles, useCardHeaderIconStyles, useEmptyContentStyles };
