@@ -1,15 +1,18 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Card, CardContent, CardHeader, Divider, Grid, GridProps, Typography, TypographyProps } from '@material-ui/core';
-import { LocationOn as LocationOnIcon, DesktopAccessDisabled as DesktopAccessDisabledIcon } from '@material-ui/icons';
+import { DesktopAccessDisabled as DesktopAccessDisabledIcon, LocationOn as LocationOnIcon } from '@material-ui/icons';
 import { branch, renderComponent } from 'recompose';
 import { isEmpty as _isEmpty } from 'lodash';
+import { flow } from 'lodash/fp';
 import { RootState } from '../../../service/root-store';
 import { ReadMoreTypography } from '../../bottom-level/read-more/read-more.component';
 import { EmptyContent } from '../../bottom-level/empty-content/empty-content.component';
 import { emptyIconProps } from '../../common-props';
-import { LoadingContentWrapper } from '../../bottom-level/loading-content/loading-content.component';
+import { LoadingContent, LoadingContentWrapper } from '../../bottom-level/loading-content/loading-content.component';
+import { FetchStatusEnum } from '../../../utils/network-util';
 import styles from './company-detail.styles';
+
 const mapState = ({ companyInfo }: RootState) =>
   ({
     detail: companyInfo.detail
@@ -84,7 +87,9 @@ const CompanyDetailBase = (props: Props): React.ReactElement => {
   );
 };
 
-const CompanyDetail = branch(
+const companyDetailLoadingBranch = branch((props: Props) => props.detail.fetchStatus === FetchStatusEnum.PENDING, renderComponent(LoadingContent));
+
+const companyDetailEmptyBranch = branch(
   (props: Props) => _isEmpty(props.detail.data),
   renderComponent(() => (
     <EmptyContent
@@ -93,7 +98,9 @@ const CompanyDetail = branch(
       text="Please use search for or select a company"
     />
   ))
-)(CompanyDetailBase);
+);
+
+const CompanyDetail: React.FC<Props> = flow(companyDetailEmptyBranch, companyDetailLoadingBranch)(CompanyDetailBase);
 
 const CompanyDetailContainer = connect(mapState)(
   (props: Props): React.ReactElement => (

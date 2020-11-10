@@ -45,6 +45,7 @@ const companyInfoReducer = (prevState: CompanyInfoState = defaultState, action: 
         }
       };
     }
+    // TODO: !!!fetching failure
     default:
       return prevState;
   }
