@@ -31,7 +31,7 @@ type Company = {
 };
 
 const mapDispatch = {
-  ..._pick<typeof sharedAction, 'setCollection'>(sharedAction, ['setCollection']),
+  ..._pick<typeof sharedAction, 'getCompanyInfo'>(sharedAction, ['getCompanyInfo']),
   ..._pick<typeof companySearchAction, 'setMatches'>(companySearchAction, ['setMatches'])
 };
 const mapState = ({ companySearch }: RootState) =>
@@ -42,7 +42,7 @@ const mapState = ({ companySearch }: RootState) =>
 type Props = ReturnType<typeof mapState> & typeof mapDispatch;
 
 const CompanySearch = (props: Props): React.ReactElement => {
-  const { setCollection, setMatches, matchedCompanies } = props;
+  const { getCompanyInfo, setMatches, matchedCompanies } = props;
   const tableContainerStyles = styles.useTableContainerStyles(),
     tableRowStyles = styles.useTableRowStyles();
   // TODO: persist search state
@@ -88,9 +88,9 @@ const CompanySearch = (props: Props): React.ReactElement => {
 
       // TODO: branch
       const company = matchedCompanies!!![rowIndex - 1];
-      setCollection({ value: company.symbol, label: company.name });
+      getCompanyInfo({ value: company.symbol, label: company.name });
     },
-    [matchedCompanies, setCollection]
+    [matchedCompanies, getCompanyInfo]
   );
 
   // TODO: common empty icon styling ?

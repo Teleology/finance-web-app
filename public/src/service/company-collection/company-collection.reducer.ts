@@ -16,7 +16,7 @@ const defaultState: CompanyCollectionState = {
 
 const companyCollectionReducer = (prevState: CompanyCollectionState = defaultState, action: RootAction): CompanyCollectionState => {
   switch (action.type) {
-    case SharedActionType.COLLECT_COMPANY: {
+    case SharedActionType.GET_COMPANY_INFO: {
       return {
         collection: action.payload.company
       };

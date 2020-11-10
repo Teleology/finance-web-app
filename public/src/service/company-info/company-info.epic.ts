@@ -15,8 +15,8 @@ const companyInfoUrl = `${baseURL}/company-info`;
 
 const newsEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
-    ofType<RootAction, SharedActionGroup['setCollection']>(SharedActionType.COLLECT_COMPANY),
-    switchMap((action: SharedActionGroup['setCollection']) =>
+    ofType<RootAction, SharedActionGroup['getCompanyInfo']>(SharedActionType.GET_COMPANY_INFO),
+    switchMap((action: SharedActionGroup['getCompanyInfo']) =>
       ajax.getJSON<Array<NewsUnit>>(stringifyUrl({ url: `${companyInfoUrl}/news`, query: { keywords: action.payload.company.label } }))
     ),
     map(companyInfoAction.setNews)
@@ -38,8 +38,8 @@ const pickedDetailField = [
 ];
 
 const fetchDetailPipe = pipe(
-  ofType<RootAction, SharedActionGroup['setCollection']>(SharedActionType.COLLECT_COMPANY),
-  switchMap((action: SharedActionGroup['setCollection']) =>
+  ofType<RootAction, SharedActionGroup['getCompanyInfo']>(SharedActionType.GET_COMPANY_INFO),
+  switchMap((action: SharedActionGroup['getCompanyInfo']) =>
     ajax.getJSON(stringifyUrl({ url: `${companyInfoUrl}/detail`, query: { symbol: action.payload.company.value } }))
   ),
   map(flow(pick(pickedDetailField), mapKeys(camelCase) as (input: unknown) => CompanyDetail | {})),
@@ -52,6 +52,7 @@ const fetchDetailPipe = pipe(
 const detailEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(fetchDetailPipe, filter(fpIsNegate(fpIsEmpty)), map(companyInfoAction.setDetail));
 
+// TODO: should provide the exact company name instead of refer it to "company"
 const emptyDetailEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
     fetchDetailPipe,

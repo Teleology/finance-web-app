@@ -25,7 +25,7 @@ const textBodyProps: TypographyProps = { variant: 'body1', color: 'textSecondary
 const CompanyDetailBase = (props: Props): React.ReactElement => {
   const { useCardHeaderStyles, useCardHeaderIconStyles } = styles;
   // TODO remove null check
-  const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = props.detail!!!;
+  const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = props.detail.data!!!;
   return (
     <LoadingContentWrapper isLoading={false}>
       <CardHeader
@@ -85,7 +85,7 @@ const CompanyDetailBase = (props: Props): React.ReactElement => {
 };
 
 const CompanyDetail = branch(
-  (props: Props) => _isEmpty(props.detail),
+  (props: Props) => _isEmpty(props.detail.data),
   renderComponent(() => (
     <EmptyContent
       classes={styles.useEmptyContentStyles()}

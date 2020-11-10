@@ -1,19 +1,19 @@
 import { LabelText, ReturnTypeOfGroup } from '../../utils/type-util';
 
 namespace SharedActionType {
-  export const COLLECT_COMPANY = 'shared/COLLECT_COMPANY';
+  export const GET_COMPANY_INFO = 'shared/GET_COMPANY_INFO';
 }
 
-const setCollection = (company: LabelText<string>) =>
+const getCompanyInfo = (company: LabelText<string>) =>
   ({
-    type: SharedActionType.COLLECT_COMPANY,
+    type: SharedActionType.GET_COMPANY_INFO,
     payload: {
       company
     }
   } as const);
 
 const sharedAction = {
-  setCollection
+  getCompanyInfo
 };
 
 type SharedActionGroup = ReturnTypeOfGroup<typeof sharedAction>;

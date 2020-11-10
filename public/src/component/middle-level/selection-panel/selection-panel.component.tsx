@@ -26,7 +26,7 @@ import { emptyIconProps } from '../../common-props';
 import { FetchStatusEnum } from '../../../utils/network-util';
 import styles from './selection-panel.styles';
 
-const mapDispatch = { ...companySelectionAction, ..._pick(sharedAction, 'setCollection') };
+const mapDispatch = { ...companySelectionAction, ..._pick<typeof sharedAction, 'getCompanyInfo'>(sharedAction, ['getCompanyInfo']) };
 
 const mapState = ({ companySelection: localState }: RootState) =>
   ({
@@ -40,7 +40,7 @@ type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 
 // TODO: use virtualization for long list ?
 const SelectionPanel = (props: Props): React.ReactElement => {
-  const { getContinentOptions, continent, setContinentSelection, country, setCountrySelection, indice, setIndiceSelection, companies, setCollection } = props;
+  const { getContinentOptions, continent, setContinentSelection, country, setCountrySelection, indice, setIndiceSelection, companies, getCompanyInfo } = props;
   const tableContainerStyles = styles.useTableContainerStyles(),
     tableRowStyles = styles.useTableRowStyles(),
     selectionStyles = styles.useSelectStyles();
@@ -91,9 +91,9 @@ const SelectionPanel = (props: Props): React.ReactElement => {
         return;
       }
       const company = companies[rowIndex - 1];
-      setCollection({ value: company.shortName, label: company.name });
+      getCompanyInfo({ value: company.shortName, label: company.name });
     },
-    [companies, setCollection]
+    [companies, getCompanyInfo]
   );
 
   // TODO: repeated code
