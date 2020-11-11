@@ -2,6 +2,7 @@ import { LabelText, ReturnTypeOfGroup } from '../../utils/type-util';
 
 namespace SharedActionType {
   export const GET_COMPANY_INFO = 'shared/GET_COMPANY_INFO';
+  export const GET_COMPANY_INFO_FAILURE = 'shared/GET_COMPANY_INFO_FAILURE';
 }
 
 const getCompanyInfo = (company: LabelText<string>) =>
@@ -12,8 +13,14 @@ const getCompanyInfo = (company: LabelText<string>) =>
     }
   } as const);
 
+const getCompanyInfoFailure = () =>
+  ({
+    type: SharedActionType.GET_COMPANY_INFO_FAILURE
+  } as const);
+
 const sharedAction = {
-  getCompanyInfo
+  getCompanyInfo,
+  getCompanyInfoFailure
 };
 
 type SharedActionGroup = ReturnTypeOfGroup<typeof sharedAction>;

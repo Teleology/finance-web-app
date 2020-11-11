@@ -21,7 +21,6 @@ class CompanySelectionController {
   @httpGet('/countries/:continent')
   public getCountriesByContinent(request: Request, response: Response): void {
     try {
-      console.log(123);
       const { continent } = request.params;
       const countries = this.companySelectionService.getCountriesByContinent(continent as Continent);
       response.status(200).json(countries);
@@ -35,6 +34,7 @@ class CompanySelectionController {
     try {
       const { country } = request.params;
       const indices = await this.companySelectionService.getIndicesByCountry(country);
+      console.log(indices);
       response.status(200).json(indices);
     } catch (e) {
       response.status(500).send('get indices error');
@@ -46,6 +46,7 @@ class CompanySelectionController {
     try {
       const { indice } = request.params;
       const companies = await this.companySelectionService.getCompaniesByIndice(indice);
+      console.log(companies);
       response.status(200).json(companies);
     } catch (e) {
       response.status(500).send('get companies error');

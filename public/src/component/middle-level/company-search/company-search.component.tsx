@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Observable } from 'rxjs';
-import { isEmpty, negate } from 'lodash/fp';
-import { pick as _pick, map as _map, isEmpty as _isEmpty } from 'lodash';
-import { filter, debounce, map, switchMap } from 'rxjs/operators';
-import { useObservable } from 'rxjs-hooks';
+import { isEmpty as fpIsEmpty, negate } from 'lodash/fp';
+import { pick as _pick, map as _map } from 'lodash';
+import { filter, debounce, map, switchMap, mapTo, pluck } from 'rxjs/operators';
+import { useEventCallback, useObservable } from 'rxjs-hooks';
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@material-ui/core';
 import { Description as DescriptionIcon } from '@material-ui/icons';
 import { ajax } from 'rxjs/ajax';
@@ -46,14 +46,14 @@ const CompanySearch = (props: Props): React.ReactElement => {
   const tableContainerStyles = styles.useTableContainerStyles(),
     tableRowStyles = styles.useTableRowStyles();
   // TODO: persist search state
-  const [input, setInput] = React.useState('');
+  // const [input, setInput] = React.useState('');
   // const [selection, setSelection] = React.useState<Company | null>(null);
-  const onChange = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setInput(event.target.value);
-    },
-    [setInput]
-  );
+  // const onChange = React.useCallback(
+  //   (event: React.ChangeEvent<HTMLInputElement>) => {
+  //     setInput(event.target.value);
+  //   },
+  //   [setInput]
+  // );
   // const onSelectionChange = React.useCallback(
   //   (event: object, value: Company | null): void => {
   //     setSelection(value);
@@ -61,11 +61,16 @@ const CompanySearch = (props: Props): React.ReactElement => {
   //   },
   //   [setSelection, setCollection]
   // );
+  // TODO: continue of 11/11/2020
+  const [hanldeTextChange, value] = useEventCallback<React.ChangeEvent<HTMLInputElement>, string>(
+    (event$: Observable<React.ChangeEvent<HTMLInputElement>>): Observable<string> => event$.pipe(pluck('target', 'value'), filter(fpIsEmpty)),
+    ''
+  );
   const options = useObservable(
     (noUse: Observable<unknown>, input$: Observable<[string]>) => {
       const response$ = input$.pipe(
         map((input: [string]) => input[0]),
-        filter(negate(isEmpty)),
+        filter(negate(fpIsEmpty)),
         debounce(() => debounceWithEnterKey),
         switchMap((keywords: string) => ajax.getJSON<Array<Company>>(stringifyUrl({ url: `${baseURL}/search`, query: { keywords } })))
       );

@@ -1,12 +1,12 @@
 import { Observable, of, pipe } from 'rxjs';
 import { combineEpics, ofType } from 'redux-observable';
-import { map, switchMap, filter, catchError } from 'rxjs/operators';
+import { map, switchMap, filter, catchError, concatMapTo } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 import { stringifyUrl } from 'query-string';
 import { flow, pick, camelCase, mapKeys, isEmpty as fpIsEmpty, negate as fpIsNegate } from 'lodash/fp';
 import { RootAction } from '../root-store';
 import { baseURL } from '../../../../express-server/src/common/network-utils';
-import { SharedActionGroup, SharedActionType } from '../shared-service/shared.action';
+import { sharedAction, SharedActionGroup, SharedActionType } from '../shared-service/shared.action';
 import { modalAction } from '../shared-service/modal/modal.action';
 import { ModalType } from '../shared-service/modal/modal-utils';
 import { CompanyDetail, NewsUnit } from './company-info-util';
@@ -57,13 +57,16 @@ const emptyDetailEpic = (action$: Observable<RootAction>): Observable<RootAction
   action$.pipe(
     fetchDetailPipe,
     filter(fpIsEmpty),
-    map(() =>
-      modalAction.openModal({
-        modalType: ModalType.ALERT,
-        title: 'We are sorry',
-        content: "Sorry, we can't find anything related to the company you chose",
-        confirmText: 'close'
-      })
+    concatMapTo(
+      of(
+        sharedAction.getCompanyInfoFailure(),
+        modalAction.openModal({
+          modalType: ModalType.ALERT,
+          title: 'We are sorry',
+          content: "Sorry, we can't find anything related to the company you chose",
+          confirmText: 'close'
+        })
+      )
     )
   );
 const companyInfoEpic = combineEpics(newsEpic, detailEpic, emptyDetailEpic);

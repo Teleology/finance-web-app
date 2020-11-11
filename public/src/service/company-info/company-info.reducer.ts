@@ -36,6 +36,15 @@ const companyInfoReducer = (prevState: CompanyInfoState = defaultState, action: 
         }
       };
     }
+    case SharedActionType.GET_COMPANY_INFO_FAILURE: {
+      return {
+        ...prevState,
+        detail: {
+          ...prevState.detail,
+          fetchStatus: FetchStatusEnum.FAIL
+        }
+      };
+    }
     case CompanyInfoActionType.SET_DETAIL: {
       return {
         ...prevState,
