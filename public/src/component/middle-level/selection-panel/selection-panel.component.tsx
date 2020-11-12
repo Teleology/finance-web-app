@@ -24,6 +24,7 @@ import { sharedAction } from '../../../service/shared-service/shared.action';
 import { EmptyContentWrapper } from '../../bottom-level/empty-content/empty-content.component';
 import { emptyIconProps } from '../../common-props';
 import { FetchStatusEnum } from '../../../utils/network-util';
+import { LoadingContentWrapper } from '../../bottom-level/loading-content/loading-content.component';
 import styles from './selection-panel.styles';
 
 const mapDispatch = { ...companySelectionAction, ..._pick<typeof sharedAction, 'getCompanyInfo'>(sharedAction, ['getCompanyInfo']) };
@@ -90,7 +91,7 @@ const SelectionPanel = (props: Props): React.ReactElement => {
       if (rowIndex == null) {
         return;
       }
-      const company = companies[rowIndex - 1];
+      const company = companies.list[rowIndex - 1];
       getCompanyInfo({ value: company.shortName, label: company.name });
     },
     [companies, getCompanyInfo]
@@ -155,30 +156,32 @@ const SelectionPanel = (props: Props): React.ReactElement => {
           </FormControl>
         </Grid>
         <Grid item={true}>
-          <EmptyContentWrapper icon={<DescriptionIcon {...emptyIconProps} />} text="Please complete all selections" isEmpty={_isEmpty(companies)}>
-            <TableContainer classes={tableContainerStyles}>
-              <Table stickyHeader={true} onClick={handleTableClick}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Short Name</TableCell>
-                    <TableCell>Country</TableCell>
-                    <TableCell>Stock ID</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {_map(companies, ({ name, country, shortName, stockId }: CompanyInIndice) => (
-                    <TableRow hover={true} classes={tableRowStyles} key={stockId}>
-                      <TableCell>{name}</TableCell>
-                      <TableCell>{shortName}</TableCell>
-                      <TableCell>{country}</TableCell>
-                      <TableCell>{stockId}</TableCell>
+          <LoadingContentWrapper isLoading={companies.fetchStatus === FetchStatusEnum.PENDING}>
+            <EmptyContentWrapper icon={<DescriptionIcon {...emptyIconProps} />} text="Please complete all selections" isEmpty={_isEmpty(companies)}>
+              <TableContainer classes={tableContainerStyles}>
+                <Table stickyHeader={true} onClick={handleTableClick}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Short Name</TableCell>
+                      <TableCell>Country</TableCell>
+                      <TableCell>Stock ID</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </EmptyContentWrapper>
+                  </TableHead>
+                  <TableBody>
+                    {_map<CompanyInIndice, React.ReactElement>(companies.list, ({ name, country, shortName, stockId }: CompanyInIndice) => (
+                      <TableRow hover={true} classes={tableRowStyles} key={stockId}>
+                        <TableCell>{name}</TableCell>
+                        <TableCell>{shortName}</TableCell>
+                        <TableCell>{country}</TableCell>
+                        <TableCell>{stockId}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </EmptyContentWrapper>
+          </LoadingContentWrapper>
         </Grid>
       </Grid>
     </>

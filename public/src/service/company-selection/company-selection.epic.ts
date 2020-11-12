@@ -7,6 +7,8 @@ import { map as fpMap, startCase as fpStartCase, flow } from 'lodash/fp';
 import { RootAction } from '../root-store';
 import { LabelUnit } from '../../utils/general-type';
 import { baseUrl } from '../../utils/network-util';
+import { modalAction } from '../shared-service/modal/modal.action';
+import { ModalType } from '../shared-service/modal/modal-utils';
 import { companySelectionAction, CompanySelectionActionGroup, CompanySelectionActionType } from './company-selection.action';
 import { CompanyInIndice } from './company-selection-utils';
 
@@ -52,8 +54,8 @@ const setContinentSelectionEpic = (action$: Observable<RootAction>): Observable<
     })
   );
 
-const setCountrySelectionEpic = (action$: Observable<RootAction>): Observable<RootAction> => {
-  return action$.pipe(
+const setCountrySelectionEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
+  action$.pipe(
     ofType(CompanySelectionActionType.SET_COUNTRY_SELECTION),
     switchMap<CompanySelectionActionGroup['setCountrySelection'], Observable<Array<IndiceOptionContract>>>(
       (action: CompanySelectionActionGroup['setCountrySelection']) => ajax.getJSON(`${selectionUrl}/indices/${action.payload.selection}`)
@@ -70,7 +72,6 @@ const setCountrySelectionEpic = (action$: Observable<RootAction>): Observable<Ro
       return of(companySelectionAction.getIndiceOptionsFailure());
     })
   );
-};
 
 const setIndiceSelectionEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
@@ -82,7 +83,15 @@ const setIndiceSelectionEpic = (action$: Observable<RootAction>): Observable<Roo
     concatMap((action: CompanySelectionActionGroup['setCompaniesInIndice']) => of(...resetActionList.slice(2), action)),
     catchError((error) => {
       console.log(error);
-      return of(companySelectionAction.getCompaniesInIndiceFailure());
+      return of(
+        modalAction.openModal({
+          modalType: ModalType.ALERT,
+          title: 'We are sorry',
+          content: "Sorry, we can't find anything related to the indice you chose",
+          confirmText: 'close'
+        }),
+        companySelectionAction.getCompaniesInIndiceFailure()
+      );
     })
   );
 

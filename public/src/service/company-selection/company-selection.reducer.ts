@@ -14,7 +14,10 @@ type CompanySelectionState = {
   continent: CompanySelectionUnit;
   country: CompanySelectionUnit;
   indice: CompanySelectionUnit;
-  companies: Array<CompanyInIndice>;
+  companies: {
+    list: Array<CompanyInIndice>;
+    fetchStatus: FetchStatusEnum;
+  };
 };
 
 const defaultState: CompanySelectionState = {
@@ -33,7 +36,10 @@ const defaultState: CompanySelectionState = {
     options: [],
     fetchStatus: FetchStatusEnum.NEVER
   },
-  companies: []
+  companies: {
+    list: [],
+    fetchStatus: FetchStatusEnum.NEVER
+  }
 };
 const companySelectionReducer = (prevState: CompanySelectionState = defaultState, action: RootAction): CompanySelectionState => {
   switch (action.type) {
@@ -142,7 +148,11 @@ const companySelectionReducer = (prevState: CompanySelectionState = defaultState
       const nextIndiceState: CompanySelectionUnit = { ...prevIndiceState, value: action.payload.selection };
       return {
         ...prevState,
-        indice: nextIndiceState
+        indice: nextIndiceState,
+        companies: {
+          ...prevState.companies,
+          fetchStatus: FetchStatusEnum.PENDING
+        }
       };
     }
 
@@ -153,20 +163,23 @@ const companySelectionReducer = (prevState: CompanySelectionState = defaultState
       };
     }
 
-    // case CompanySelectionActionType.GET_COMPANY_IN_INDICE_FAILURE: {
-    //   return {
-    //     ...prevState,
-    //     companies: {
-    //       ...prevState.companies,
-    //
-    //     }
-    //   }
-    // }
+    case CompanySelectionActionType.GET_COMPANY_IN_INDICE_FAILURE: {
+      return {
+        ...prevState,
+        companies: {
+          ...prevState.companies,
+          fetchStatus: FetchStatusEnum.FAIL
+        }
+      };
+    }
 
     case CompanySelectionActionType.SET_COMPANY_IN_INDICE: {
       return {
         ...prevState,
-        companies: action.payload.companies
+        companies: {
+          list: action.payload.companies,
+          fetchStatus: FetchStatusEnum.SUCCESS
+        }
       };
     }
 

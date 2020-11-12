@@ -7,22 +7,6 @@ namespace CompanySearchActionType {
   export const SET_MATCHES = 'company-search/SET_MATCHES';
 }
 
-const getMatches = (matches: Array<CompanyInSearch>) =>
-  ({
-    type: CompanySearchActionType.SET_MATCHES,
-    payload: {
-      matches
-    }
-  } as const);
-
-// const setMatches = (matches: Array<CompanyInSearch>) =>
-//   ({
-//     type: CompanySearchActionType.SET_MATCHES,
-//     payload: {
-//       matches
-//     }
-//   } as const);
-
 const setMatches = (matches: Array<CompanyInSearch>) =>
   ({
     type: CompanySearchActionType.SET_MATCHES,
