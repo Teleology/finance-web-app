@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Observable } from 'rxjs';
-import { isEmpty as fpIsEmpty, negate } from 'lodash/fp';
+import { Observable, of } from 'rxjs';
+import { isEmpty as fpIsEmpty, negate as fpNegate } from 'lodash/fp';
 import { pick as _pick, map as _map } from 'lodash';
-import { filter, debounce, map, switchMap, mapTo, pluck } from 'rxjs/operators';
+import { filter, debounce, map, switchMap, pluck, tap, catchError } from 'rxjs/operators';
 import { useEventCallback, useObservable } from 'rxjs-hooks';
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@material-ui/core';
 import { Description as DescriptionIcon } from '@material-ui/icons';
@@ -17,6 +17,7 @@ import { RootState } from '../../../service/root-store';
 import { CompanyInSearch } from '../../../service/company-search/company-search-utils';
 import { EmptyContentWrapper } from '../../bottom-level/empty-content/empty-content.component';
 import { emptyIconProps } from '../../common-props';
+import { LoadingContentWrapper } from '../../bottom-level/loading-content/loading-content.component';
 import styles from './company-search.styles';
 type Company = {
   symbol: string;
@@ -45,6 +46,7 @@ const CompanySearch = (props: Props): React.ReactElement => {
   const { getCompanyInfo, setMatches, matchedCompanies } = props;
   const tableContainerStyles = styles.useTableContainerStyles(),
     tableRowStyles = styles.useTableRowStyles();
+  const [isLoading, setIsLoading] = React.useState(false);
   // TODO: persist search state
   // const [input, setInput] = React.useState('');
   // const [selection, setSelection] = React.useState<Company | null>(null);
@@ -62,22 +64,32 @@ const CompanySearch = (props: Props): React.ReactElement => {
   //   [setSelection, setCollection]
   // );
   // TODO: continue of 11/11/2020
-  const [hanldeTextChange, value] = useEventCallback<React.ChangeEvent<HTMLInputElement>, string>(
-    (event$: Observable<React.ChangeEvent<HTMLInputElement>>): Observable<string> => event$.pipe(pluck('target', 'value'), filter(fpIsEmpty)),
+  const [handleTextChange, value] = useEventCallback<React.ChangeEvent<HTMLInputElement>, string>(
+    (event$: Observable<React.ChangeEvent<HTMLInputElement>>): Observable<string> => event$.pipe(pluck('target', 'value')),
     ''
   );
   const options = useObservable(
     (noUse: Observable<unknown>, input$: Observable<[string]>) => {
       const response$ = input$.pipe(
         map((input: [string]) => input[0]),
-        filter(negate(fpIsEmpty)),
+        filter(fpNegate(fpIsEmpty)),
         debounce(() => debounceWithEnterKey),
-        switchMap((keywords: string) => ajax.getJSON<Array<Company>>(stringifyUrl({ url: `${baseURL}/search`, query: { keywords } })))
+        tap(() => {
+          setIsLoading(true);
+        }),
+        switchMap((keywords: string) => ajax.getJSON<Array<Company>>(stringifyUrl({ url: `${baseURL}/search`, query: { keywords } }))),
+        catchError((error: Error) => {
+          console.log(error);
+          return of([]);
+        }),
+        tap(() => {
+          setIsLoading(false);
+        })
       );
       return response$;
     },
     [],
-    [input]
+    [value]
   );
 
   React.useEffect(() => {
@@ -98,41 +110,42 @@ const CompanySearch = (props: Props): React.ReactElement => {
     [matchedCompanies, getCompanyInfo]
   );
 
-  // TODO: common empty icon styling ?
   return (
     <Grid container={true} direction="column" spacing={2}>
       <Grid item={true}>
-        <TextField value={input} onChange={onChange} fullWidth={true} size="medium" margin="normal" />
+        <TextField value={value} onChange={handleTextChange} fullWidth={true} size="medium" margin="normal" />
       </Grid>
       <Grid item={true}>
-        <EmptyContentWrapper
-          icon={<DescriptionIcon {...emptyIconProps} />}
-          text="Sorry, no companies found based on your current search"
-          isEmpty={_isEmpty(matchedCompanies)}
-        >
-          <TableContainer classes={tableContainerStyles}>
-            <Table stickyHeader={true} onClick={handleTableClick}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Region</TableCell>
-                  <TableCell>Symbol</TableCell>
-                  <TableCell>Type</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {_map(matchedCompanies, ({ name, region, symbol, type }: CompanyInSearch) => (
-                  <TableRow hover={true} classes={tableRowStyles}>
-                    <TableCell>{name}</TableCell>
-                    <TableCell>{region}</TableCell>
-                    <TableCell>{symbol}</TableCell>
-                    <TableCell>{type}</TableCell>
+        <LoadingContentWrapper isLoading={isLoading}>
+          <EmptyContentWrapper
+            icon={<DescriptionIcon {...emptyIconProps} />}
+            text="Sorry, no companies found based on your current search"
+            isEmpty={fpIsEmpty(matchedCompanies)}
+          >
+            <TableContainer classes={tableContainerStyles}>
+              <Table stickyHeader={true} onClick={handleTableClick}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Region</TableCell>
+                    <TableCell>Symbol</TableCell>
+                    <TableCell>Type</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </EmptyContentWrapper>
+                </TableHead>
+                <TableBody>
+                  {_map(matchedCompanies, ({ name, region, symbol, type }: CompanyInSearch) => (
+                    <TableRow hover={true} classes={tableRowStyles}>
+                      <TableCell>{name}</TableCell>
+                      <TableCell>{region}</TableCell>
+                      <TableCell>{symbol}</TableCell>
+                      <TableCell>{type}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </EmptyContentWrapper>
+        </LoadingContentWrapper>
       </Grid>
     </Grid>
   );
