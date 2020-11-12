@@ -34,7 +34,7 @@ const mapState = ({ companySelection: localState }: RootState) =>
     continent: localState.continent,
     country: localState.country,
     indice: localState.indice,
-    companies: localState.companies
+    companies: localState.company
   } as const);
 
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;

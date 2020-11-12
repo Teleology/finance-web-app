@@ -14,7 +14,7 @@ type CompanySelectionState = {
   continent: CompanySelectionUnit;
   country: CompanySelectionUnit;
   indice: CompanySelectionUnit;
-  companies: {
+  company: {
     list: Array<CompanyInIndice>;
     fetchStatus: FetchStatusEnum;
   };
@@ -36,7 +36,7 @@ const defaultState: CompanySelectionState = {
     options: [],
     fetchStatus: FetchStatusEnum.NEVER
   },
-  companies: {
+  company: {
     list: [],
     fetchStatus: FetchStatusEnum.NEVER
   }
@@ -149,8 +149,8 @@ const companySelectionReducer = (prevState: CompanySelectionState = defaultState
       return {
         ...prevState,
         indice: nextIndiceState,
-        companies: {
-          ...prevState.companies,
+        company: {
+          ...prevState.company,
           fetchStatus: FetchStatusEnum.PENDING
         }
       };
@@ -166,8 +166,8 @@ const companySelectionReducer = (prevState: CompanySelectionState = defaultState
     case CompanySelectionActionType.GET_COMPANY_IN_INDICE_FAILURE: {
       return {
         ...prevState,
-        companies: {
-          ...prevState.companies,
+        company: {
+          ...prevState.company,
           fetchStatus: FetchStatusEnum.FAIL
         }
       };
@@ -176,7 +176,7 @@ const companySelectionReducer = (prevState: CompanySelectionState = defaultState
     case CompanySelectionActionType.SET_COMPANY_IN_INDICE: {
       return {
         ...prevState,
-        companies: {
+        company: {
           list: action.payload.companies,
           fetchStatus: FetchStatusEnum.SUCCESS
         }
@@ -186,7 +186,7 @@ const companySelectionReducer = (prevState: CompanySelectionState = defaultState
     case CompanySelectionActionType.RESET_COMPANY_IN_INDICE: {
       return {
         ...prevState,
-        companies: defaultState.companies
+        company: defaultState.company
       };
     }
     // case CompanySelectionActionType.SET_COMPANY_OPTIONS: {
