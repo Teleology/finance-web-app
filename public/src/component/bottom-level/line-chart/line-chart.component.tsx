@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { get, flow, map } from 'lodash/fp';
 import { extent } from 'd3-array';
-import { ScaleTime, ScaleLinear } from 'd3-scale';
+import { ScaleTime, ScaleLinear, NumberValue } from 'd3-scale';
 import { scaleTime, scaleLinear } from '@visx/scale';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 import { LinePath } from '@visx/shape';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series.typing';
+import { formatChartTime } from '../../../utils/formatter';
 type Coordinate = TimeChartDataUnit;
 
 type Setting = {
@@ -65,7 +66,7 @@ const lineChartFactory = (getSetting: ReturnType<typeof settingFactory>) => ({ d
 
   return (
     <svg width={width} height={height}>
-      <AxisBottom<ScaleTime<number, number>> scale={xScale} top={yMaxRange} />
+      <AxisBottom<ScaleTime<number, number>> scale={xScale} top={yMaxRange} tickFormat={formatChartTime as (value: Date | NumberValue) => string} />
       <AxisLeft scale={yScale} left={padding} hideZero={true} />
       <LinePath data={data} x={renderX} y={renderY} strokeWidth={5} stroke="#000000" fill="transparent" />
       {map((datum: Coordinate) => {
