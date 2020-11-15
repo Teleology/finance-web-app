@@ -3,12 +3,11 @@ import { CompanyInSearch } from './company-search-utils';
 import { CompanySearchActionType } from './company-search.action';
 
 type CompanySearchState = {
-  matches: Array<CompanyInSearch> | null;
+  matches: Array<CompanyInSearch>;
 };
 
-// TODO: not persist ?
 const defaultState: CompanySearchState = {
-  matches: null
+  matches: []
 };
 
 const companySearchReducer = (prevState: CompanySearchState = defaultState, action: RootAction): CompanySearchState => {

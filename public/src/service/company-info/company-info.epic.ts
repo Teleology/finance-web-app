@@ -1,6 +1,6 @@
 import { Observable, of, pipe } from 'rxjs';
 import { combineEpics, ofType } from 'redux-observable';
-import { map, switchMap, filter, catchError, concatMapTo } from 'rxjs/operators';
+import { map, switchMap, filter, catchError, concatMapTo, share } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 import { stringifyUrl } from 'query-string';
 import { flow, pick, camelCase, mapKeys, isEmpty as fpIsEmpty, negate as fpIsNegate } from 'lodash/fp';

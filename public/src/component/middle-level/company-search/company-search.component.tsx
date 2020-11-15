@@ -47,7 +47,7 @@ const CompanySearch = (props: Props): React.ReactElement => {
   const tableContainerStyles = styles.useTableContainerStyles(),
     tableRowStyles = styles.useTableRowStyles();
   const [isLoading, setIsLoading] = React.useState(false);
-  // TODO: persist search state
+
   // const [input, setInput] = React.useState('');
   // const [selection, setSelection] = React.useState<Company | null>(null);
   // const onChange = React.useCallback(
@@ -63,7 +63,6 @@ const CompanySearch = (props: Props): React.ReactElement => {
   //   },
   //   [setSelection, setCollection]
   // );
-  // TODO: continue of 11/11/2020
   const [handleTextChange, value] = useEventCallback<React.ChangeEvent<HTMLInputElement>, string>(
     (event$: Observable<React.ChangeEvent<HTMLInputElement>>): Observable<string> => event$.pipe(pluck('target', 'value')),
     ''
@@ -103,8 +102,7 @@ const CompanySearch = (props: Props): React.ReactElement => {
         return;
       }
 
-      // TODO: branch
-      const company = matchedCompanies!!![rowIndex - 1];
+      const company = matchedCompanies[rowIndex - 1];
       getCompanyInfo({ value: company.symbol, label: company.name });
     },
     [matchedCompanies, getCompanyInfo]

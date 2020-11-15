@@ -2,7 +2,6 @@ import { ReturnTypeOfGroup } from '../../utils/type-util';
 import { LabelUnit } from '../../utils/general-type';
 import { CompanyInIndice } from './company-selection-utils';
 
-// TODO: prefix should be const
 namespace CompanySelectionActionType {
   export const GET_CONTINENT_OPTIONS = 'company-selection/GET_CONTINENT_OPTIONS';
   export const GET_CONTINENT_OPTIONS_FAILURE = 'company-selection/GET_CONTINENT_OPTIONS_FAILURE';
