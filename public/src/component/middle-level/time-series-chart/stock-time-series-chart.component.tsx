@@ -18,7 +18,11 @@ const StockTimeSeriesChart = ({ getTimeSeries, series, company }: Props): React.
   React.useEffect(() => {
     company !== null && getTimeSeries(company);
   }, [getTimeSeries, company]);
-  return <LineChart data={series} />;
+  return (
+    <div style={{ height: 800 }}>
+      <LineChart data={series} />;
+    </div>
+  );
 };
 
 const StockTimeSeriesChartContainer = connect(mapState, mapDispatch)(StockTimeSeriesChart);

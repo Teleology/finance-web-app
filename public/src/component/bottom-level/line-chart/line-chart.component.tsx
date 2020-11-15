@@ -63,9 +63,10 @@ const getDefaultSetting = settingFactory(800, 800, 50);
 // eslint-disable-next-line react/display-name
 const lineChartFactory = (getSetting: ReturnType<typeof settingFactory>) => ({ data }: Props): React.ReactElement => {
   const { width, height, padding, renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => getSetting(data), [data]);
+  const svgRef = React.useRef(null);
 
   return (
-    <svg width={width} height={height}>
+    <svg width="100%" height="100%" ref={svgRef} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet">
       <AxisBottom<ScaleTime<number, number>> scale={xScale} top={yMaxRange} tickFormat={formatChartTime as (value: Date | NumberValue) => string} />
       <AxisLeft scale={yScale} left={padding} hideZero={true} />
       <LinePath data={data} x={renderX} y={renderY} strokeWidth={5} stroke="#000000" fill="transparent" />
