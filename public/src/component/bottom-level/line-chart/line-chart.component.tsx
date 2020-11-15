@@ -4,7 +4,9 @@ import { extent } from 'd3-array';
 import { ScaleTime, ScaleLinear, NumberValue } from 'd3-scale';
 import { scaleTime, scaleLinear } from '@visx/scale';
 import { AxisLeft, AxisBottom } from '@visx/axis';
+import { withParentSize } from '@visx/responsive';
 import { LinePath } from '@visx/shape';
+import { WithParentSizeProps, WithParentSizeProvidedProps } from '@visx/responsive/lib/enhancers/withParentSize';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series.typing';
 import { formatChartTime } from '../../../utils/formatter';
 type Coordinate = TimeChartDataUnit;
@@ -61,12 +63,14 @@ const settingFactory = (width: number, height: number, padding: number) => (data
 const getDefaultSetting = settingFactory(800, 800, 50);
 
 // eslint-disable-next-line react/display-name
-const lineChartFactory = (getSetting: ReturnType<typeof settingFactory>) => ({ data }: Props): React.ReactElement => {
-  const { width, height, padding, renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => getSetting(data), [data]);
-  const svgRef = React.useRef(null);
-
+const lineChartFactory = (getSetting: ReturnType<typeof settingFactory>) => (
+  props: Props & WithParentSizeProps & WithParentSizeProvidedProps
+): React.ReactElement => {
+  const { data, parentWidth, parentHeight } = props;
+  console.log(props);
+  const { padding, renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => getSetting(data), [data]);
   return (
-    <svg width="100%" height="100%" ref={svgRef} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet">
+    <svg width={parentWidth} height={parentHeight} preserveAspectRatio="xMidYMid meet">
       <AxisBottom<ScaleTime<number, number>> scale={xScale} top={yMaxRange} tickFormat={formatChartTime as (value: Date | NumberValue) => string} />
       <AxisLeft scale={yScale} left={padding} hideZero={true} />
       <LinePath data={data} x={renderX} y={renderY} strokeWidth={5} stroke="#000000" fill="transparent" />
@@ -80,6 +84,6 @@ const lineChartFactory = (getSetting: ReturnType<typeof settingFactory>) => ({ d
   );
 };
 
-const LineChart = lineChartFactory(getDefaultSetting);
+const LineChart = withParentSize<Props & WithParentSizeProps & WithParentSizeProvidedProps>(lineChartFactory(getDefaultSetting));
 
 export { LineChart };
