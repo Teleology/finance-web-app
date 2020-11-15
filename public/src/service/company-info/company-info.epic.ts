@@ -1,4 +1,4 @@
-import { Observable, of, pipe } from 'rxjs';
+import { Observable, of, pipe, merge } from 'rxjs';
 import { combineEpics, ofType } from 'redux-observable';
 import { map, switchMap, filter, catchError, concatMapTo, share } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
@@ -37,25 +37,23 @@ const pickedDetailField = [
   'PEGRatio'
 ];
 
-const fetchDetailPipe = pipe(
-  ofType<RootAction, SharedActionGroup['getCompanyInfo']>(SharedActionType.GET_COMPANY_INFO),
-  switchMap((action: SharedActionGroup['getCompanyInfo']) =>
-    ajax.getJSON(stringifyUrl({ url: `${companyInfoUrl}/detail`, query: { symbol: action.payload.company.value } }))
-  ),
-  map(flow(pick(pickedDetailField), mapKeys(camelCase) as (input: unknown) => CompanyDetail | {})),
-  catchError((error: Error) => {
-    console.log(error);
-    return of({});
-  })
-);
+namespace CompanyDetail {
+  const fetchDetailPipe = pipe(
+    ofType<RootAction, SharedActionGroup['getCompanyInfo']>(SharedActionType.GET_COMPANY_INFO),
+    switchMap((action: SharedActionGroup['getCompanyInfo']) =>
+      ajax.getJSON(stringifyUrl({ url: `${companyInfoUrl}/detail`, query: { symbol: action.payload.company.value } }))
+    ),
+    map(flow(pick(pickedDetailField), mapKeys(camelCase) as (input: unknown) => CompanyDetail | {})),
+    catchError((error: Error) => {
+      console.log(error);
+      return of({});
+    })
+  );
 
-const detailEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
-  action$.pipe(fetchDetailPipe, filter(fpIsNegate(fpIsEmpty)), map(companyInfoAction.setDetail));
+  const detailPipe = pipe(filter(fpIsNegate(fpIsEmpty)), map(companyInfoAction.setDetail));
 
-// TODO: should provide the exact company name instead of refer it to "company"
-const emptyDetailEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
-  action$.pipe(
-    fetchDetailPipe,
+  // TODO: should provide the exact company name instead of refer it to "company"
+  const emptyDetailPipe = pipe(
     filter(fpIsEmpty),
     concatMapTo(
       of(
@@ -69,6 +67,15 @@ const emptyDetailEpic = (action$: Observable<RootAction>): Observable<RootAction
       )
     )
   );
-const companyInfoEpic = combineEpics(newsEpic, detailEpic, emptyDetailEpic);
+
+  export const detailEpic = (action$: Observable<RootAction>): Observable<RootAction> => {
+    const ajax$ = action$.pipe(fetchDetailPipe, share());
+    const empty$ = ajax$.pipe(emptyDetailPipe);
+    const content$ = ajax$.pipe(detailPipe);
+    return merge(empty$, content$);
+  };
+}
+
+const companyInfoEpic = combineEpics(newsEpic, CompanyDetail.detailEpic);
 
 export { companyInfoEpic };
