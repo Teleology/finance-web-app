@@ -11,11 +11,16 @@ import { EmptyContent } from '../../bottom-level/empty-content/empty-content.com
 import { emptyIconProps } from '../../common-props';
 import { LoadingContent, LoadingContentWrapper } from '../../bottom-level/loading-content/loading-content.component';
 import { FetchStatusEnum } from '../../../utils/network-util';
+import { DeepNonNullable } from '../../../utils/type-util';
+import { companyDetailSelector } from '../../../service/company-info/company-info.selector';
 import styles from './company-detail.styles';
 
-const mapState = ({ companyInfo }: RootState) =>
+const mapState = (state: RootState) =>
   ({
-    detail: companyInfo.detail
+    detail: {
+      data: companyDetailSelector(state),
+      fetchStatus: state.companyInfo.detail.fetchStatus
+    }
   } as const);
 
 type Props = ReturnType<typeof mapState>;
@@ -24,11 +29,9 @@ const textGridItemProps: GridProps = { item: true, xs: 6 };
 const textSubTitleProps: TypographyProps = { variant: 'subtitle1' };
 const textBodyProps: TypographyProps = { variant: 'body1', color: 'textSecondary' };
 
-// TODO: link for stock symbol, $, s format for number and strings
-const CompanyDetailBase = (props: Props): React.ReactElement => {
+const CompanyDetailBase = (props: DeepNonNullable<Props>): React.ReactElement => {
   const { useCardHeaderStyles, useCardHeaderIconStyles } = styles;
-  // TODO remove null check
-  const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = props.detail.data!!!;
+  const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = props.detail.data;
   return (
     <LoadingContentWrapper isLoading={false}>
       <CardHeader

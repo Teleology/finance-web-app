@@ -61,7 +61,8 @@ const persistRootReducer = persistReducer(
   {
     key: 'root',
     storage,
-    blacklist: ['router', 'companySelection', 'companySearch', 'stockTimeSeries', 'companyCollection', 'companyInfo', 'modal'] as Array<keyof RootState>
+    blacklist: ['router', 'modal'] as Array<keyof RootState>
+    // blacklist: ['router', 'companySelection', 'companySearch', 'stockTimeSeries', 'companyCollection', 'companyInfo', 'modal'] as Array<keyof RootState>
   },
   rootReducer
 );

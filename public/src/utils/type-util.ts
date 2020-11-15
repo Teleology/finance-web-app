@@ -9,4 +9,11 @@ type Override<T1, T2> = Omit<T1, keyof T2> & T2;
 
 type LabelText<T> = { value: T; label: string };
 
-export { Nullable, ReturnTypeOfGroup, Override, LabelText };
+// adapted from https://github.com/piotrwitek/utility-types
+type DeepNonNullableObject<T> = {
+  [P in keyof T]: DeepNonNullable<NonNullable<T[P]>>;
+};
+
+type DeepNonNullable<T> = T extends object ? DeepNonNullableObject<T> : T;
+
+export { Nullable, ReturnTypeOfGroup, Override, LabelText, DeepNonNullable };
