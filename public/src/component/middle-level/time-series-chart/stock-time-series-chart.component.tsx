@@ -19,8 +19,8 @@ const StockTimeSeriesChart = ({ getTimeSeries, series, company }: Props): React.
     company !== null && getTimeSeries(company);
   }, [getTimeSeries, company]);
   return (
-    <div style={{ height: 800 }}>
-      <LineChart data={series} debounceTime={350} parentHeight={900} initialHeight={300} />;
+    <div style={{ minHeight: 200, height: '50vh', maxHeight: 800 }}>
+      <LineChart data={series} />;
     </div>
   );
 };

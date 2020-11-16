@@ -10,7 +10,7 @@ const theme = createMuiTheme({
       main: '#3F51B5'
     },
     secondary: {
-      main: '#3F51B5'
+      main: '#1F87E6'
     },
     text: {
       primary: '#263238',
@@ -105,5 +105,5 @@ const theme = createMuiTheme({
   }
 });
 
-
+console.log(theme);
 export { theme };

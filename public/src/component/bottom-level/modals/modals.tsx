@@ -10,7 +10,6 @@ import { ConfirmActionPanel } from './confirmation-modal/confirmation-action-pan
 import { AlertActionPanel } from './alert-modal/alert-action-panel.component';
 
 const createModal = <T extends keyof ModalPropsGroup>(ActionComponent: React.FC<ModalActionComponentPropsGroup[T]>): React.FC<ModalPropsGroup[T]> => {
-  console.log(123);
   // eslint-disable-next-line react/display-name
   return (props: ModalPropsGroup[T]): React.ReactElement => {
     const { title, content, dispatch, ...rest } = props;
