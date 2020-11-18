@@ -61,7 +61,8 @@ const persistRootReducer = persistReducer(
   {
     key: 'root',
     storage,
-    blacklist: ['router', 'modal'] as Array<keyof RootState>
+    // TODO: bug persist date in redux cause undefined when rendering charts
+    blacklist: ['router', 'modal', 'stockTimeSeries'] as Array<keyof RootState>
     // blacklist: ['router', 'companySelection', 'companySearch', 'stockTimeSeries', 'companyCollection', 'companyInfo', 'modal'] as Array<keyof RootState>
   },
   rootReducer
