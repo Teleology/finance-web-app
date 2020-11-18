@@ -13,7 +13,6 @@ type LabelText<T> = { value: T; label: string };
 type DeepNonNullableObject<T> = {
   [P in keyof T]: DeepNonNullable<NonNullable<T[P]>>;
 };
-
 type DeepNonNullable<T> = T extends object ? DeepNonNullableObject<T> : T;
 
 export { Nullable, ReturnTypeOfGroup, Override, LabelText, DeepNonNullable };

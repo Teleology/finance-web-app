@@ -1,4 +1,4 @@
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import { ajax } from 'rxjs/ajax';
@@ -43,7 +43,7 @@ const setTimeSeriesEpic = (action$: Observable<RootAction>): Observable<RootActi
     map(stockTimeSeriesAction.setTimeSeries),
     catchError((error) => {
       console.log(error);
-      return EMPTY;
+      return of(stockTimeSeriesAction.getTimeSeriesFailure());
     })
   );
 

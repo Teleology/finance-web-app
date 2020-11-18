@@ -44,7 +44,7 @@ const getSetting = (width: number, height: number, padding: number, data: Array<
     domain: extent(data, ySelector) as [number, number]
   });
   // TODO: undefined check
-  const renderX = flow(logFlow, xSelector, logFlow, xScale, logFlow) as Setting['renderX'];
+  const renderX = flow(xSelector, xScale) as Setting['renderX'];
   const renderY = flow(ySelector, yScale) as Setting['renderY'];
   return {
     xMaxRange,

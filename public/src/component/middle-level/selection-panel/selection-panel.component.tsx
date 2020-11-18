@@ -46,6 +46,7 @@ const SelectionPanel = (props: Props): React.ReactElement => {
     tableRowStyles = styles.useTableRowStyles(),
     selectionStyles = styles.useSelectStyles();
 
+  // TODO: use layout effect maybe better
   React.useEffect(() => {
     getContinentOptions();
   }, [getContinentOptions]);
