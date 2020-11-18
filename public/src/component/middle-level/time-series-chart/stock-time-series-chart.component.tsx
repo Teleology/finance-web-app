@@ -18,6 +18,7 @@ const StockTimeSeriesChart = ({ getTimeSeries, series, company }: Props): React.
   React.useEffect(() => {
     company !== null && getTimeSeries(company);
   }, [getTimeSeries, company]);
+  // set LineChart's debounceTime to 0 if you want immediately updating
   return (
     <div style={{ minHeight: 200, height: '50vh', maxHeight: 800 }}>
       <LineChart data={series} />;

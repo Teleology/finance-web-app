@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { get, flow, map } from 'lodash/fp';
+import { get, flow } from 'lodash/fp';
 import { extent } from 'd3-array';
 import { ScaleTime, ScaleLinear, NumberValue } from 'd3-scale';
 import { scaleTime, scaleLinear } from '@visx/scale';
 import { AxisLeft, AxisBottom } from '@visx/axis';
-import { ParentSize, withParentSize } from '@visx/responsive';
+import { withParentSize } from '@visx/responsive';
 import { LinePath } from '@visx/shape';
 import { WithParentSizeProps, WithParentSizeProvidedProps } from '@visx/responsive/lib/enhancers/withParentSize';
-import { ParentSizeProps } from '@visx/responsive/lib/components/ParentSize';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series.typing';
 import { formatChartTime } from '../../../utils/formatter';
 import styles from './line-chart.styles';
