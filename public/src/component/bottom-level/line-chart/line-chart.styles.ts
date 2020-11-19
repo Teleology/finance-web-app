@@ -8,9 +8,21 @@ const useChartStyles = makeStyles(({ palette }: Theme) => ({
   },
   circle: {
     fill: palette.secondary.main
+  },
+  axis: {
+    stroke: '#e5e5e5',
+    strokeWidth: 1
+  }
+}));
+
+const useLabelStyles = makeStyles(({ typography }: Theme) => ({
+  axis: {
+    stroke: '#96A3A9',
+    ...typography.body2
   }
 }));
 
 export default {
-  useChartStyles
+  useChartStyles,
+  useLabelStyles
 };

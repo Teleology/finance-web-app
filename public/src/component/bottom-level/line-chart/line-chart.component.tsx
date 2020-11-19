@@ -3,10 +3,11 @@ import { get, flow } from 'lodash/fp';
 import { extent } from 'd3-array';
 import { ScaleTime, ScaleLinear, NumberValue } from 'd3-scale';
 import { scaleTime, scaleLinear } from '@visx/scale';
-import { AxisLeft, AxisBottom } from '@visx/axis';
+import { AxisLeft, AxisBottom, CommonProps, AxisScale } from '@visx/axis';
 import { withParentSize } from '@visx/responsive';
 import { LinePath } from '@visx/shape';
 import { WithParentSizeProps, WithParentSizeProvidedProps } from '@visx/responsive/lib/enhancers/withParentSize';
+import { AxisProps } from '@visx/axis/lib/axis/Axis';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series.typing';
 import { formatChartTime } from '../../../utils/formatter';
 import { logFlow } from '../../../utils/stream';
@@ -75,17 +76,32 @@ const getSetting = (width: number, height: number, padding: number, data: Array<
 // };
 
 const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
-  console.log('re-render');
-  const { path } = styles.useChartStyles();
+  const chartStyles = styles.useChartStyles();
+  const labelStyles = styles.useLabelStyles();
+  const axisStyleProps: CommonProps<AxisScale> = {
+    tickStroke: '#e5e5e5',
+    stroke: '#e5e5e5'
+  };
   const { data, parentWidth: width, parentHeight: height } = props;
-  console.log(width, height);
   const padding = 50;
   const { renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => getSetting(width!!!, height!!!, padding, data), [data, width, height]);
   return (
     <svg width={width} height={height}>
-      <AxisBottom<ScaleTime<number, number>> scale={xScale} top={yMaxRange} tickFormat={formatChartTime as (value: Date | NumberValue) => string} />
-      <AxisLeft scale={yScale} left={padding} hideZero={true} />
-      <LinePath data={data} x={renderX} y={renderY} className={path} />
+      <AxisBottom<ScaleTime<number, number>>
+        scale={xScale}
+        top={yMaxRange}
+        tickFormat={formatChartTime as (value: Date | NumberValue) => string}
+        tickLabelProps={() => ({ fill: '#96A3A9', textAnchor: 'middle', fontSize: '1rem' })}
+        {...axisStyleProps}
+      />
+      <AxisLeft
+        scale={yScale}
+        left={padding}
+        hideZero={true}
+        {...axisStyleProps}
+        tickLabelProps={() => ({ fill: '#96A3A9', fontSize: '1rem', textAnchor: 'middle', verticalAnchor: 'middle', dx: -8 })}
+      />
+      <LinePath data={data} x={renderX} y={renderY} className={chartStyles.path} />
     </svg>
   );
 };
