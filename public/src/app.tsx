@@ -15,6 +15,7 @@ import { AppDrawerManager } from './component/middle-level/app-drawer-manager.co
 import { compareLink, infoLink, searchLink } from './utils/network-util';
 import { SearchPage } from './component/top-level/search-page.component';
 import { ModalManagerContainer } from './component/bottom-level/modals/modals';
+import { InfoPage } from './component/top-level/info-page/info-page.component';
 
 export const App = (): React.ReactElement => (
   <Provider store={store}>
@@ -32,8 +33,7 @@ export const App = (): React.ReactElement => (
           </AppDrawerManager>
           <Switch>
             <Route exact={true} path={infoLink}>
-              <StockTimeSeriesChartContainer />
-              <NewsSectionContainer />
+              <InfoPage />
             </Route>
             <Route exact={true} path={compareLink}>
               <CompanyWatcher />

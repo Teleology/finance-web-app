@@ -13,7 +13,9 @@ type Props = ReturnType<typeof mapState>;
 const NewsSection = ({ newsList }: Props): React.ReactElement => (
   <Grid direction="column" container={true}>
     {_.map(newsList, (datum: NewsUnit) => (
-      <Typography variant="body1">{JSON.stringify(datum)}</Typography>
+      <Typography variant="body1" key={datum.title + datum.source}>
+        {JSON.stringify(datum)}
+      </Typography>
     ))}
   </Grid>
 );
