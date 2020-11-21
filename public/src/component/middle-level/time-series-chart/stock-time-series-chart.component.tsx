@@ -5,6 +5,7 @@ import { stockTimeSeriesAction } from '../../../service/stock-time-series/stock-
 import { RootState } from '../../../service/root-store';
 import { stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
 import { LineChart } from '../../bottom-level/line-chart/line-chart.component';
+import { Breadcrumbs, Grid } from '@material-ui/core';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries'>(stockTimeSeriesAction, ['getTimeSeries']);
 const mapState = ({ stockTimeSeries, companyCollection }: RootState) =>
@@ -22,9 +23,17 @@ const StockTimeSeriesChart = ({ getTimeSeries, series, company }: Props): React.
   }, [getTimeSeries, company]);
   // set LineChart's debounceTime to 0 if you want immediately updating
   return (
-    <div style={{ minHeight: 200, height: '50vh', maxHeight: 800 }}>
-      <LineChart data={series.data} />;
+    <div>
+      <div>
+        <Breadcrumbs>
+
+        </Breadcrumbs>
+      </div>
+        <div style={{ minHeight: 200, height: '50vh', maxHeight: 800 }}>
+          <LineChart data={series.data} />;
+        </div>
     </div>
+
   );
 };
 

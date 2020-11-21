@@ -1,4 +1,4 @@
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import { ajax } from 'rxjs/ajax';
@@ -19,7 +19,7 @@ type StockTimeSeriesContract = {
   metaData: StockTimeSeriesMeta;
   series: Array<Override<StockTimeSeriesUnit, { time: string }>>;
 };
-const stockTimeSeriesUrl = `${baseUrl}/stock/days`;
+const stockTimeSeriesUrl = `${baseUrl}/stock/weeks`;
 const setTimeSeriesEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
     ofType<RootAction, StockTimeSeriesActionGroup['getTimeSeries']>(StockTimeSeriesActionType.GET_TIME_SERIES),
