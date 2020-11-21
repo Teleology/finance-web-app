@@ -3,10 +3,10 @@ type LabelUnit = {
   label: string;
 };
 
-const PeriodEnum = {
-  DAY: 'day',
-  MONTH: 'month',
-
+enum PeriodEnum {
+  DAY = 'day',
+  WEEK = 'week',
+  MONTH = 'month'
 }
 
-export { LabelUnit };
+export { LabelUnit, PeriodEnum };

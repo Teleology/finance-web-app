@@ -1,17 +1,20 @@
 import { ReturnTypeOfGroup } from '../../utils/type-util';
+import { PeriodEnum } from '../../utils/general-type';
 import { StockTimeSeries } from './stock-time-series.typing';
 
 namespace StockTimeSeriesActionType {
   export const GET_TIME_SERIES = 'stock-time-series/GET_TIME_SERIES';
   export const GET_TIME_SERIES_FAILURE = 'stock-time-series/GET_TIME_SERIES_FAILURE';
   export const SET_TIME_SERIES = 'stock-time-series/SET_TIME_SERIES';
+  export const SET_PERIOD = 'stock-time-series/SET_PERIOD';
 }
 
-const getTimeSeries = (symbol: string) =>
+const getTimeSeries = (symbol: string, period: PeriodEnum) =>
   ({
     type: StockTimeSeriesActionType.GET_TIME_SERIES,
     payload: {
-      symbol
+      symbol,
+      period
     }
   } as const);
 
@@ -26,10 +29,16 @@ const setTimeSeries = (series: StockTimeSeries) =>
     payload: series
   } as const);
 
+const setPeriod = (period: PeriodEnum) =>
+  ({
+    type: StockTimeSeriesActionType.SET_PERIOD,
+    payload: { period }
+  } as const);
 const stockTimeSeriesAction = {
   setTimeSeries,
   getTimeSeriesFailure,
-  getTimeSeries
+  getTimeSeries,
+  setPeriod
 };
 
 type StockTimeSeriesActionGroup = ReturnTypeOfGroup<typeof stockTimeSeriesAction>;

@@ -1,5 +1,6 @@
 import { Nullable } from '../../utils/type-util';
 import { FetchStatusEnum } from '../../utils/network-util';
+import { PeriodEnum } from '../../utils/general-type';
 
 type StockTimeSeriesUnit = {
   open: number;
@@ -22,7 +23,7 @@ type StockTimeSeries = {
   series: Array<StockTimeSeriesUnit>;
 };
 
-type StockTimeSeriesState = Nullable<StockTimeSeries> & { fetchStatus: FetchStatusEnum };
+type StockTimeSeriesState = Nullable<StockTimeSeries> & { fetchStatus: FetchStatusEnum; period: PeriodEnum };
 
 type TimeChartDataUnit = { x: Date; y: number };
 
