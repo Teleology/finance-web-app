@@ -8,6 +8,7 @@ import { withParentSize } from '@visx/responsive';
 import { LinePath } from '@visx/shape';
 import { WithParentSizeProps, WithParentSizeProvidedProps } from '@visx/responsive/lib/enhancers/withParentSize';
 import { AxisProps } from '@visx/axis/lib/axis/Axis';
+import { TickLabelProps } from '@visx/axis/lib/types';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series.typing';
 import { formatChartTime } from '../../../utils/formatter';
 import { logFlow } from '../../../utils/stream';
@@ -74,14 +75,24 @@ const getSetting = (width: number, height: number, padding: number, data: Array<
 //     </svg>
 //   );
 // };
+const axisCommonStyleProps: CommonProps<AxisScale> = {
+  tickStroke: '#e5e5e5',
+  stroke: '#e5e5e5'
+};
+
+const tickLabelProps = ((): { left: TickLabelProps<NumberValue>; bottom: TickLabelProps<NumberValue> } => {
+  const commonProps = { fill: '#96A3A9', textAnchor: 'middle', fontSize: '1rem' } as const;
+  const left: TickLabelProps<NumberValue> = () => ({ ...commonProps, verticalAnchor: 'middle', dx: -8 });
+  const bottom: TickLabelProps<NumberValue> = () => commonProps;
+  return {
+    left,
+    bottom
+  };
+})();
 
 const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
   const chartStyles = styles.useChartStyles();
-  const labelStyles = styles.useLabelStyles();
-  const axisStyleProps: CommonProps<AxisScale> = {
-    tickStroke: '#e5e5e5',
-    stroke: '#e5e5e5'
-  };
+
   const { data, parentWidth: width, parentHeight: height } = props;
   const padding = 50;
   const { renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => getSetting(width!!!, height!!!, padding, data), [data, width, height]);
@@ -91,21 +102,15 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
         scale={xScale}
         top={yMaxRange}
         tickFormat={formatChartTime as (value: Date | NumberValue) => string}
-        tickLabelProps={() => ({ fill: '#96A3A9', textAnchor: 'middle', fontSize: '1rem' })}
-        {...axisStyleProps}
+        tickLabelProps={tickLabelProps.bottom}
+        {...axisCommonStyleProps}
       />
-      <AxisLeft
-        scale={yScale}
-        left={padding}
-        hideZero={true}
-        {...axisStyleProps}
-        tickLabelProps={() => ({ fill: '#96A3A9', fontSize: '1rem', textAnchor: 'middle', verticalAnchor: 'middle', dx: -8 })}
-      />
-      <LinePath data={data} x={renderX} y={renderY} className={chartStyles.path} />
+      <AxisLeft scale={yScale} left={padding} hideZero={true} tickLabelProps={tickLabelProps.left} {...axisCommonStyleProps} />
     </svg>
   );
 };
 
+//      <LinePath data={data} x={renderX} y={renderY} className={chartStyles.path} />
 // const LineChart = (props: Props) => <ParentSize>{(parent) => <LineChartFactory {...props} width={parent.width} height={parent.height} />}</ParentSize>;
 const LineChart = withParentSize<Props & WithParentSizeProps & WithParentSizeProvidedProps>(LineChartFactory);
 export { LineChart };
