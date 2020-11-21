@@ -11,9 +11,8 @@ import { TickLabelProps } from '@visx/axis/lib/types';
 import { LinearGradient } from '@visx/gradient';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series.typing';
 import { formatDayMonth } from '../../../utils/formatter';
-
-import { logFlow } from '../../../utils/stream';
 import styles from './line-chart.styles';
+
 type Coordinate = TimeChartDataUnit;
 
 type Setting = {
@@ -98,7 +97,7 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
       <AxisBottom<ScaleTime<number, number>>
         scale={xScale}
         top={yMaxRange}
-        tickFormat={flow(formatDayMonth, logFlow) as (value: Date | NumberValue) => string}
+        tickFormat={formatDayMonth as (value: Date | NumberValue) => string}
         tickLabelProps={tickLabelProps.bottom}
         {...axisCommonStyleProps}
       />
