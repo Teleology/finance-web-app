@@ -5,13 +5,13 @@ import { ScaleTime, ScaleLinear, NumberValue } from 'd3-scale';
 import { scaleTime, scaleLinear } from '@visx/scale';
 import { AxisLeft, AxisBottom, CommonProps, AxisScale } from '@visx/axis';
 import { withParentSize } from '@visx/responsive';
-import { LinePath } from '@visx/shape';
+import { AreaClosed } from '@visx/shape';
 import { WithParentSizeProps, WithParentSizeProvidedProps } from '@visx/responsive/lib/enhancers/withParentSize';
-import { AxisProps } from '@visx/axis/lib/axis/Axis';
 import { TickLabelProps } from '@visx/axis/lib/types';
+import { LinearGradient } from '@visx/gradient';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series.typing';
 import { formatChartTime } from '../../../utils/formatter';
-import { logFlow } from '../../../utils/stream';
+
 import styles from './line-chart.styles';
 type Coordinate = TimeChartDataUnit;
 
@@ -27,10 +27,6 @@ type Setting = {
 type Props = {
   data: Array<Coordinate>;
 };
-
-export const background = '#3b6978';
-export const background2 = '#204051';
-export const accentColor = '#edffea';
 
 const getSetting = (width: number, height: number, padding: number, data: Array<Coordinate>): Setting => {
   const xMaxRange = width - padding;
@@ -91,13 +87,13 @@ const tickLabelProps = ((): { left: TickLabelProps<NumberValue>; bottom: TickLab
 })();
 
 const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
-  const chartStyles = styles.useChartStyles();
-
   const { data, parentWidth: width, parentHeight: height } = props;
   const padding = 50;
   const { renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => getSetting(width!!!, height!!!, padding, data), [data, width, height]);
   return (
     <svg width={width} height={height}>
+      <LinearGradient {...styles.areaFillGradientProps} />
+      <LinearGradient {...styles.areaStrokeGradientProps} />
       <AxisBottom<ScaleTime<number, number>>
         scale={xScale}
         top={yMaxRange}
@@ -106,6 +102,7 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
         {...axisCommonStyleProps}
       />
       <AxisLeft scale={yScale} left={padding} hideZero={true} tickLabelProps={tickLabelProps.left} {...axisCommonStyleProps} />
+      <AreaClosed<Coordinate> {...styles.areaClosedStyleProps} data={data} x={renderX} y={renderY} yScale={yScale} />
     </svg>
   );
 };

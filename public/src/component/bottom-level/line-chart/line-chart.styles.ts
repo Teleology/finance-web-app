@@ -1,4 +1,25 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { LinearGradientProps } from '@visx/gradient/lib/gradients/LinearGradient';
+import { theme } from '../../../theme';
+
+const areaStrokeGradientProps: LinearGradientProps = {
+  id: 'area-stroke-gradient',
+  from: theme.palette.secondary.dark,
+  to: theme.palette.secondary.dark,
+  toOpacity: 0
+};
+
+const areaFillGradientProps: LinearGradientProps = {
+  id: 'area-fill-gradient',
+  from: theme.palette.secondary.light,
+  to: theme.palette.secondary.light,
+  toOpacity: 0.1
+};
+
+const areaClosedStyleProps = {
+  stroke: `url(#${areaStrokeGradientProps.id})`,
+  fill: `url(#${areaFillGradientProps.id})`
+};
 
 const useChartStyles = makeStyles(({ palette }: Theme) => ({
   path: {
@@ -24,5 +45,8 @@ const useLabelStyles = makeStyles(({ typography }: Theme) => ({
 
 export default {
   useChartStyles,
-  useLabelStyles
+  useLabelStyles,
+  areaFillGradientProps,
+  areaStrokeGradientProps,
+  areaClosedStyleProps
 };

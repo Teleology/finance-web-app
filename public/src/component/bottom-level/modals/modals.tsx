@@ -9,9 +9,9 @@ import { modalAction } from '../../../service/shared-service/modal/modal.action'
 import { ConfirmActionPanel } from './confirmation-modal/confirmation-action-panel.component';
 import { AlertActionPanel } from './alert-modal/alert-action-panel.component';
 
-const createModal = <T extends keyof ModalPropsGroup>(ActionComponent: React.FC<ModalActionComponentPropsGroup[T]>): React.FC<ModalPropsGroup[T]> => {
+const createModal = <T extends keyof ModalPropsGroup>(ActionComponent: React.FC<ModalActionComponentPropsGroup[T]>): React.FC<ModalPropsGroup[T]> =>
   // eslint-disable-next-line react/display-name
-  return (props: ModalPropsGroup[T]): React.ReactElement => {
+  (props: ModalPropsGroup[T]): React.ReactElement => {
     const { title, content, dispatch, ...rest } = props;
     const actionComponentProps = ({ ...rest, dispatch } as unknown) as ModalActionComponentPropsGroup[T];
     const handleClose = React.useCallback(() => {
@@ -29,8 +29,6 @@ const createModal = <T extends keyof ModalPropsGroup>(ActionComponent: React.FC<
       </Dialog>
     );
   };
-};
-
 const AlertModal = createModal<ModalType.ALERT>(AlertActionPanel);
 AlertModal.displayName = 'AlertModal';
 const ConfirmationModal = createModal<ModalType.CONFIRM>(ConfirmActionPanel);
