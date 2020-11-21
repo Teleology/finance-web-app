@@ -6,6 +6,7 @@ import { StockTimeSeriesActionType } from './stock-time-series.action';
 const defaultState: StockTimeSeriesState = {
   metaData: null,
   series: null,
+  period: 'mon'
   fetchStatus: FetchStatusEnum.NEVER
 };
 

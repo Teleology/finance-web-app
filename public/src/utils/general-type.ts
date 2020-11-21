@@ -3,4 +3,10 @@ type LabelUnit = {
   label: string;
 };
 
+const PeriodEnum = {
+  DAY: 'day',
+  MONTH: 'month',
+
+}
+
 export { LabelUnit };
