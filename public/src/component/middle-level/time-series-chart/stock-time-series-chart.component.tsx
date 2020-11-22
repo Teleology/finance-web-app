@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { pick } from 'lodash';
+import { pick, reverse } from 'lodash';
 import { connect } from 'react-redux';
 import { Breadcrumbs } from '@material-ui/core';
+import { bisector } from 'd3-array';
 import { stockTimeSeriesAction } from '../../../service/stock-time-series/stock-time-series.action';
 import { RootState } from '../../../service/root-store';
 import { stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
@@ -9,17 +10,23 @@ import { LineChart } from '../../bottom-level/line-chart/line-chart.component';
 import { Breadcrumb } from '../../bottom-level/app-chip.component';
 import { PeriodEnum } from '../../../utils/general-type';
 import styles from './time-series-chart.styles';
-
+const bisectDate = bisector((datum): Date => datum.x).left;
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod'>(stockTimeSeriesAction, ['getTimeSeries', 'setPeriod']);
-const mapState = ({ stockTimeSeries, companyCollection }: RootState) =>
-  ({
+const mapState = ({ stockTimeSeries, companyCollection }: RootState) => {
+  const data = stockTimeSeriesChartConverter(stockTimeSeries);
+  if (data[10] !== undefined) {
+    const xxx = reverse(data);
+    console.log(bisectDate(xxx, xxx[10].x));
+  }
+  return {
     series: {
       fetchStatus: stockTimeSeries.fetchStatus,
-      data: stockTimeSeriesChartConverter(stockTimeSeries),
+      data,
       period: stockTimeSeries.period
     },
     company: companyCollection.collection.value
-  } as const);
+  } as const;
+};
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 const StockTimeSeriesChart = (props: Props): React.ReactElement => {
   const { getTimeSeries, series, company, setPeriod } = props;

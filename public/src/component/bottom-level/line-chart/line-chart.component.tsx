@@ -88,8 +88,14 @@ const tickLabelProps = ((): { left: TickLabelProps<NumberValue>; bottom: TickLab
   };
 })();
 
+// const testDate: Array<Coordinate> = [
+//   { x: new Date(2020, 11, 1), y: 9 },
+//   { x: new Date(2020, 11, 3), y: 9 },
+//   { x: new Date(2020, 11, 5), y: 9 },
+//   { x: new Date(2020, 11, 7), y: 9 }
+// ];
 const bisectDate = bisector((datum: Coordinate): Date => datum.x).left;
-
+// console.log(bisectDate(testDate, new Date(2020, 11, 4)));
 const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
   const { data, parentWidth: width, parentHeight: height } = props;
   const padding = 50;
@@ -100,9 +106,11 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
       console.log('onMouseMove');
       const { x: pointX } = localPoint(event) ?? { x: 0 };
       const x = xScale.invert(pointX);
-      let index = bisectDate(data, x, 1, data.length - 1);
-      const [xLeft, xRight] = [data[index - 1].x, data[index].x];
-      index = x.getTime() - xLeft.getTime() < xRight.getTime() - x.getTime() ? index - 1 : index;
+      console.log(data);
+      const index = bisectDate(data, data[3].x);
+      console.log(index);
+      // const [xLeft, xRight] = [data[index - 1].x, data[index].x];
+      // index = x.getTime() - xLeft.getTime() < xRight.getTime() - x.getTime() ? index - 1 : index;
       showTooltip({
         tooltipData: data[index],
         tooltipLeft: xScale(data[index].x),
@@ -111,8 +119,6 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
     },
     [xScale, yScale, data, showTooltip]
   );
-  console.log(tooltipTop);
-  console.log(tooltipLeft);
   return (
     <div style={{ position: 'relative' }}>
       <svg width={width} height={height} onMouseMove={handleMouseMove} onMouseLeave={hideTooltip}>

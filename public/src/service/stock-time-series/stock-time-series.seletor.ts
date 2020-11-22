@@ -7,7 +7,9 @@ const stockTimeSeriesDataSelector = (state: StockTimeSeriesState): StockTimeSeri
 const stockTimeSeriesChartConverter = createSelector(
   stockTimeSeriesDataSelector,
   (series: StockTimeSeriesState['series']): Array<TimeChartDataUnit> => {
-    if (series === null) return [];
+    if (series === null) {
+      return [];
+    }
     return map(series, (datum: StockTimeSeriesUnit) => ({ x: datum.time, y: datum.close }));
   }
 );
