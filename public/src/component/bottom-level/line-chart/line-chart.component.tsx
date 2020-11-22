@@ -5,7 +5,7 @@ import { ScaleTime, ScaleLinear, NumberValue } from 'd3-scale';
 import { scaleTime, scaleLinear } from '@visx/scale';
 import { AxisLeft, AxisBottom, CommonProps, AxisScale } from '@visx/axis';
 import { withParentSize } from '@visx/responsive';
-import { AreaClosed } from '@visx/shape';
+import { AreaClosed, Line } from '@visx/shape';
 import { WithParentSizeProps, WithParentSizeProvidedProps } from '@visx/responsive/lib/enhancers/withParentSize';
 import { TickLabelProps } from '@visx/axis/lib/types';
 import { LinearGradient } from '@visx/gradient';
@@ -88,26 +88,22 @@ const tickLabelProps = ((): { left: TickLabelProps<NumberValue>; bottom: TickLab
   };
 })();
 
-// const testDate: Array<Coordinate> = [
-//   { x: new Date(2020, 11, 1), y: 9 },
-//   { x: new Date(2020, 11, 3), y: 9 },
-//   { x: new Date(2020, 11, 5), y: 9 },
-//   { x: new Date(2020, 11, 7), y: 9 }
-// ];
 const bisectDate = bisector((datum: Coordinate): Date => datum.x).left;
-// console.log(bisectDate(testDate, new Date(2020, 11, 4)));
 const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
   const { data, parentWidth: width, parentHeight: height } = props;
+  // TODO: padding as prop?
   const padding = 50;
   const { showTooltip, hideTooltip, tooltipLeft = 0, tooltipTop = 0, tooltipData } = useTooltip<Coordinate>();
+  const toolTipBoxStyles = styles.useToolTipBoxStyles().root;
+  // TODO: strict null check
   const { renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => getSetting(width!!!, height!!!, padding, data), [data, width, height]);
   const handleMouseMove = React.useCallback(
     (event: React.MouseEvent<SVGElement>) => {
       const { x: pointX } = localPoint(event) ?? { x: 0 };
       const x = xScale.invert(pointX);
-      const index = bisectDate(data, x);
-      // const [xLeft, xRight] = [data[index - 1].x, data[index].x];
-      // index = x.getTime() - xLeft.getTime() < xRight.getTime() - x.getTime() ? index - 1 : index;
+      let index = bisectDate(data, x, 1, data.length - 1);
+      const [xLeft, xRight] = [data[index - 1].x, data[index].x];
+      index = x.getTime() - xLeft.getTime() < xRight.getTime() - x.getTime() ? index - 1 : index;
       showTooltip({
         tooltipData: data[index],
         tooltipLeft: xScale(data[index].x),
@@ -116,7 +112,7 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
     },
     [xScale, yScale, data, showTooltip]
   );
-  console.log(tooltipLeft, tooltipTop);
+  console.log(tooltipLeft);
   return (
     <div style={{ position: 'relative' }}>
       <svg width={width} height={height} onMouseMove={handleMouseMove} onMouseLeave={hideTooltip}>
@@ -131,10 +127,18 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
         />
         <AxisLeft scale={yScale} left={padding} hideZero={true} tickLabelProps={tickLabelProps.left} {...axisCommonStyleProps} />
         <AreaClosed<Coordinate> {...styles.areaClosedStyleProps} data={data} x={renderX} y={renderY} yScale={yScale} />
+        {tooltipData && (
+          <>
+            <circle {...styles.circleStyleProps} cx={tooltipLeft} cy={tooltipTop} r={4} />
+          </>
+        )}
+        {tooltipData && <Line {...styles.lineStyleProps} from={{ x: tooltipLeft, y: padding }} to={{ x: tooltipLeft, y: height!!! - padding }} />}
       </svg>
       {tooltipData && (
-        <Tooltip top={tooltipTop} left={tooltipLeft} style={{ background: 'yellow', width: 100, height: 100, position: 'absolute' }}>
-          {tooltipData.x + ',' + tooltipData.y + ',' + tooltipTop + ',' + tooltipLeft}
+        <Tooltip top={tooltipTop} left={tooltipLeft} className={toolTipBoxStyles}>
+          {tooltipData.y}
+          <br />
+          {tooltipData.x.toString()}
         </Tooltip>
       )}
     </div>

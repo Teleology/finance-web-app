@@ -1,5 +1,6 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { emphasize, lighten, makeStyles, Theme } from '@material-ui/core/styles';
 import { LinearGradientProps } from '@visx/gradient/lib/gradients/LinearGradient';
+import * as React from 'react';
 import { theme } from '../../../theme';
 
 const areaStrokeGradientProps: LinearGradientProps = {
@@ -27,6 +28,7 @@ const useChartStyles = makeStyles(({ palette }: Theme) => ({
     fill: 'none',
     strokeWidth: 3
   },
+  // TODO: delete
   circle: {
     fill: palette.primary.main
   },
@@ -43,10 +45,37 @@ const useLabelStyles = makeStyles(({ typography }: Theme) => ({
   }
 }));
 
+const circleStyleProps: React.SVGAttributes<SVGCircleElement> = {
+  fill: theme.palette.primary.main,
+  pointerEvents: 'none'
+};
+
+const lineStyleProps: React.SVGAttributes<SVGLineElement> = {
+  strokeDasharray: '5 2',
+  pointerEvents: 'none',
+  strokeWidth: 2,
+  stroke: lighten(theme.palette.primary.main, 0.3)
+};
+
+const useToolTipBoxStyles = makeStyles((theme: Theme) => ({
+  root: {
+    position: 'absolute',
+    border: '1px solid #e3e3e3',
+    background: 'rgba(255, 255, 255, 0.96)',
+    borderRadius: 5,
+    boxShadow: '2px 2px 6px -4px #999',
+    ...theme.typography.body2,
+    pointerEvents: 'none'
+  }
+}));
+
 export default {
   useChartStyles,
   useLabelStyles,
   areaFillGradientProps,
   areaStrokeGradientProps,
-  areaClosedStyleProps
+  areaClosedStyleProps,
+  circleStyleProps,
+  lineStyleProps,
+  useToolTipBoxStyles
 };

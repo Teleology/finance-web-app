@@ -9,22 +9,17 @@ import { LineChart } from '../../bottom-level/line-chart/line-chart.component';
 import { Breadcrumb } from '../../bottom-level/app-chip.component';
 import { PeriodEnum } from '../../../utils/general-type';
 import styles from './time-series-chart.styles';
-// const bisectDate = bisector((datum, x): number => x.getTime() - datum.x.getTime()).left;
+
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod'>(stockTimeSeriesAction, ['getTimeSeries', 'setPeriod']);
-const mapState = ({ stockTimeSeries, companyCollection }: RootState) => {
-  const data = stockTimeSeriesChartConverter(stockTimeSeries);
-  // if (data[10] !== undefined) {
-  //   console.log(bisectDate(data, data[10].x));
-  // }
-  return {
+const mapState = ({ stockTimeSeries, companyCollection }: RootState) =>
+  ({
     series: {
       fetchStatus: stockTimeSeries.fetchStatus,
-      data,
+      data: stockTimeSeriesChartConverter(stockTimeSeries),
       period: stockTimeSeries.period
     },
     company: companyCollection.collection.value
-  } as const;
-};
+  } as const);
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 const StockTimeSeriesChart = (props: Props): React.ReactElement => {
   const { getTimeSeries, series, company, setPeriod } = props;
