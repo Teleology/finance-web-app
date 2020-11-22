@@ -6,7 +6,7 @@ const useBreadcrumbStyles = makeStyles(
     ({
       root: (props: { isSelected: boolean }) => ({
         minWidth: 80,
-        ...(props.isSelected && { backgroundColor: palette.secondary.light, color: 'white' })
+        ...(props.isSelected && { backgroundColor: palette.primary.light, color: 'white' })
       })
     } as StyleRules<ChipClassKey>)
 );

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { get, flow } from 'lodash/fp';
-import { extent } from 'd3-array';
+import { extent, bisector } from 'd3-array';
 import { ScaleTime, ScaleLinear, NumberValue } from 'd3-scale';
 import { scaleTime, scaleLinear } from '@visx/scale';
 import { AxisLeft, AxisBottom, CommonProps, AxisScale } from '@visx/axis';
@@ -9,6 +9,8 @@ import { AreaClosed } from '@visx/shape';
 import { WithParentSizeProps, WithParentSizeProvidedProps } from '@visx/responsive/lib/enhancers/withParentSize';
 import { TickLabelProps } from '@visx/axis/lib/types';
 import { LinearGradient } from '@visx/gradient';
+import { localPoint } from '@visx/event';
+import { Tooltip, useTooltip } from '@visx/tooltip';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series.typing';
 import { formatDayMonth } from '../../../utils/formatter';
 import styles from './line-chart.styles';
@@ -86,24 +88,52 @@ const tickLabelProps = ((): { left: TickLabelProps<NumberValue>; bottom: TickLab
   };
 })();
 
+const bisectDate = bisector((datum: Coordinate): Date => datum.x).left;
+
 const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
   const { data, parentWidth: width, parentHeight: height } = props;
   const padding = 50;
+  const { showTooltip, hideTooltip, tooltipLeft = 0, tooltipTop = 0, tooltipData } = useTooltip<Coordinate>();
   const { renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => getSetting(width!!!, height!!!, padding, data), [data, width, height]);
+  const handleMouseMove = React.useCallback(
+    (event: React.MouseEvent<SVGElement>) => {
+      console.log('onMouseMove');
+      const { x: pointX } = localPoint(event) ?? { x: 0 };
+      const x = xScale.invert(pointX);
+      let index = bisectDate(data, x, 1, data.length - 1);
+      const [xLeft, xRight] = [data[index - 1].x, data[index].x];
+      index = x.getTime() - xLeft.getTime() < xRight.getTime() - x.getTime() ? index - 1 : index;
+      showTooltip({
+        tooltipData: data[index],
+        tooltipLeft: xScale(data[index].x),
+        tooltipTop: yScale(data[index].y)
+      });
+    },
+    [xScale, yScale, data, showTooltip]
+  );
+  console.log(tooltipTop);
+  console.log(tooltipLeft);
   return (
-    <svg width={width} height={height}>
-      <LinearGradient {...styles.areaFillGradientProps} />
-      <LinearGradient {...styles.areaStrokeGradientProps} />
-      <AxisBottom<ScaleTime<number, number>>
-        scale={xScale}
-        top={yMaxRange}
-        tickFormat={formatDayMonth as (value: Date | NumberValue) => string}
-        tickLabelProps={tickLabelProps.bottom}
-        {...axisCommonStyleProps}
-      />
-      <AxisLeft scale={yScale} left={padding} hideZero={true} tickLabelProps={tickLabelProps.left} {...axisCommonStyleProps} />
-      <AreaClosed<Coordinate> {...styles.areaClosedStyleProps} data={data} x={renderX} y={renderY} yScale={yScale} />
-    </svg>
+    <div style={{ position: 'relative' }}>
+      <svg width={width} height={height} onMouseMove={handleMouseMove} onMouseLeave={hideTooltip}>
+        <LinearGradient {...styles.areaFillGradientProps} />
+        <LinearGradient {...styles.areaStrokeGradientProps} />
+        <AxisBottom<ScaleTime<number, number>>
+          scale={xScale}
+          top={yMaxRange}
+          tickFormat={formatDayMonth as (value: Date | NumberValue) => string}
+          tickLabelProps={tickLabelProps.bottom}
+          {...axisCommonStyleProps}
+        />
+        <AxisLeft scale={yScale} left={padding} hideZero={true} tickLabelProps={tickLabelProps.left} {...axisCommonStyleProps} />
+        <AreaClosed<Coordinate> {...styles.areaClosedStyleProps} data={data} x={renderX} y={renderY} yScale={yScale} />
+      </svg>
+      {tooltipData && (
+        <Tooltip top={tooltipTop} left={tooltipLeft} style={{ background: 'yellow', width: 100, height: 100 }}>
+          {tooltipData.x + ',' + tooltipData.y}
+        </Tooltip>
+      )}
+    </div>
   );
 };
 

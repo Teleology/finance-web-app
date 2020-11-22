@@ -7,7 +7,7 @@ const Breadcrumb = withStyles(({ palette, spacing, typography, shadows }: Theme)
     color: palette.grey[800],
     fontWeight: typography.fontWeightRegular,
     '&:hover, &:focus': {
-      backgroundColor: palette.secondary.light,
+      backgroundColor: palette.primary.main,
       color: 'white'
     },
     '&:active': {
