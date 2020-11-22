@@ -103,12 +103,9 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
   const { renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => getSetting(width!!!, height!!!, padding, data), [data, width, height]);
   const handleMouseMove = React.useCallback(
     (event: React.MouseEvent<SVGElement>) => {
-      console.log('onMouseMove');
       const { x: pointX } = localPoint(event) ?? { x: 0 };
       const x = xScale.invert(pointX);
-      console.log(data);
-      const index = bisectDate(data, data[3].x);
-      console.log(index);
+      const index = bisectDate(data, x);
       // const [xLeft, xRight] = [data[index - 1].x, data[index].x];
       // index = x.getTime() - xLeft.getTime() < xRight.getTime() - x.getTime() ? index - 1 : index;
       showTooltip({
@@ -119,6 +116,7 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
     },
     [xScale, yScale, data, showTooltip]
   );
+  console.log(tooltipLeft, tooltipTop);
   return (
     <div style={{ position: 'relative' }}>
       <svg width={width} height={height} onMouseMove={handleMouseMove} onMouseLeave={hideTooltip}>
@@ -135,8 +133,8 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
         <AreaClosed<Coordinate> {...styles.areaClosedStyleProps} data={data} x={renderX} y={renderY} yScale={yScale} />
       </svg>
       {tooltipData && (
-        <Tooltip top={tooltipTop} left={tooltipLeft} style={{ background: 'yellow', width: 100, height: 100 }}>
-          {tooltipData.x + ',' + tooltipData.y}
+        <Tooltip top={tooltipTop} left={tooltipLeft} style={{ background: 'yellow', width: 100, height: 100, position: 'absolute' }}>
+          {tooltipData.x + ',' + tooltipData.y + ',' + tooltipTop + ',' + tooltipLeft}
         </Tooltip>
       )}
     </div>

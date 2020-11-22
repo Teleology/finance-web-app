@@ -2,7 +2,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import { ajax } from 'rxjs/ajax';
-import { map as lodashMap, toNumber } from 'lodash';
+import { map as _map, toNumber } from 'lodash';
+import { flow, map as fpMap, sortBy as fpSortBy } from 'lodash/fp';
 import { stringifyUrl } from 'query-string';
 import * as timezone from 'dayjs/plugin/timezone';
 import * as utc from 'dayjs/plugin/utc';
@@ -39,17 +40,21 @@ const setTimeSeriesEpic = (action$: Observable<RootAction>): Observable<RootActi
         ajax.getJSON(stringifyUrl({ url: getTimeUrl(period), query: { symbol } }))
     ),
     map<StockTimeSeriesContract, StockTimeSeries>(({ series, metaData }: StockTimeSeriesContract) => {
-      const convertedSeries = lodashMap(series, (datum: Override<StockTimeSeriesUnit, { time: string }>) => ({
-        ...datum,
-        open: toNumber(datum.open),
-        close: toNumber(datum.close),
-        high: toNumber(datum.high),
-        low: toNumber(datum.low),
-        time: dayjs(datum.time).tz(metaData.timeZone).toDate()
-      }));
+      const convertedSeries = flow(
+        fpMap((datum: Override<StockTimeSeriesUnit, { time: string }>) => ({
+          ...datum,
+          open: toNumber(datum.open),
+          close: toNumber(datum.close),
+          high: toNumber(datum.high),
+          low: toNumber(datum.low),
+          time: dayjs(datum.time).tz(metaData.timeZone).toDate()
+        })),
+        fpSortBy('time')
+      )(series);
+      // TODO: typing
       return {
         metaData,
-        series: convertedSeries
+        series: (convertedSeries as unknown) as Array<StockTimeSeriesUnit>
       };
     }),
     map(stockTimeSeriesAction.setTimeSeries),
