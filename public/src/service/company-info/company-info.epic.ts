@@ -48,14 +48,18 @@ namespace CompanyDetail {
       ajax.getJSON(stringifyUrl({ url: `${companyInfoUrl}/detail`, query: { symbol: action.payload.company.value } })).pipe(
         catchError((error: Error) => {
           console.log(error);
-          return EMPTY;
+          return of({});
         })
       )
-    ),
-    map(flow(pick(pickedDetailField), mapKeys(camelCase) as (input: unknown) => CompanyDetail | {}))
+    )
   );
 
-  const detailPipe = pipe(filter(fpIsNegate(fpIsEmpty)), map(companyInfoAction.setDetail));
+  const detailPipe = pipe(
+    filter(fpIsNegate(fpIsEmpty)),
+    // @ts-ignore
+    map(flow(pick(pickedDetailField), mapKeys(camelCase))),
+    map(companyInfoAction.setDetail)
+  );
 
   // TODO: should provide the exact company name instead of refer it to "company"
   const emptyDetailPipe = pipe(

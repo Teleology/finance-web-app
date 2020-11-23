@@ -14,7 +14,6 @@ class CompanyInfoController {
     } = req;
     try {
       const response = await this.companyInfoService.getDetails(symbol as string);
-      console.log(typeof response);
       res.status(200).json(response);
     } catch (ex) {
       console.log(ex);
