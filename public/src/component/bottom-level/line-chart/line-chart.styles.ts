@@ -1,7 +1,13 @@
-import { emphasize, lighten, makeStyles, Theme } from '@material-ui/core/styles';
+import { lighten, makeStyles, Theme } from '@material-ui/core/styles';
 import { LinearGradientProps } from '@visx/gradient/lib/gradients/LinearGradient';
 import * as React from 'react';
 import { theme } from '../../../theme';
+import { AxisScale, CommonProps } from '@visx/axis';
+
+const axisStyleProps: CommonProps<AxisScale> = {
+  tickStroke: '#e5e5e5',
+  stroke: '#e5e5e5'
+};
 
 const areaStrokeGradientProps: LinearGradientProps = {
   id: 'area-stroke-gradient',
@@ -21,22 +27,6 @@ const areaClosedStyleProps = {
   stroke: `url(#${areaStrokeGradientProps.id})`,
   fill: `url(#${areaFillGradientProps.id})`
 };
-
-const useChartStyles = makeStyles(({ palette }: Theme) => ({
-  path: {
-    stroke: palette.primary.main,
-    fill: 'none',
-    strokeWidth: 3
-  },
-  // TODO: delete
-  circle: {
-    fill: palette.primary.main
-  },
-  axis: {
-    stroke: '#e5e5e5',
-    strokeWidth: 1
-  }
-}));
 
 const useLabelStyles = makeStyles(({ typography }: Theme) => ({
   axis: {
@@ -70,7 +60,7 @@ const useToolTipBoxStyles = makeStyles((theme: Theme) => ({
 }));
 
 export default {
-  useChartStyles,
+  axisStyleProps,
   useLabelStyles,
   areaFillGradientProps,
   areaStrokeGradientProps,

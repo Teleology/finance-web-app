@@ -41,7 +41,7 @@ const setTimeSeriesEpic = (action$: Observable<RootAction>): Observable<RootActi
     ),
     map<StockTimeSeriesContract, StockTimeSeries>(({ series, metaData }: StockTimeSeriesContract) => {
       const convertedSeries = flow(
-        fpMap((datum: Override<StockTimeSeriesUnit, { time: string }>) => ({
+        fpMap<Override<StockTimeSeriesUnit, { time: string }>, StockTimeSeriesUnit>((datum: Override<StockTimeSeriesUnit, { time: string }>) => ({
           ...datum,
           open: toNumber(datum.open),
           close: toNumber(datum.close),
@@ -49,12 +49,11 @@ const setTimeSeriesEpic = (action$: Observable<RootAction>): Observable<RootActi
           low: toNumber(datum.low),
           time: dayjs(datum.time).tz(metaData.timeZone).toDate()
         })),
-        fpSortBy('time')
+        fpSortBy<StockTimeSeriesUnit>((dataum) => dataum.time)
       )(series);
-      // TODO: typing
       return {
         metaData,
-        series: (convertedSeries as unknown) as Array<StockTimeSeriesUnit>
+        series: convertedSeries
       };
     }),
     map(stockTimeSeriesAction.setTimeSeries),

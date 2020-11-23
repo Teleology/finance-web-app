@@ -56,28 +56,6 @@ const getSetting = (width: number, height: number, padding: number, data: Array<
   };
 };
 
-// const getDefaultSetting = settingFactory(800, 800, 50);
-
-// eslint-disable-next-line react/display-name
-// const lineChartFactory = (getSetting: ReturnType<typeof settingFactory>) => (
-//   props: Props & WithParentSizeProps & WithParentSizeProvidedProps
-// ): React.ReactElement => {
-//   const { path } = styles.useChartStyles();
-//   const { data, parentWidth, parentHeight } = props;
-//   const { padding, renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => getSetting(data), [data]);
-//   return (
-//     <svg width={parentWidth} height={parentHeight}>
-//       <AxisBottom<ScaleTime<number, number>> scale={xScale} top={yMaxRange} tickFormat={formatChartTime as (value: Date | NumberValue) => string} />
-//       <AxisLeft scale={yScale} left={padding} hideZero={true} />
-//       <LinePath data={data} x={renderX} y={renderY} className={path} />
-//     </svg>
-//   );
-// };
-const axisCommonStyleProps: CommonProps<AxisScale> = {
-  tickStroke: '#e5e5e5',
-  stroke: '#e5e5e5'
-};
-
 const tickLabelProps = ((): { left: TickLabelProps<NumberValue>; bottom: TickLabelProps<NumberValue> } => {
   const commonProps = { fill: '#96A3A9', textAnchor: 'middle', fontSize: '1rem' } as const;
   const left: TickLabelProps<NumberValue> = () => ({ ...commonProps, verticalAnchor: 'middle', dx: -8 });
@@ -112,7 +90,6 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
     },
     [xScale, yScale, data, showTooltip]
   );
-  console.log(tooltipLeft);
   return (
     <div style={{ position: 'relative' }}>
       <svg width={width} height={height} onMouseMove={handleMouseMove} onMouseLeave={hideTooltip}>
@@ -123,9 +100,9 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
           top={yMaxRange}
           tickFormat={formatDayMonth as (value: Date | NumberValue) => string}
           tickLabelProps={tickLabelProps.bottom}
-          {...axisCommonStyleProps}
+          {...styles.axisStyleProps}
         />
-        <AxisLeft scale={yScale} left={padding} hideZero={true} tickLabelProps={tickLabelProps.left} {...axisCommonStyleProps} />
+        <AxisLeft scale={yScale} left={padding} hideZero={true} tickLabelProps={tickLabelProps.left} {...styles.axisStyleProps} />
         <AreaClosed<Coordinate> {...styles.areaClosedStyleProps} data={data} x={renderX} y={renderY} yScale={yScale} />
         {tooltipData && (
           <>
@@ -145,16 +122,5 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
   );
 };
 
-//      <LinePath data={data} x={renderX} y={renderY} className={chartStyles.path} />
-// const LineChart = (props: Props) => <ParentSize>{(parent) => <LineChartFactory {...props} width={parent.width} height={parent.height} />}</ParentSize>;
 const LineChart = withParentSize<Props & WithParentSizeProps & WithParentSizeProvidedProps>(LineChartFactory);
 export { LineChart };
-
-/*
-      {map((datum: Coordinate) => {
-        const { y, x } = datum;
-        const cx = xScale(x);
-        const cy = yScale(y);
-        return <circle key={cx} cx={cx} cy={cy} r={4} pointerEvents="none" className={circle} />;
-      })(data)}
- */
