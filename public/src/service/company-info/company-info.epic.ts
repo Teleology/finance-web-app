@@ -1,4 +1,4 @@
-import { Observable, of, pipe, merge } from 'rxjs';
+import { Observable, of, pipe, merge, EMPTY } from 'rxjs';
 import { combineEpics, ofType } from 'redux-observable';
 import { map, switchMap, filter, catchError, concatMapTo, share } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
@@ -36,18 +36,23 @@ const pickedDetailField = [
   'EBITDA',
   'PEGRatio'
 ];
-
+/*
+Here we placed the catchError() inside our mergeMap(),
+but after our AJAX call; this is important because if we let the error reach the action$.pipe(),
+it will terminate it and no longer listen for new actions.
+ */
 namespace CompanyDetail {
   const fetchDetailPipe = pipe(
     ofType<RootAction, SharedActionGroup['getCompanyInfo']>(SharedActionType.GET_COMPANY_INFO),
     switchMap((action: SharedActionGroup['getCompanyInfo']) =>
-      ajax.getJSON(stringifyUrl({ url: `${companyInfoUrl}/detail`, query: { symbol: action.payload.company.value } }))
+      ajax.getJSON(stringifyUrl({ url: `${companyInfoUrl}/detail`, query: { symbol: action.payload.company.value } })).pipe(
+        catchError((error: Error) => {
+          console.log(error);
+          return EMPTY;
+        })
+      )
     ),
-    map(flow(pick(pickedDetailField), mapKeys(camelCase) as (input: unknown) => CompanyDetail | {})),
-    catchError((error: Error) => {
-      console.log(error);
-      return of({});
-    })
+    map(flow(pick(pickedDetailField), mapKeys(camelCase) as (input: unknown) => CompanyDetail | {}))
   );
 
   const detailPipe = pipe(filter(fpIsNegate(fpIsEmpty)), map(companyInfoAction.setDetail));
@@ -72,7 +77,7 @@ namespace CompanyDetail {
     const ajax$ = action$.pipe(fetchDetailPipe, share());
     const empty$ = ajax$.pipe(emptyDetailPipe);
     const content$ = ajax$.pipe(detailPipe);
-    return merge(empty$, content$);
+    return merge(empty$, content$).pipe(catchError(() => EMPTY));
   };
 }
 
