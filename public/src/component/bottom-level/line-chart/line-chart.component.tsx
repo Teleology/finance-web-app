@@ -28,6 +28,7 @@ type Setting = {
 
 type Props = {
   data: Array<Coordinate>;
+  padding?: number;
 };
 
 const getSetting = (width: number, height: number, padding: number, data: Array<Coordinate>): Setting => {
@@ -68,9 +69,7 @@ const tickLabelProps = ((): { left: TickLabelProps<NumberValue>; bottom: TickLab
 
 const bisectDate = bisector((datum: Coordinate): Date => datum.x).left;
 const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
-  const { data, parentWidth: width, parentHeight: height } = props;
-  // TODO: padding as prop?
-  const padding = 50;
+  const { data, parentWidth: width, parentHeight: height, padding = 50 } = props;
   const { showTooltip, hideTooltip, tooltipLeft = 0, tooltipTop = 0, tooltipData } = useTooltip<Coordinate>();
   const toolTipBoxStyles = styles.useToolTipBoxStyles().root;
   // TODO: strict null check

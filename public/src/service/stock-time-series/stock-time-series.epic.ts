@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import { ajax } from 'rxjs/ajax';
-import { map as _map, toNumber } from 'lodash';
+import { toNumber } from 'lodash';
 import { flow, map as fpMap, sortBy as fpSortBy } from 'lodash/fp';
 import { stringifyUrl } from 'query-string';
 import * as timezone from 'dayjs/plugin/timezone';
