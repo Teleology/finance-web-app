@@ -3,7 +3,8 @@ import { RootAction } from '../../root-store';
 
 enum ModalType {
   ALERT = 'alert',
-  CONFIRM = 'confirm'
+  CONFIRM = 'confirm',
+  NONE = 'none'
 }
 
 type ModalContentProps = {
