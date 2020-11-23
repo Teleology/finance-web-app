@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { get, flow } from 'lodash/fp';
-import { extent, bisector } from 'd3-array';
-import { ScaleTime, ScaleLinear, NumberValue } from 'd3-scale';
-import { scaleTime, scaleLinear } from '@visx/scale';
-import { AxisLeft, AxisBottom, CommonProps, AxisScale } from '@visx/axis';
+import { bisector } from 'd3-array';
+import { ScaleTime, NumberValue } from 'd3-scale';
+import { AxisLeft, AxisBottom } from '@visx/axis';
 import { withParentSize } from '@visx/responsive';
 import { AreaClosed, Line } from '@visx/shape';
 import { WithParentSizeProps, WithParentSizeProvidedProps } from '@visx/responsive/lib/enhancers/withParentSize';
@@ -11,50 +9,13 @@ import { TickLabelProps } from '@visx/axis/lib/types';
 import { LinearGradient } from '@visx/gradient';
 import { localPoint } from '@visx/event';
 import { Tooltip, useTooltip } from '@visx/tooltip';
-import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series.typing';
-import { formatDayMonth } from '../../../utils/formatter';
+import { formatDayMonth } from '../../../../utils/formatter';
+import { TimeNumberCoordinate, timeNumberSetting } from '../chart-setting';
 import styles from './line-chart.styles';
 
-type Coordinate = TimeChartDataUnit;
-
-type Setting = {
-  xMaxRange: number;
-  yMaxRange: number;
-  xScale: ScaleTime<number, number>;
-  yScale: ScaleLinear<number, number>;
-  renderX: (Datum: Coordinate) => number;
-  renderY: (Datum: Coordinate) => number;
-};
-
 type Props = {
-  data: Array<Coordinate>;
+  data: Array<TimeNumberCoordinate>;
   padding?: number;
-};
-
-const getSetting = (width: number, height: number, padding: number, data: Array<Coordinate>): Setting => {
-  const xMaxRange = width - padding;
-  const yMaxRange = height - padding;
-  const xSelector: (datum: Coordinate) => Date = get<Coordinate, 'x'>('x');
-  const ySelector: (datum: Coordinate) => number = get<Coordinate, 'y'>('y');
-  const xScale = scaleTime({
-    range: [padding, xMaxRange],
-    domain: extent(data, xSelector) as [Date, Date]
-  });
-  const yScale = scaleLinear({
-    range: [yMaxRange, padding],
-    domain: extent(data, ySelector) as [number, number]
-  });
-  // TODO: undefined check
-  const renderX = flow(xSelector, xScale) as Setting['renderX'];
-  const renderY = flow(ySelector, yScale) as Setting['renderY'];
-  return {
-    xMaxRange,
-    yMaxRange,
-    xScale,
-    yScale,
-    renderX,
-    renderY
-  };
 };
 
 const tickLabelProps = ((): { left: TickLabelProps<NumberValue>; bottom: TickLabelProps<NumberValue> } => {
@@ -67,13 +28,13 @@ const tickLabelProps = ((): { left: TickLabelProps<NumberValue>; bottom: TickLab
   };
 })();
 
-const bisectDate = bisector((datum: Coordinate): Date => datum.x).left;
+const bisectDate = bisector((datum: TimeNumberCoordinate): Date => datum.x).left;
 const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
   const { data, parentWidth: width, parentHeight: height, padding = 50 } = props;
-  const { showTooltip, hideTooltip, tooltipLeft = 0, tooltipTop = 0, tooltipData } = useTooltip<Coordinate>();
+  const { showTooltip, hideTooltip, tooltipLeft = 0, tooltipTop = 0, tooltipData } = useTooltip<TimeNumberCoordinate>();
   const toolTipBoxStyles = styles.useToolTipBoxStyles().root;
   // TODO: strict null check
-  const { renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => getSetting(width!!!, height!!!, padding, data), [data, width, height]);
+  const { renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => timeNumberSetting(width!!!, height!!!, padding, data), [data, width, height]);
   const handleMouseMove = React.useCallback(
     (event: React.MouseEvent<SVGElement>) => {
       const { x: pointX } = localPoint(event) ?? { x: 0 };
@@ -102,7 +63,7 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
           {...styles.axisStyleProps}
         />
         <AxisLeft scale={yScale} left={padding} hideZero={true} tickLabelProps={tickLabelProps.left} {...styles.axisStyleProps} />
-        <AreaClosed<Coordinate> {...styles.areaClosedStyleProps} data={data} x={renderX} y={renderY} yScale={yScale} />
+        <AreaClosed<TimeNumberCoordinate> {...styles.areaClosedStyleProps} data={data} x={renderX} y={renderY} yScale={yScale} />
         {tooltipData && (
           <>
             <circle {...styles.circleStyleProps} cx={tooltipLeft} cy={tooltipTop} r={4} />

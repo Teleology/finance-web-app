@@ -1,4 +1,4 @@
-// shared config (dev and prod)
+// common config (dev and prod)
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 

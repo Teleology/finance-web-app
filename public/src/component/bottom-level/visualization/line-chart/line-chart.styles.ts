@@ -1,7 +1,7 @@
 import { lighten, makeStyles, Theme } from '@material-ui/core/styles';
 import { LinearGradientProps } from '@visx/gradient/lib/gradients/LinearGradient';
 import * as React from 'react';
-import { theme } from '../../../theme';
+import { theme } from '../../../../theme';
 import { AxisScale, CommonProps } from '@visx/axis';
 
 const axisStyleProps: CommonProps<AxisScale> = {

@@ -5,7 +5,7 @@ import { Breadcrumbs } from '@material-ui/core';
 import { stockTimeSeriesAction } from '../../../service/stock-time-series/stock-time-series.action';
 import { RootState } from '../../../service/root-store';
 import { stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
-import { LineChart } from '../../bottom-level/line-chart/line-chart.component';
+import { LineChart } from '../../bottom-level/visualization/line-chart/line-chart.component';
 import { Breadcrumb } from '../../bottom-level/app-chip.component';
 import { PeriodEnum } from '../../../utils/general-type';
 import styles from './time-series-chart.styles';
