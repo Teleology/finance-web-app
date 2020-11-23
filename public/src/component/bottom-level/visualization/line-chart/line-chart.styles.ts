@@ -1,8 +1,8 @@
 import { lighten, makeStyles, Theme } from '@material-ui/core/styles';
 import { LinearGradientProps } from '@visx/gradient/lib/gradients/LinearGradient';
 import * as React from 'react';
-import { theme } from '../../../../theme';
 import { AxisScale, CommonProps } from '@visx/axis';
+import { theme } from '../../../../theme';
 
 const axisStyleProps: CommonProps<AxisScale> = {
   tickStroke: '#e5e5e5',
