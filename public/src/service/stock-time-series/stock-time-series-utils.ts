@@ -22,6 +22,17 @@ type StockTimeSeries = {
   data: Array<StockTimeSeriesUnit>;
 };
 
+type LatestStock = {
+  symbol: string;
+  open: string;
+  high: string;
+  low: string;
+  price: string;
+  volume: string;
+  latestTradingDay: string;
+  previousClose: string;
+};
+
 type StockTimeSeriesState = {
   series: {
     data: Array<StockTimeSeriesUnit> | null;
@@ -29,8 +40,12 @@ type StockTimeSeriesState = {
     fetchStatus: FetchStatusEnum;
     period: PeriodEnum;
   };
+  latest: {
+    data: LatestStock | null;
+    fetchStatus: FetchStatusEnum;
+  };
 };
 
 type TimeChartDataUnit = { x: Date; y: number };
 
-export { StockTimeSeries, StockTimeSeriesUnit, StockTimeSeriesMeta, StockTimeSeriesState, TimeChartDataUnit };
+export { StockTimeSeries, StockTimeSeriesUnit, StockTimeSeriesMeta, StockTimeSeriesState, TimeChartDataUnit, LatestStock };

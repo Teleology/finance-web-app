@@ -10,7 +10,11 @@ import { Breadcrumb } from '../../bottom-level/app-chip.component';
 import { PeriodEnum } from '../../../utils/general-type';
 import styles from './time-series-chart.styles';
 
-const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod'>(stockTimeSeriesAction, ['getTimeSeries', 'setPeriod']);
+const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod' | 'getLatest'>(stockTimeSeriesAction, [
+  'getTimeSeries',
+  'setPeriod',
+  'getLatest'
+]);
 const mapState = ({ stockTimeSeries, companyCollection }: RootState) =>
   ({
     series: {
@@ -23,11 +27,13 @@ const mapState = ({ stockTimeSeries, companyCollection }: RootState) =>
 
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 const StockTimeSeriesChart = (props: Props): React.ReactElement => {
-  const { getTimeSeries, series, company, setPeriod } = props;
+  const { getTimeSeries, series, company, setPeriod, getLatest } = props;
   React.useEffect(() => {
-    console.log(company, series.period);
-    company !== null && getTimeSeries(company, series.period);
-  }, [getTimeSeries, company, series.period]);
+    if (company !== null) {
+      getTimeSeries(company, series.period);
+      getLatest(company);
+    }
+  }, [getTimeSeries, company, series.period, getLatest]);
 
   const handleBreadCrumbClick = React.useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
