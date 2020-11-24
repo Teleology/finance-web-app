@@ -1,4 +1,3 @@
-import { Nullable } from '../../utils/type-util';
 import { FetchStatusEnum } from '../../utils/network-util';
 import { PeriodEnum } from '../../utils/general-type';
 
@@ -20,10 +19,17 @@ type StockTimeSeriesMeta = {
 
 type StockTimeSeries = {
   metaData: StockTimeSeriesMeta;
-  series: Array<StockTimeSeriesUnit>;
+  data: Array<StockTimeSeriesUnit>;
 };
 
-type StockTimeSeriesState = Nullable<StockTimeSeries> & { fetchStatus: FetchStatusEnum; period: PeriodEnum };
+type StockTimeSeriesState = {
+  series: {
+    data: Array<StockTimeSeriesUnit> | null;
+    metaData: StockTimeSeriesMeta | null;
+    fetchStatus: FetchStatusEnum;
+    period: PeriodEnum;
+  };
+};
 
 type TimeChartDataUnit = { x: Date; y: number };
 

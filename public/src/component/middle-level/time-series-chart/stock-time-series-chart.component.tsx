@@ -14,16 +14,18 @@ const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPer
 const mapState = ({ stockTimeSeries, companyCollection }: RootState) =>
   ({
     series: {
-      fetchStatus: stockTimeSeries.fetchStatus,
+      fetchStatus: stockTimeSeries.series.fetchStatus,
       data: stockTimeSeriesChartConverter(stockTimeSeries),
-      period: stockTimeSeries.period
+      period: stockTimeSeries.series.period
     },
     company: companyCollection.collection.value
   } as const);
+
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 const StockTimeSeriesChart = (props: Props): React.ReactElement => {
   const { getTimeSeries, series, company, setPeriod } = props;
   React.useEffect(() => {
+    console.log(company, series.period);
     company !== null && getTimeSeries(company, series.period);
   }, [getTimeSeries, company, series.period]);
 

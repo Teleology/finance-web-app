@@ -5,10 +5,12 @@ import { StockTimeSeriesState } from './stock-time-series.typing';
 import { StockTimeSeriesActionType } from './stock-time-series.action';
 
 const defaultState: StockTimeSeriesState = {
-  metaData: null,
-  series: null,
-  period: PeriodEnum.DAY,
-  fetchStatus: FetchStatusEnum.NEVER
+  series: {
+    metaData: null,
+    data: null,
+    period: PeriodEnum.DAY,
+    fetchStatus: FetchStatusEnum.NEVER
+  }
 };
 
 const stockTimeSeriesReducer = (prevState: StockTimeSeriesState = defaultState, action: RootAction): StockTimeSeriesState => {
@@ -16,27 +18,39 @@ const stockTimeSeriesReducer = (prevState: StockTimeSeriesState = defaultState, 
     case StockTimeSeriesActionType.GET_TIME_SERIES: {
       return {
         ...prevState,
-        fetchStatus: FetchStatusEnum.PENDING
+        series: {
+          ...prevState.series,
+          fetchStatus: FetchStatusEnum.PENDING
+        }
       };
     }
     case StockTimeSeriesActionType.GET_TIME_SERIES_FAILURE: {
       return {
         ...prevState,
-        fetchStatus: FetchStatusEnum.FAIL
+        series: {
+          ...prevState.series,
+          fetchStatus: FetchStatusEnum.FAIL
+        }
       };
     }
     case StockTimeSeriesActionType.SET_TIME_SERIES: {
       return {
         ...prevState,
-        fetchStatus: FetchStatusEnum.SUCCESS,
-        ...action.payload
+        series: {
+          ...prevState.series,
+          fetchStatus: FetchStatusEnum.SUCCESS,
+          ...action.payload
+        }
       };
     }
 
     case StockTimeSeriesActionType.SET_PERIOD: {
       return {
         ...prevState,
-        period: action.payload.period
+        series: {
+          ...prevState.series,
+          period: action.payload.period
+        }
       };
     }
 

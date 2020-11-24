@@ -2,11 +2,11 @@ import { map } from 'lodash';
 import { createSelector } from 'reselect';
 import { StockTimeSeriesState, StockTimeSeriesUnit, TimeChartDataUnit } from './stock-time-series.typing';
 
-const stockTimeSeriesDataSelector = (state: StockTimeSeriesState): StockTimeSeriesState['series'] => state.series;
+const stockTimeSeriesDataSelector = (state: StockTimeSeriesState): StockTimeSeriesState['series']['data'] => state.series.data;
 
 const stockTimeSeriesChartConverter = createSelector(
   stockTimeSeriesDataSelector,
-  (series: StockTimeSeriesState['series']): Array<TimeChartDataUnit> => {
+  (series: StockTimeSeriesState['series']['data']): Array<TimeChartDataUnit> => {
     if (series === null) {
       return [];
     }

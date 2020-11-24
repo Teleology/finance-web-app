@@ -53,7 +53,7 @@ const setTimeSeriesEpic = (action$: Observable<RootAction>): Observable<RootActi
       )(series);
       return {
         metaData,
-        series: convertedSeries
+        data: convertedSeries
       };
     }),
     map(stockTimeSeriesAction.setTimeSeries),
