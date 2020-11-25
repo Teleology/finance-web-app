@@ -30,7 +30,7 @@ const tickLabelProps = ((): { left: TickLabelProps<NumberValue>; bottom: TickLab
 
 const bisectDate = bisector((datum: TimeNumberCoordinate): Date => datum.x).left;
 const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
-  const { data, parentWidth: width, parentHeight: height, padding = 50 } = props;
+  const { data, parentWidth: width, parentHeight: height, padding = 32 } = props;
   const { showTooltip, hideTooltip, tooltipLeft = 0, tooltipTop = 0, tooltipData } = useTooltip<TimeNumberCoordinate>();
   const toolTipBoxStyles = styles.useToolTipBoxStyles().root;
   // TODO: strict null check

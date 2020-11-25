@@ -9,10 +9,7 @@ const InfoPage = (): React.ReactElement => {
     <Grid direction="row" container={true}>
       <Grid item={true} xs={8}>
         <Card classes={cardStyles}>
-          <CardHeader title="MSFT Stock" />
-          <CardContent>
-            <StockTimeSeriesChartContainer />
-          </CardContent>
+          <StockTimeSeriesChartContainer />
         </Card>
       </Grid>
       <Grid item={true} xs={4}>

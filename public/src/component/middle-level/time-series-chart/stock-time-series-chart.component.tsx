@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { pick } from 'lodash';
 import { connect } from 'react-redux';
-import { Breadcrumbs } from '@material-ui/core';
+import { Box, Breadcrumbs, Card, CardContent, CardHeader, Grid, Typography } from '@material-ui/core';
 import { stockTimeSeriesAction } from '../../../service/stock-time-series/stock-time-series.action';
 import { RootState } from '../../../service/root-store';
 import { stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
 import { LineChart } from '../../bottom-level/visualization/line-chart/line-chart.component';
 import { Breadcrumb } from '../../bottom-level/app-chip.component';
 import { PeriodEnum } from '../../../utils/general-type';
+import { FormattedTypography } from '../../bottom-level/marked-text/marked-typography.component';
 import styles from './time-series-chart.styles';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod' | 'getLatest'>(stockTimeSeriesAction, [
@@ -46,29 +47,52 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
   // set LineChart's debounceTime to 0 if you want immediately updating
   return (
     <>
-      <Breadcrumbs>
-        <Breadcrumb
-          label="days"
-          data-period={PeriodEnum.DAY}
-          onClick={handleBreadCrumbClick}
-          classes={styles.useBreadcrumbStyles({ isSelected: series.period === PeriodEnum.DAY })}
-        />
-        <Breadcrumb
-          label="weeks"
-          data-period={PeriodEnum.WEEK}
-          onClick={handleBreadCrumbClick}
-          classes={styles.useBreadcrumbStyles({ isSelected: series.period === PeriodEnum.WEEK })}
-        />
-        <Breadcrumb
-          label="months"
-          data-period={PeriodEnum.MONTH}
-          onClick={handleBreadCrumbClick}
-          classes={styles.useBreadcrumbStyles({ isSelected: series.period === PeriodEnum.MONTH })}
-        />
-      </Breadcrumbs>
-      <div style={{ minHeight: 200, height: '50vh', maxHeight: 800 }}>
-        <LineChart data={series.data} />;
-      </div>
+      <CardHeader
+        title="MSFT Stock"
+        titleTypographyProps={{ variant: 'h2', gutterBottom: true }}
+        subheader={
+          <Grid direction="row" container={true} spacing={1} alignItems="center">
+            <Grid item={true}>
+              <FormattedTypography variant="h3">{1763.9}</FormattedTypography>
+            </Grid>
+            <Grid item={true}>
+              <Typography variant="h5">2.10%</Typography>
+            </Grid>
+            <Grid item={true}>
+              <Typography variant="h5">+36.34</Typography>
+            </Grid>
+            <Grid item={true}>
+              <Typography variant="h5">Today</Typography>
+            </Grid>
+          </Grid>
+        }
+      />
+      <CardContent>
+        <Breadcrumbs>
+          <Breadcrumb
+            label="days"
+            data-period={PeriodEnum.DAY}
+            onClick={handleBreadCrumbClick}
+            classes={styles.useBreadcrumbStyles({ isSelected: series.period === PeriodEnum.DAY })}
+          />
+          <Breadcrumb
+            label="weeks"
+            data-period={PeriodEnum.WEEK}
+            onClick={handleBreadCrumbClick}
+            classes={styles.useBreadcrumbStyles({ isSelected: series.period === PeriodEnum.WEEK })}
+          />
+          <Breadcrumb
+            label="months"
+            data-period={PeriodEnum.MONTH}
+            onClick={handleBreadCrumbClick}
+            classes={styles.useBreadcrumbStyles({ isSelected: series.period === PeriodEnum.MONTH })}
+          />
+        </Breadcrumbs>
+
+        <div style={{ minHeight: 200, height: '50vh', maxHeight: 800 }}>
+          <LineChart data={series.data} />;
+        </div>
+      </CardContent>
     </>
   );
 };
