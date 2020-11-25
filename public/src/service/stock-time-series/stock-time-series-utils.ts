@@ -24,13 +24,13 @@ type StockTimeSeries = {
 
 type LatestStock = {
   symbol: string;
-  open: string;
-  high: string;
-  low: string;
-  price: string;
-  volume: string;
+  open: number;
+  high: number;
+  low: number;
+  price: number;
+  volume: number;
   latestTradingDay: string;
-  previousClose: string;
+  previousClose: number;
 };
 
 type StockTimeSeriesState = {
