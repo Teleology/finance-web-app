@@ -8,7 +8,8 @@ import { stockTimeSeriesChartConverter } from '../../../service/stock-time-serie
 import { LineChart } from '../../bottom-level/visualization/line-chart/line-chart.component';
 import { Breadcrumb } from '../../bottom-level/app-chip.component';
 import { PeriodEnum } from '../../../utils/general-type';
-import { FormattedTypography } from '../../bottom-level/marked-text/marked-typography.component';
+import { ColorfulFormattedTypography, FormattedTypography } from '../../bottom-level/marked-text/marked-typography.component';
+import { formatMoney, formatPercent } from '../../../utils/formatter';
 import styles from './time-series-chart.styles';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod' | 'getLatest'>(stockTimeSeriesAction, [
@@ -53,10 +54,14 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
         subheader={
           <Grid direction="row" container={true} spacing={1} alignItems="center">
             <Grid item={true}>
-              <FormattedTypography variant="h3">{1763.9}</FormattedTypography>
+              <FormattedTypography variant="h3" format={formatMoney}>
+                {1763.9}
+              </FormattedTypography>
             </Grid>
             <Grid item={true}>
-              <Typography variant="h5">2.10%</Typography>
+              <ColorfulFormattedTypography variant="h5" format={formatPercent}>
+                {-0.021}
+              </ColorfulFormattedTypography>
             </Grid>
             <Grid item={true}>
               <Typography variant="h5">+36.34</Typography>
