@@ -39,6 +39,7 @@
     "html-webpack-plugin": "^4.3.0",
     "image-webpack-loader": "^6.0.0",
     "node-sass": "^4.12.0",
+    "npm-check": "^5.9.2",
     "prettier": "^2.0.5",
     "react-dom": "^16.9.0",
     "react-hot-loader": "^4.12.11",
