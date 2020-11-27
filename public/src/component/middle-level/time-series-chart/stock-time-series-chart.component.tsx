@@ -1,15 +1,20 @@
 import * as React from 'react';
 import { pick } from 'lodash';
+import { flow } from 'lodash/fp';
 import { connect } from 'react-redux';
-import { Box, Breadcrumbs, Card, CardContent, CardHeader, Grid, Typography } from '@material-ui/core';
+import { Breadcrumbs, CardContent, CardHeader, Grid } from '@material-ui/core';
 import { stockTimeSeriesAction } from '../../../service/stock-time-series/stock-time-series.action';
 import { RootState } from '../../../service/root-store';
 import { stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
 import { LineChart } from '../../bottom-level/visualization/line-chart/line-chart.component';
 import { Breadcrumb } from '../../bottom-level/app-chip.component';
-import { PeriodEnum } from '../../../utils/general-type';
-import { ColorfulFormattedTypography, FormattedTypography } from '../../bottom-level/marked-text/marked-typography.component';
-import { formatMoney, formatPercent } from '../../../utils/formatter';
+import { PeriodEnum } from '../../../utils/type-util';
+import { formatMoney, formatPercentChange, formatWithSign } from '../../../utils/formatter';
+import {
+  BackgroundColorfulFormattedTypography,
+  ColorfulFormattedTypography,
+  FormattedTypography
+} from '../../bottom-level/marked-text/marked-typography.component';
 import styles from './time-series-chart.styles';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod' | 'getLatest'>(stockTimeSeriesAction, [
@@ -59,15 +64,14 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
               </FormattedTypography>
             </Grid>
             <Grid item={true}>
-              <ColorfulFormattedTypography variant="h5" format={formatPercent}>
+              <BackgroundColorfulFormattedTypography variant="h5" tint="#137333" format={formatPercentChange}>
                 {-0.021}
+              </BackgroundColorfulFormattedTypography>
+            </Grid>
+            <Grid item={true}>
+              <ColorfulFormattedTypography variant="h5" tint="#137333" format={flow(formatWithSign, (n: string) => n + ' Today')}>
+                {36.34}
               </ColorfulFormattedTypography>
-            </Grid>
-            <Grid item={true}>
-              <Typography variant="h5">+36.34</Typography>
-            </Grid>
-            <Grid item={true}>
-              <Typography variant="h5">Today</Typography>
             </Grid>
           </Grid>
         }

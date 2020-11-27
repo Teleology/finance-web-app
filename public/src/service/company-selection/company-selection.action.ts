@@ -1,5 +1,5 @@
 import { ReturnTypeOfGroup } from '../../utils/type-util';
-import { LabelUnit } from '../../utils/general-type';
+import { LabelUnit } from '../../utils/type-util';
 import { CompanyInIndice } from './company-selection-utils';
 
 namespace CompanySelectionActionType {

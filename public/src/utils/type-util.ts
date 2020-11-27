@@ -1,3 +1,16 @@
+type LabelUnit = {
+  value: string;
+  label: string;
+};
+
+enum PeriodEnum {
+  DAY = 'day',
+  WEEK = 'week',
+  MONTH = 'month'
+}
+
+export { LabelUnit, PeriodEnum };
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type ReturnTypeOfGroup<Group> = {
   [key in keyof Group]: Group[key] extends (...args: Array<any>) => any ? ReturnType<Group[key]> : never;

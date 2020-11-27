@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { isEmpty as _isEmpty, map as _map, pick as _pick } from 'lodash';
 import { companySelectionAction } from '../../../service/company-selection/company-selection.action';
 import { RootState } from '../../../service/root-store';
-import { LabelUnit } from '../../../utils/general-type';
+import { LabelUnit } from '../../../utils/type-util';
 import { CompanyInIndice } from '../../../service/company-selection/company-selection-utils';
 import { sharedAction } from '../../../service/shared-service/shared.action';
 import { EmptyContentWrapper } from '../../bottom-level/empty-content/empty-content.component';

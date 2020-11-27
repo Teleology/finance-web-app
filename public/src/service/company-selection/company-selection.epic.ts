@@ -5,7 +5,7 @@ import { switchMap, map, catchError, concatMap } from 'rxjs/operators';
 import { map as fpMap, startCase as fpStartCase, flow } from 'lodash/fp';
 // import * as lodash from 'lodash';
 import { RootAction } from '../root-store';
-import { LabelUnit } from '../../utils/general-type';
+import { LabelUnit } from '../../utils/type-util';
 import { baseUrl } from '../../utils/network-util';
 import { modalAction } from '../shared-service/modal/modal.action';
 import { ModalType } from '../shared-service/modal/modal-utils';

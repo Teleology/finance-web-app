@@ -1,5 +1,4 @@
-import { ReturnTypeOfGroup } from '../../utils/type-util';
-import { PeriodEnum } from '../../utils/general-type';
+import { ReturnTypeOfGroup, PeriodEnum } from '../../utils/type-util';
 import { LatestStock, StockTimeSeries } from './stock-time-series-utils';
 
 namespace StockTimeSeriesActionType {

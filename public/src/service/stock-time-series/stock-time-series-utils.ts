@@ -1,5 +1,5 @@
 import { FetchStatusEnum } from '../../utils/network-util';
-import { PeriodEnum } from '../../utils/general-type';
+import { PeriodEnum } from '../../utils/type-util';
 
 type StockTimeSeriesUnit = {
   open: number;
