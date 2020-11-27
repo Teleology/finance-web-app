@@ -11,7 +11,7 @@ import * as utc from 'dayjs/plugin/utc';
 import * as dayjs from 'dayjs';
 import { RootAction } from '../root-store';
 import { baseUrl } from '../../utils/network-util';
-import { Override , PeriodEnum} from '../../utils/type-util';
+import { Override, PeriodEnum } from '../../utils/type-util';
 import { LatestStock, StockTimeSeries, StockTimeSeriesMeta, StockTimeSeriesUnit } from './stock-time-series-utils';
 import { stockTimeSeriesAction, StockTimeSeriesActionGroup, StockTimeSeriesActionType } from './stock-time-series.action';
 import { LatestStockContract } from './stock-time-series-contract';

@@ -1,7 +1,7 @@
 import { RootAction } from '../root-store';
 import { FetchStatusEnum } from '../../utils/network-util';
 import { PeriodEnum } from '../../utils/type-util';
-import { StockTimeSeriesState } from './stock-time-series-utils';
+import { StockTimeSeriesState } from './stock-time-series-utils'
 import { StockTimeSeriesActionType } from './stock-time-series.action';
 
 const defaultState: StockTimeSeriesState = {

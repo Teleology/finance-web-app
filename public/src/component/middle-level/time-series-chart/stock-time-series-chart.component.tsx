@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Breadcrumbs, CardContent, CardHeader, Grid } from '@material-ui/core';
 import { stockTimeSeriesAction } from '../../../service/stock-time-series/stock-time-series.action';
 import { RootState } from '../../../service/root-store';
-import { stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
+import { stockLatestConverter, stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
 import { LineChart } from '../../bottom-level/visualization/line-chart/line-chart.component';
 import { Breadcrumb } from '../../bottom-level/app-chip.component';
 import { PeriodEnum } from '../../../utils/type-util';
@@ -15,6 +15,8 @@ import {
   ColorfulFormattedTypography,
   FormattedTypography
 } from '../../bottom-level/marked-text/marked-typography.component';
+import { LoadingContentFC, LoadingContentW, LoadingContentWrapper } from '../../bottom-level/loading-content/loading-content.component';
+import { FetchStatusEnum } from '../../../utils/network-util';
 import styles from './time-series-chart.styles';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod' | 'getLatest'>(stockTimeSeriesAction, [
@@ -29,12 +31,16 @@ const mapState = ({ stockTimeSeries, companyCollection }: RootState) =>
       data: stockTimeSeriesChartConverter(stockTimeSeries),
       period: stockTimeSeries.series.period
     },
+    latest: {
+      fetchStatus: stockTimeSeries.latest.fetchStatus,
+      data: stockLatestConverter(stockTimeSeries)
+    },
     company: companyCollection.collection.value
   } as const);
 
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 const StockTimeSeriesChart = (props: Props): React.ReactElement => {
-  const { getTimeSeries, series, company, setPeriod, getLatest } = props;
+  const { getTimeSeries, series, company, setPeriod, getLatest, latest } = props;
   React.useEffect(() => {
     if (company !== null) {
       getTimeSeries(company, series.period);
@@ -49,33 +55,35 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
     },
     [setPeriod]
   );
-
   // set LineChart's debounceTime to 0 if you want immediately updating
+  const isLoading = latest.fetchStatus === FetchStatusEnum.PENDING || latest.fetchStatus === FetchStatusEnum.NEVER;
   return (
     <>
-      <CardHeader
-        title="MSFT Stock"
-        titleTypographyProps={{ variant: 'h2', gutterBottom: true }}
-        subheader={
-          <Grid direction="row" container={true} spacing={1} alignItems="center">
-            <Grid item={true}>
-              <FormattedTypography variant="h3" format={formatMoney}>
-                {1763.9}
-              </FormattedTypography>
+      <LoadingContentW isLoading={true}>
+        <CardHeader
+          title={latest.data?.symbol}
+          titleTypographyProps={{ variant: 'h2', gutterBottom: true }}
+          subheader={
+            <Grid direction="row" container={true} spacing={1} alignItems="center">
+              <Grid item={true}>
+                <FormattedTypography variant="h3" format={formatMoney}>
+                  {latest.data.price}
+                </FormattedTypography>
+              </Grid>
+              <Grid item={true}>
+                <BackgroundColorfulFormattedTypography variant="h5" tint="#137333" format={formatPercentChange}>
+                  {latest.data.changePercent}
+                </BackgroundColorfulFormattedTypography>
+              </Grid>
+              <Grid item={true}>
+                <ColorfulFormattedTypography variant="h5" tint="#137333" format={flow(formatWithSign, (n: string) => n + ' Today')}>
+                  {latest.data.change}
+                </ColorfulFormattedTypography>
+              </Grid>
             </Grid>
-            <Grid item={true}>
-              <BackgroundColorfulFormattedTypography variant="h5" tint="#137333" format={formatPercentChange}>
-                {-0.021}
-              </BackgroundColorfulFormattedTypography>
-            </Grid>
-            <Grid item={true}>
-              <ColorfulFormattedTypography variant="h5" tint="#137333" format={flow(formatWithSign, (n: string) => n + ' Today')}>
-                {36.34}
-              </ColorfulFormattedTypography>
-            </Grid>
-          </Grid>
-        }
-      />
+          }
+        />
+      </LoadingContentW>
       <CardContent>
         <Breadcrumbs>
           <Breadcrumb
