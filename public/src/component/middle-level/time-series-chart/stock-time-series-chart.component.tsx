@@ -3,6 +3,7 @@ import { pick } from 'lodash';
 import { flow } from 'lodash/fp';
 import { connect } from 'react-redux';
 import { Breadcrumbs, CardContent, CardHeader, Grid } from '@material-ui/core';
+import { Assessment as AssessmentIcon, ShowChart as ShowChartIcon } from '@material-ui/icons';
 import { stockTimeSeriesAction } from '../../../service/stock-time-series/stock-time-series.action';
 import { RootState } from '../../../service/root-store';
 import { stockLatestConverter, stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
@@ -17,6 +18,8 @@ import {
 } from '../../bottom-level/marked-text/marked-typography.component';
 import { Loader } from '../../bottom-level/loading-content/loading-content.component';
 import { FetchStatusEnum } from '../../../utils/network-util';
+import { emptyIconProps } from '../../common-props';
+import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series-utils';
 import styles from './time-series-chart.styles';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod' | 'getLatest'>(stockTimeSeriesAction, [
@@ -61,6 +64,12 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
       <Loader<Props['latest']['data'], NonNullable<Props['latest']['data']>>
         load={{
           on: latest.fetchStatus === FetchStatusEnum.PENDING || latest.fetchStatus === FetchStatusEnum.NEVER
+        }}
+        empty={{
+          props: {
+            icon: <AssessmentIcon {...emptyIconProps} />,
+            text: 'sorry, we cannot find any stock data related to the company you choose'
+          }
         }}
         data={latest.data}
       >
@@ -113,7 +122,13 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
         </Breadcrumbs>
 
         <div style={{ minHeight: 200, height: '50vh', maxHeight: 800 }}>
-          <LineChart data={series.data} />;
+          <Loader
+            data={series.data}
+            load={{ on: series.fetchStatus === FetchStatusEnum.PENDING || series.fetchStatus === FetchStatusEnum.NEVER }}
+            empty={{ props: { icon: <ShowChartIcon {...emptyIconProps} />, text: 'Sorry, we cannot find the time line chart' } }}
+          >
+            {(data: Array<TimeChartDataUnit>): React.ReactElement => <LineChart data={data} />}
+          </Loader>
         </div>
       </CardContent>
     </>

@@ -28,7 +28,9 @@ const SearchPage = (): React.ReactElement => {
         </Card>
       </Grid>
       <Grid item={true} xs={4}>
-        <CompanyDetailContainer />
+        <Card classes={styles.useCardStyles()}>
+          <CompanyDetailContainer />
+        </Card>
       </Grid>
     </Grid>
   );

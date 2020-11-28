@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { CircularProgress, CircularProgressProps, Grid, Typography } from '@material-ui/core';
 import styles from './loading-content.styles';
-
+import { isEmpty as fpIsEmpty} from 'lodash/fp';
 type LoadingProps = CircularProgressProps;
 
 type EmptyProps = {
@@ -40,7 +40,7 @@ const Loader = <T, U extends T>(props: {
     props?: LoadingProps;
   };
   empty?: {
-    on: (data: T) => boolean;
+    on?: (data: T) => boolean;
     props: EmptyProps;
   };
 }): React.ReactElement => {
@@ -48,7 +48,7 @@ const Loader = <T, U extends T>(props: {
   if (load !== undefined && load.on) {
     return <LoadingContent {...load.props} />;
   }
-  if (empty !== undefined && empty.on(data)) {
+  if (empty !== undefined && (empty.on ?? fpIsEmpty)(data)) {
     return <EmptyContent {...empty.props} />;
   }
   return props.children(props.data as U);

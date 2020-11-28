@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Card, CardContent, CardHeader, Divider, Grid, GridProps, Typography, TypographyProps } from '@material-ui/core';
+import { CardContent, CardHeader, Divider, Grid, GridProps, Typography, TypographyProps } from '@material-ui/core';
 import { DesktopAccessDisabled as DesktopAccessDisabledIcon, LocationOn as LocationOnIcon } from '@material-ui/icons';
 import { branch, renderComponent } from 'recompose';
 import { isEmpty as _isEmpty } from 'lodash';
@@ -13,7 +13,6 @@ import { FetchStatusEnum } from '../../../utils/network-util';
 import { DeepNonNullable } from '../../../utils/type-util';
 import { companyDetailSelector } from '../../../service/company-info/company-info.selector';
 import styles from './company-detail.styles';
-
 const mapState = (state: RootState) =>
   ({
     detail: {
@@ -103,14 +102,6 @@ const companyDetailEmptyBranch = branch(
   ))
 );
 
-const CompanyDetail: React.FC<Props> = flow(companyDetailEmptyBranch, companyDetailLoadingBranch)(CompanyDetailBase);
-
-const CompanyDetailContainer = connect(mapState)(
-  (props: Props): React.ReactElement => (
-    <Card classes={styles.useCardStyles()}>
-      <CompanyDetail {...props} />
-    </Card>
-  )
-);
+const CompanyDetailContainer: React.FC<{}> = flow(companyDetailEmptyBranch, companyDetailLoadingBranch, connect(mapState, {}))(CompanyDetailBase);
 
 export { CompanyDetailContainer };
