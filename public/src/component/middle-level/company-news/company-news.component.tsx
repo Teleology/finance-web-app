@@ -24,17 +24,22 @@ const CompanyNews = (props: Props): React.ReactElement => {
       <CardHeader title={company} />
       <CardContent>
         <Grid direction="column" container={true}>
-          {_map(newsList, (datum: NewsUnit) => (
-            <Typography variant="body1" key={datum.title + datum.source}>
-              {JSON.stringify(datum)}
-            </Typography>
-          ))}
+          {_map(newsList, (datum: NewsUnit) => {
+            const { title, publishAt, description, author, image } = datum;
+            return (
+              <Grid container={true} direction="row" key={datum.title + datum.source}>
+                <Typography variant="h1">{title}</Typography>
+                <Typography variant="h5">{author}</Typography>
+                <Typography variant="h5">{publishAt}</Typography>
+                <Typography variant="body1">{description}</Typography>
+                <Typography variant="body1">{image}</Typography>
+              </Grid>
+            );
+          })}
         </Grid>
       </CardContent>
     </>
   );
 };
 
-const CompanyNewsContainer = connect(mapState, mapDispatch)(CompanyNews);
-
-export { CompanyNewsContainer };
+export const CompanyNewsContainer = connect(mapState, mapDispatch)(CompanyNews);

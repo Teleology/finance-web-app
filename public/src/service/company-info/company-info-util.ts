@@ -1,4 +1,6 @@
 type NewsUnit = {
+  author: string;
+  image: string;
   source: string;
   title: string;
   description: string;
