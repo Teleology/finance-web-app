@@ -1,6 +1,13 @@
 import { ReturnTypeOfGroup } from '../../utils/type-util';
 import { NewsUnit, CompanyInfoActionType, CompanyDetail } from './company-info-util';
 
+const getNews = (symbol: string) =>
+  ({
+    type: CompanyInfoActionType.GET_NEWS,
+    payload: {
+      symbol
+    }
+  } as const);
 const setNews = (newsList: Array<NewsUnit>) =>
   ({
     type: CompanyInfoActionType.SET_NEWS,
@@ -18,6 +25,7 @@ const setDetail = (detail: CompanyDetail) =>
   } as const);
 
 const companyInfoAction = {
+  getNews,
   setNews,
   setDetail
 };

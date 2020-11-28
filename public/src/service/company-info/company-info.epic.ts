@@ -9,15 +9,20 @@ import { baseURL } from '../../../../express-server/src/common/network-utils';
 import { sharedAction, SharedActionGroup, SharedActionType } from '../shared-service/shared.action';
 import { modalAction } from '../shared-service/modal/modal.action';
 import { ModalType } from '../shared-service/modal/modal-utils';
-import { CompanyDetail, NewsUnit } from './company-info-util';
-import { companyInfoAction } from './company-info.action';
+import { CompanyDetail, CompanyInfoActionType, NewsUnit } from './company-info-util';
+import { companyInfoAction, CompanyInfoActionGroup } from './company-info.action';
 const companyInfoUrl = `${baseURL}/company-info`;
 
 const newsEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
-    ofType<RootAction, SharedActionGroup['getCompanyInfo']>(SharedActionType.GET_COMPANY_INFO),
-    switchMap((action: SharedActionGroup['getCompanyInfo']) =>
-      ajax.getJSON<Array<NewsUnit>>(stringifyUrl({ url: `${companyInfoUrl}/news`, query: { keywords: action.payload.company.label } }))
+    ofType<RootAction, CompanyInfoActionGroup['getNews']>(CompanyInfoActionType.GET_NEWS),
+    switchMap((action: CompanyInfoActionGroup['getNews']) =>
+      ajax.getJSON<Array<NewsUnit>>(stringifyUrl({ url: `${companyInfoUrl}/news`, query: { keywords: action.payload.symbol } })).pipe(
+        catchError((error: Error) => {
+          console.log(error);
+          return EMPTY;
+        })
+      )
     ),
     map(companyInfoAction.setNews)
   );
