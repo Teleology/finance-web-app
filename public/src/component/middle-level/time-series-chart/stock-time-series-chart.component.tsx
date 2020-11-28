@@ -17,6 +17,7 @@ import {
 } from '../../bottom-level/marked-text/marked-typography.component';
 import { LoadingContentFC, LoadingContentW, LoadingContentWrapper } from '../../bottom-level/loading-content/loading-content.component';
 import { FetchStatusEnum } from '../../../utils/network-util';
+import { LatestStock } from '../../../service/stock-time-series/stock-time-series-utils';
 import styles from './time-series-chart.styles';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod' | 'getLatest'>(stockTimeSeriesAction, [
@@ -56,34 +57,38 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
     [setPeriod]
   );
   // set LineChart's debounceTime to 0 if you want immediately updating
-  const isLoading = latest.fetchStatus === FetchStatusEnum.PENDING || latest.fetchStatus === FetchStatusEnum.NEVER;
   return (
     <>
-      <LoadingContentW isLoading={true}>
-        <CardHeader
-          title={latest.data?.symbol}
-          titleTypographyProps={{ variant: 'h2', gutterBottom: true }}
-          subheader={
-            <Grid direction="row" container={true} spacing={1} alignItems="center">
-              <Grid item={true}>
-                <FormattedTypography variant="h3" format={formatMoney}>
-                  {latest.data.price}
-                </FormattedTypography>
+      <LoadingContentFC<Props['latest']['data'], NonNullable<Props['latest']['data']>>
+        isLoading={latest.fetchStatus === FetchStatusEnum.PENDING || latest.fetchStatus === FetchStatusEnum.NEVER}
+        data={latest.data}
+      >
+        {(latestData: NonNullable<Props['latest']['data']>): React.ReactElement => (
+          <CardHeader
+            title={latest.data?.symbol}
+            titleTypographyProps={{ variant: 'h2', gutterBottom: true }}
+            subheader={
+              <Grid direction="row" container={true} spacing={1} alignItems="center">
+                <Grid item={true}>
+                  <FormattedTypography variant="h3" format={formatMoney}>
+                    {latestData.price}
+                  </FormattedTypography>
+                </Grid>
+                <Grid item={true}>
+                  <BackgroundColorfulFormattedTypography variant="h5" tint="#137333" format={formatPercentChange}>
+                    {latestData.changePercent}
+                  </BackgroundColorfulFormattedTypography>
+                </Grid>
+                <Grid item={true}>
+                  <ColorfulFormattedTypography variant="h5" tint="#137333" format={flow(formatWithSign, (n: string) => n + ' Today')}>
+                    {latestData.change}
+                  </ColorfulFormattedTypography>
+                </Grid>
               </Grid>
-              <Grid item={true}>
-                <BackgroundColorfulFormattedTypography variant="h5" tint="#137333" format={formatPercentChange}>
-                  {latest.data.changePercent}
-                </BackgroundColorfulFormattedTypography>
-              </Grid>
-              <Grid item={true}>
-                <ColorfulFormattedTypography variant="h5" tint="#137333" format={flow(formatWithSign, (n: string) => n + ' Today')}>
-                  {latest.data.change}
-                </ColorfulFormattedTypography>
-              </Grid>
-            </Grid>
-          }
-        />
-      </LoadingContentW>
+            }
+          />
+        )}
+      </LoadingContentFC>
       <CardContent>
         <Breadcrumbs>
           <Breadcrumb
