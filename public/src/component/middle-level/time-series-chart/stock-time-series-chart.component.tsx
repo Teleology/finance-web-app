@@ -15,9 +15,8 @@ import {
   ColorfulFormattedTypography,
   FormattedTypography
 } from '../../bottom-level/marked-text/marked-typography.component';
-import { LoadingContentFC, LoadingContentW, LoadingContentWrapper } from '../../bottom-level/loading-content/loading-content.component';
+import { Loader } from '../../bottom-level/loading-content/loading-content.component';
 import { FetchStatusEnum } from '../../../utils/network-util';
-import { LatestStock } from '../../../service/stock-time-series/stock-time-series-utils';
 import styles from './time-series-chart.styles';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod' | 'getLatest'>(stockTimeSeriesAction, [
@@ -59,8 +58,10 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
   // set LineChart's debounceTime to 0 if you want immediately updating
   return (
     <>
-      <LoadingContentFC<Props['latest']['data'], NonNullable<Props['latest']['data']>>
-        isLoading={latest.fetchStatus === FetchStatusEnum.PENDING || latest.fetchStatus === FetchStatusEnum.NEVER}
+      <Loader<Props['latest']['data'], NonNullable<Props['latest']['data']>>
+        load={{
+          on: latest.fetchStatus === FetchStatusEnum.PENDING || latest.fetchStatus === FetchStatusEnum.NEVER
+        }}
         data={latest.data}
       >
         {(latestData: NonNullable<Props['latest']['data']>): React.ReactElement => (
@@ -88,7 +89,7 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
             }
           />
         )}
-      </LoadingContentFC>
+      </Loader>
       <CardContent>
         <Breadcrumbs>
           <Breadcrumb
@@ -118,18 +119,6 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
     </>
   );
 };
-
-// const emptyCompanyBranch = branch(
-//   ({ company }: Props) => company === null,
-//   renderComponent(() => <EmptyContent text="Please favorite a company first" icon={<LocationCityIcon />} />)
-// );
-//
-// const emptySeriesBranch = branch(
-//   ({ series }: Props) => series === null,
-//   renderComponent(() => <EmptyContent icon={<LocationCityIcon />} text="Sorry, we can't find the company you favorite" />)
-// );
-
-// const loadingBranch = branch(({ series }: Props) => series.fetchStatus === FetchStatusEnum.PENDING, renderComponent(LoadingContent));
 
 const StockTimeSeriesChartContainer = connect(mapState, mapDispatch)(StockTimeSeriesChart);
 

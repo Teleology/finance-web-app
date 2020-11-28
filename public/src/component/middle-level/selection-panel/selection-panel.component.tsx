@@ -15,16 +15,16 @@ import {
 } from '@material-ui/core';
 import { ArrowDropDown as ArrowDropDownIcon, Description as DescriptionIcon, ErrorOutline as ErrorOutlineIcon } from '@material-ui/icons';
 import { connect } from 'react-redux';
-import { isEmpty as _isEmpty, map as _map, pick as _pick } from 'lodash';
+import { isEmpty as fpIsEmpty } from 'lodash/fp';
+import { map as _map, pick as _pick } from 'lodash';
 import { companySelectionAction } from '../../../service/company-selection/company-selection.action';
 import { RootState } from '../../../service/root-store';
 import { LabelUnit } from '../../../utils/type-util';
 import { CompanyInIndice } from '../../../service/company-selection/company-selection-utils';
 import { sharedAction } from '../../../service/shared-service/shared.action';
-import { EmptyContentWrapper } from '../../bottom-level/empty-content/empty-content.component';
 import { emptyIconProps } from '../../common-props';
 import { FetchStatusEnum } from '../../../utils/network-util';
-import { LoadingContentWrapper } from '../../bottom-level/loading-content/loading-content.component';
+import { Loader } from '../../bottom-level/loading-content/loading-content.component';
 import styles from './selection-panel.styles';
 
 const mapDispatch = { ...companySelectionAction, ..._pick<typeof sharedAction, 'getCompanyInfo'>(sharedAction, ['getCompanyInfo']) };
@@ -157,8 +157,12 @@ const SelectionPanel = (props: Props): React.ReactElement => {
           </FormControl>
         </Grid>
         <Grid item={true}>
-          <LoadingContentWrapper isLoading={companies.fetchStatus === FetchStatusEnum.PENDING}>
-            <EmptyContentWrapper icon={<DescriptionIcon {...emptyIconProps} />} text="Please complete all selections" isEmpty={_isEmpty(companies)}>
+          <Loader
+            data={companies.list}
+            load={{ on: companies.fetchStatus === FetchStatusEnum.PENDING }}
+            empty={{ on: fpIsEmpty, props: { icon: <DescriptionIcon {...emptyIconProps} />, text: 'Please complete all selections' } }}
+          >
+            {(data: Array<CompanyInIndice>): React.ReactElement => (
               <TableContainer classes={tableContainerStyles}>
                 <Table stickyHeader={true} onClick={handleTableClick}>
                   <TableHead>
@@ -170,7 +174,7 @@ const SelectionPanel = (props: Props): React.ReactElement => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {_map<CompanyInIndice, React.ReactElement>(companies.list, ({ name, country, shortName, stockId }: CompanyInIndice) => (
+                    {_map<CompanyInIndice, React.ReactElement>(data, ({ name, country, shortName, stockId }: CompanyInIndice) => (
                       <TableRow hover={true} classes={tableRowStyles} key={stockId}>
                         <TableCell>{name}</TableCell>
                         <TableCell>{shortName}</TableCell>
@@ -181,8 +185,8 @@ const SelectionPanel = (props: Props): React.ReactElement => {
                   </TableBody>
                 </Table>
               </TableContainer>
-            </EmptyContentWrapper>
-          </LoadingContentWrapper>
+            )}
+          </Loader>
         </Grid>
       </Grid>
     </>

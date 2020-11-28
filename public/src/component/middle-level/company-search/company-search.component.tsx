@@ -15,9 +15,8 @@ import { debounceWithEnterKey } from '../../../utils/stream';
 import { companySearchAction } from '../../../service/company-search/company-search.action';
 import { RootState } from '../../../service/root-store';
 import { CompanyInSearch } from '../../../service/company-search/company-search-utils';
-import { EmptyContentWrapper } from '../../bottom-level/empty-content/empty-content.component';
 import { emptyIconProps } from '../../common-props';
-import { LoadingContentWrapper } from '../../bottom-level/loading-content/loading-content.component';
+import { Loader } from '../../bottom-level/loading-content/loading-content.component';
 import styles from './company-search.styles';
 type Company = {
   symbol: string;
@@ -114,12 +113,12 @@ const CompanySearch = (props: Props): React.ReactElement => {
         <TextField value={value} onChange={handleTextChange} fullWidth={true} size="medium" margin="normal" />
       </Grid>
       <Grid item={true}>
-        <LoadingContentWrapper isLoading={isLoading}>
-          <EmptyContentWrapper
-            icon={<DescriptionIcon {...emptyIconProps} />}
-            text="Sorry, no companies found based on your current search"
-            isEmpty={fpIsEmpty(matchedCompanies)}
-          >
+        <Loader
+          data={matchedCompanies}
+          load={{ on: isLoading }}
+          empty={{ on: fpIsEmpty, props: { icon: <DescriptionIcon {...emptyIconProps} />, text: 'Sorry, no companies found based on your current search' } }}
+        >
+          {(data: Array<CompanyInSearch>): React.ReactElement => (
             <TableContainer classes={tableContainerStyles}>
               <Table stickyHeader={true} onClick={handleTableClick}>
                 <TableHead>
@@ -131,7 +130,7 @@ const CompanySearch = (props: Props): React.ReactElement => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {_map(matchedCompanies, ({ name, region, symbol, type }: CompanyInSearch) => (
+                  {_map(data, ({ name, region, symbol, type }: CompanyInSearch) => (
                     <TableRow hover={true} classes={tableRowStyles}>
                       <TableCell>{name}</TableCell>
                       <TableCell>{region}</TableCell>
@@ -142,8 +141,8 @@ const CompanySearch = (props: Props): React.ReactElement => {
                 </TableBody>
               </Table>
             </TableContainer>
-          </EmptyContentWrapper>
-        </LoadingContentWrapper>
+          )}
+        </Loader>
       </Grid>
     </Grid>
   );

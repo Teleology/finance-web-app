@@ -7,9 +7,8 @@ import { isEmpty as _isEmpty } from 'lodash';
 import { flow } from 'lodash/fp';
 import { RootState } from '../../../service/root-store';
 import { ReadMoreTypography } from '../../bottom-level/read-more/read-more.component';
-import { EmptyContent } from '../../bottom-level/empty-content/empty-content.component';
 import { emptyIconProps } from '../../common-props';
-import { LoadingContent, LoadingContentWrapper } from '../../bottom-level/loading-content/loading-content.component';
+import { LoadingContent, EmptyContent } from '../../bottom-level/loading-content/loading-content.component';
 import { FetchStatusEnum } from '../../../utils/network-util';
 import { DeepNonNullable } from '../../../utils/type-util';
 import { companyDetailSelector } from '../../../service/company-info/company-info.selector';
@@ -34,7 +33,7 @@ const CompanyDetailBase = (props: DeepNonNullable<Props>): React.ReactElement =>
   const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = props.detail.data;
   // TODO: remove???
   return (
-    <LoadingContentWrapper isLoading={false}>
+    <>
       <CardHeader
         title={symbol}
         classes={useCardHeaderStyles()}
@@ -87,7 +86,7 @@ const CompanyDetailBase = (props: DeepNonNullable<Props>): React.ReactElement =>
       <CardContent>
         <ReadMoreTypography>{description}</ReadMoreTypography>
       </CardContent>
-    </LoadingContentWrapper>
+    </>
   );
 };
 
