@@ -7,8 +7,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, history, persistor } from './service/root-store';
 import { theme } from './theme';
 import { CompanyWatcher } from './component/middle-level/company-watcher.component';
-import { StockTimeSeriesChartContainer } from './component/middle-level/time-series-chart/stock-time-series-chart.component';
-import { NewsSectionContainer } from './component/middle-level/news/news-section.component';
 import { AppHeader } from './component/middle-level/app-header/app-header.component';
 import { AppDrawer } from './component/middle-level/app-drawer/app-drawer.component';
 import { AppDrawerManager } from './component/middle-level/app-drawer-manager.component';

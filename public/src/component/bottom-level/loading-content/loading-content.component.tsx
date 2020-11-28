@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { CircularProgress, CircularProgressProps, Grid, Typography } from '@material-ui/core';
-import styles from './loading-content.styles';
 import { isEmpty as fpIsEmpty} from 'lodash/fp';
+import styles from './loading-content.styles';
 type LoadingProps = CircularProgressProps;
 
 type EmptyProps = {

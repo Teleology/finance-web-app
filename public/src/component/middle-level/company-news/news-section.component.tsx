@@ -10,7 +10,7 @@ const mapState = ({ companyInfo }: RootState) =>
   } as const);
 
 type Props = ReturnType<typeof mapState>;
-const NewsSection = ({ newsList }: Props): React.ReactElement => (
+const CompanyNews = ({ newsList }: Props): React.ReactElement => (
   <Grid direction="column" container={true}>
     {_.map(newsList, (datum: NewsUnit) => (
       <Typography variant="body1" key={datum.title + datum.source}>
@@ -20,6 +20,6 @@ const NewsSection = ({ newsList }: Props): React.ReactElement => (
   </Grid>
 );
 
-const NewsSectionContainer = connect(mapState)(NewsSection);
+const CompanyNewsContainer = connect(mapState)(CompanyNews);
 
-export { NewsSectionContainer };
+export { CompanyNewsContainer };
