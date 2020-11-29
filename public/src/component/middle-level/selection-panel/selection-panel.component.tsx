@@ -26,6 +26,7 @@ import { emptyIconProps } from '../../common-props';
 import { FetchStatusEnum } from '../../../utils/network-util';
 import { Loader } from '../../bottom-level/loading-content/loading-content.component';
 import styles from './selection-panel.styles';
+import { useFullFlexStyles } from '../../common-styles';
 
 const mapDispatch = { ...companySelectionAction, ..._pick<typeof sharedAction, 'getCompanyInfo'>(sharedAction, ['getCompanyInfo']) };
 
@@ -44,8 +45,8 @@ const SelectionPanel = (props: Props): React.ReactElement => {
   const { getContinentOptions, continent, setContinentSelection, country, setCountrySelection, indice, setIndiceSelection, companies, getCompanyInfo } = props;
   const tableContainerStyles = styles.useTableContainerStyles(),
     tableRowStyles = styles.useTableRowStyles(),
-    selectionStyles = styles.useSelectStyles();
-
+    selectionStyles = styles.useSelectStyles(),
+    fullFlexStyles = useFullFlexStyles();
   // TODO: use layout effect maybe better
   React.useEffect(() => {
     getContinentOptions();
@@ -156,7 +157,7 @@ const SelectionPanel = (props: Props): React.ReactElement => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item={true}>
+        <Grid item={true} classes={fullFlexStyles}>
           <Loader
             data={companies.list}
             load={{ on: companies.fetchStatus === FetchStatusEnum.PENDING }}

@@ -3,9 +3,7 @@ import { SelectClassKey, TableContainerClassKey, TableRowClassKey } from '@mater
 
 // TODO: should be common styles ?
 const useTableContainerStyles = makeStyles({
-  root: {
-    maxHeight: '50rem'
-  }
+  root: {}
 } as StyleRules<TableContainerClassKey>);
 
 const useTableRowStyles = makeStyles({

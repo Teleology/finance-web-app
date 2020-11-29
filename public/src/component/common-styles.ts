@@ -10,9 +10,11 @@ const commonStyles = {
 
 const useFullFlexStyles = makeStyles({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    minHeight: 0,
+    overflow: 'auto'
   }
-} as StyleRules<GridClassKey>);
+});
 
 const useCardContainerStyles = makeStyles(
   ({ spacing }: Theme) =>
