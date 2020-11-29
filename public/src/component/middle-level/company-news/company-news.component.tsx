@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { CardContent, CardHeader, Grid, Typography } from '@material-ui/core';
+import { CardContent, CardHeader, Divider, Grid, Typography } from '@material-ui/core';
 import { map as _map, pick as _pick } from 'lodash';
 import { connect } from 'react-redux';
 import { RootState } from '../../../service/root-store';
 import { NewsUnit } from '../../../service/company-info/company-info-util';
 import { companyInfoAction } from '../../../service/company-info/company-info.action';
+import styles from './company-news.styles';
+
 const mapState = ({ companyInfo, companyCollection }: RootState) =>
   ({
     newsList: companyInfo.newsList,
@@ -16,6 +18,10 @@ const mapDispatch = _pick<typeof companyInfoAction, 'getNews'>(companyInfoAction
 type Props = ReturnType<typeof mapState> & typeof mapDispatch;
 const CompanyNews = (props: Props): React.ReactElement => {
   const { newsList, company, getNews } = props;
+  const paragraphStyles = styles.useParagraphStyles(),
+    paragraphFootStyles = styles.useParagraphFootStyles(),
+    newsSectionStyles = styles.useNewsSectionStyles().root;
+
   React.useEffect(() => {
     company !== null && getNews(company);
   }, [company, getNews]);
@@ -23,20 +29,27 @@ const CompanyNews = (props: Props): React.ReactElement => {
     <>
       <CardHeader title={company} />
       <CardContent>
-        <Grid direction="column" container={true}>
-          {_map(newsList, (datum: NewsUnit) => {
-            const { title, publishAt, description, author, image } = datum;
-            return (
-              <Grid container={true} direction="row" key={datum.title + datum.source}>
-                <Typography variant="h1">{title}</Typography>
-                <Typography variant="h5">{author}</Typography>
-                <Typography variant="h5">{publishAt}</Typography>
-                <Typography variant="body1">{description}</Typography>
-                <Typography variant="body1">{image}</Typography>
+        {_map(newsList, (datum: NewsUnit) => {
+          const { title, publishedAt, description, author, image } = datum;
+          return (
+            <div key={datum.title + datum.source} className={newsSectionStyles}>
+              <Typography variant="h1">{title}</Typography>
+
+              <Grid container={true} direction="row" classes={paragraphStyles}>
+                <Grid item={true} xs={6}>
+                  <Typography variant="body1">{description}</Typography>
+                </Grid>
+                <Grid item={true} xs={6}>
+                  <img src={image} width="100%" />
+                </Grid>
               </Grid>
-            );
-          })}
-        </Grid>
+              <Typography variant="h5" classes={paragraphFootStyles}>
+                {author + ',' + publishedAt}
+              </Typography>
+              <Divider />
+            </div>
+          );
+        })}
       </CardContent>
     </>
   );

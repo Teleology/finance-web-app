@@ -5,7 +5,7 @@ type NewsUnit = {
   title: string;
   description: string;
   content: string;
-  publishAt: string;
+  publishedAt: string;
   site: string;
 };
 
