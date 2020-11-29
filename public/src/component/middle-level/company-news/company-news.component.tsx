@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { RootState } from '../../../service/root-store';
 import { NewsUnit } from '../../../service/company-info/company-info-util';
 import { companyInfoAction } from '../../../service/company-info/company-info.action';
+import { AppLinkBlock } from '../../bottom-level/app-link.component';
 import styles from './company-news.styles';
 
 const mapState = ({ companyInfo, companyCollection }: RootState) =>
@@ -30,9 +31,10 @@ const CompanyNews = (props: Props): React.ReactElement => {
       <CardHeader title={company} />
       <CardContent>
         {_map(newsList, (datum: NewsUnit) => {
-          const { title, publishedAt, description, author, image } = datum;
+          const { title, publishedAt, description, author, image, source } = datum;
           return (
-            <div key={datum.title + datum.source} className={newsSectionStyles}>
+            <AppLinkBlock key={datum.title + datum.source} className={newsSectionStyles} href={source} target="_blank">
+              <Divider />
               <Typography variant="h1">{title}</Typography>
 
               <Grid container={true} direction="row" classes={paragraphStyles}>
@@ -46,8 +48,7 @@ const CompanyNews = (props: Props): React.ReactElement => {
               <Typography variant="h5" classes={paragraphFootStyles}>
                 {author + ',' + publishedAt}
               </Typography>
-              <Divider />
-            </div>
+            </AppLinkBlock>
           );
         })}
       </CardContent>

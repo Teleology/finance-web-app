@@ -1,8 +1,14 @@
-import { Link } from 'react-router-dom';
-import { styled } from '@material-ui/core/styles';
-const AppLink = styled(Link)({
+import { Link as RouteLink } from 'react-router-dom';
+import { styled } from '@material-ui/core';
+const AppRouteLink = styled(RouteLink)({
   textDecoration: 'none',
   color: 'inherit'
 });
 
-export { AppLink };
+const AppLinkBlock = styled('a')({
+  textDecoration: 'none',
+  color: 'inherit',
+  display: 'block'
+});
+
+export { AppRouteLink, AppLinkBlock };

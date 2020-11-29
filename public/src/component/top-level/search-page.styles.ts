@@ -5,7 +5,7 @@ import { commonStyles } from '../common-styles';
 const useCardStyles = makeStyles({
   root: {
     ...commonStyles.cardStyles,
-    minHeight: 200
+    height: '100%'
   }
 } as StyleRules<CardClassKey>);
 

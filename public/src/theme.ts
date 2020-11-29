@@ -94,11 +94,18 @@ const theme = createMuiTheme({
     MuiCssBaseline: {
       '@global': {
         html: {
-          fontSize: '62.5%'
+          fontSize: '62.5%',
+          height: '100%'
         },
         body: {
           fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+          height: '100%',
           backgroundColor: '#f4f6f8'
+        },
+        '#root': {
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column'
         }
       }
     }
