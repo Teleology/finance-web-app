@@ -1,21 +1,22 @@
 import { makeStyles, StyleRules, Theme } from '@material-ui/core/styles';
-import { GridClassKey } from '@material-ui/core';
-
-// TODO: remove immediately
-const cardStyles = {};
+import { CardClassKey, CardContentClassKey, GridClassKey } from '@material-ui/core';
 
 const fullFlexStyles = {
   flexGrow: 1,
   minHeight: 0
 };
 
-const commonStyles = {
-  cardStyles
-};
-
 const useFullFlexStyles = makeStyles({
   root: fullFlexStyles
 });
+
+const useCardStyles = makeStyles({
+  root: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  }
+} as StyleRules<CardClassKey>);
 
 const useCardContainerStyles = makeStyles(
   ({ spacing }: Theme) =>
@@ -27,4 +28,13 @@ const useCardContainerStyles = makeStyles(
       }
     } as StyleRules<GridClassKey>)
 );
-export { commonStyles, fullFlexStyles, useFullFlexStyles, useCardContainerStyles };
+
+const useCardContentStyles = makeStyles({
+  root: {
+    flexGrow: 1,
+    minHeight: 0,
+    overflow: 'auto'
+  }
+} as StyleRules<CardContentClassKey>);
+
+export { fullFlexStyles, useFullFlexStyles, useCardContainerStyles, useCardContentStyles, useCardStyles };

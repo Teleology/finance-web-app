@@ -3,15 +3,13 @@ import { Grid, Divider, Card, CardHeader, CardContent } from '@material-ui/core'
 import { CompanySearchContainer } from '../middle-level/company-search/company-search.component';
 import { CompanyDetailContainer } from '../middle-level/company-detail/company-detail.component';
 import { SelectionPanelContainer } from '../middle-level/selection-panel/selection-panel.component';
-import { useCardContainerStyles, useFullFlexStyles } from '../common-styles';
-import styles from './search-page.styles';
+import { useCardContainerStyles, useCardContentStyles, useCardStyles, useFullFlexStyles } from '../common-styles';
 
 const SearchPage = (): React.ReactElement => {
-  const { useCardStyles } = styles;
   const cardClasses = useCardStyles(),
     fullFlexStyles = useFullFlexStyles(),
     cardContainerStyles = useCardContainerStyles(),
-    cardContentStyles = styles.useCardContentStyles();
+    cardContentStyles = useCardContentStyles();
   return (
     <Grid direction="row" container={true} classes={fullFlexStyles}>
       <Grid item={true} xs={4} classes={cardContainerStyles}>
@@ -33,7 +31,7 @@ const SearchPage = (): React.ReactElement => {
         </Card>
       </Grid>
       <Grid item={true} xs={4} classes={cardContainerStyles}>
-        <Card classes={styles.useCardStyles()}>
+        <Card classes={cardClasses}>
           <CompanyDetailContainer />
         </Card>
       </Grid>

@@ -6,6 +6,7 @@ import { RootState } from '../../../service/root-store';
 import { NewsUnit } from '../../../service/company-info/company-info-util';
 import { companyInfoAction } from '../../../service/company-info/company-info.action';
 import { AppLinkBlock } from '../../bottom-level/app-link.component';
+import { useCardContentStyles } from '../../common-styles';
 import styles from './company-news.styles';
 
 const mapState = ({ companyInfo, companyCollection }: RootState) =>
@@ -21,7 +22,8 @@ const CompanyNews = (props: Props): React.ReactElement => {
   const { newsList, company, getNews } = props;
   const paragraphStyles = styles.useParagraphStyles(),
     paragraphFootStyles = styles.useParagraphFootStyles(),
-    newsSectionStyles = styles.useNewsSectionStyles().root;
+    newsSectionStyles = styles.useNewsSectionStyles().root,
+    cardContentStyles = useCardContentStyles();
 
   React.useEffect(() => {
     company !== null && getNews(company);
@@ -29,7 +31,7 @@ const CompanyNews = (props: Props): React.ReactElement => {
   return (
     <>
       <CardHeader title={company} />
-      <CardContent>
+      <CardContent classes={cardContentStyles}>
         {_map(newsList, (datum: NewsUnit) => {
           const { title, publishedAt, description, author, image, source } = datum;
           return (

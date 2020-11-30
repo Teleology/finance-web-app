@@ -1,10 +1,5 @@
 import { makeStyles, StyleRules, Theme } from '@material-ui/core/styles';
-import { CardClassKey, CardContentClassKey, CardHeaderClassKey, IconClassKey } from '@material-ui/core';
-import { commonStyles } from '../../common-styles';
-
-const useCardStyles = makeStyles({
-  root: commonStyles.cardStyles
-} as StyleRules<CardClassKey>);
+import {  CardContentClassKey, CardHeaderClassKey, IconClassKey } from '@material-ui/core';
 
 const useEmptyContentStyles = makeStyles(({ spacing }: Theme) => ({
   root: {
@@ -32,4 +27,4 @@ const useCardHeaderIconStyles = makeStyles({
   }
 } as StyleRules<IconClassKey>);
 
-export default { useCardStyles, useCardHeaderStyles, useCardHeaderIconStyles, useEmptyContentStyles, useCardContentStyles };
+export default {  useCardHeaderStyles, useCardHeaderIconStyles, useEmptyContentStyles, useCardContentStyles };
