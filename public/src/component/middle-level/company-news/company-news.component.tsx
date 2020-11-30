@@ -39,7 +39,7 @@ const CompanyNews = (props: Props): React.ReactElement => {
               <Divider />
               <Typography variant="h1">{title}</Typography>
 
-              <Grid container={true} direction="row" classes={paragraphStyles}>
+              <Grid direction="row" classes={paragraphStyles}>
                 <Grid item={true} xs={6}>
                   <Typography variant="body1">{description}</Typography>
                 </Grid>
