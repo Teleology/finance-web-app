@@ -27,7 +27,6 @@ const useParagraphStyles = makeStyles(
     } as StyleRules<GridClassKey>)
 );
 
-
 const useParagraphFootStyles = makeStyles(({ palette }: Theme) => ({ root: { color: palette.grey[700], overflow: 'hidden' } } as StyleRules<GridClassKey>));
 
 export default { useParagraphFootStyles, useParagraphStyles, useNewsSectionStyles, useTitleStyles };
