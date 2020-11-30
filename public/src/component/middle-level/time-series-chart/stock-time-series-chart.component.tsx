@@ -20,6 +20,7 @@ import { Loader } from '../../bottom-level/loading-content/loading-content.compo
 import { FetchStatusEnum } from '../../../utils/network-util';
 import { emptyIconProps } from '../../common-props';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series-utils';
+import { useCardContentStyles } from '../../common-styles';
 import styles from './time-series-chart.styles';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod' | 'getLatest'>(stockTimeSeriesAction, [
@@ -43,6 +44,8 @@ const mapState = ({ stockTimeSeries, companyCollection }: RootState) =>
 
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 const StockTimeSeriesChart = (props: Props): React.ReactElement => {
+  const cardContentStyles = useCardContentStyles(),
+    chartContainerStyles = styles.useChartContainerStyles().root;
   const { getTimeSeries, series, company, setPeriod, getLatest, latest } = props;
   React.useEffect(() => {
     if (company !== null) {
@@ -99,7 +102,7 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
           />
         )}
       </Loader>
-      <CardContent>
+      <CardContent classes={cardContentStyles}>
         <Breadcrumbs>
           <Breadcrumb
             label="days"
@@ -121,7 +124,7 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
           />
         </Breadcrumbs>
 
-        <div style={{ minHeight: 200, height: '50vh', maxHeight: 800 }}>
+        <div className={chartContainerStyles}>
           <Loader
             data={series.data}
             load={{ on: series.fetchStatus === FetchStatusEnum.PENDING || series.fetchStatus === FetchStatusEnum.NEVER }}

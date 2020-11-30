@@ -1,5 +1,5 @@
 import { makeStyles, StyleRules, Theme } from '@material-ui/core/styles';
-import { GridClassKey } from '@material-ui/core';
+import { GridClassKey, TypographyClassKey } from '@material-ui/core';
 
 const useNewsSectionStyles = makeStyles(({ spacing }: Theme) => ({
   root: {
@@ -8,6 +8,13 @@ const useNewsSectionStyles = makeStyles(({ spacing }: Theme) => ({
     display: 'block'
   }
 }));
+
+const useTitleStyles = makeStyles({
+  root: {
+    padding: 0,
+    fontSize: '2.4rem'
+  }
+} as StyleRules<TypographyClassKey>);
 
 const useParagraphStyles = makeStyles(
   ({ palette, spacing }: Theme) =>
@@ -20,6 +27,7 @@ const useParagraphStyles = makeStyles(
     } as StyleRules<GridClassKey>)
 );
 
+
 const useParagraphFootStyles = makeStyles(({ palette }: Theme) => ({ root: { color: palette.grey[700], overflow: 'hidden' } } as StyleRules<GridClassKey>));
 
-export default { useParagraphFootStyles, useParagraphStyles, useNewsSectionStyles };
+export default { useParagraphFootStyles, useParagraphStyles, useNewsSectionStyles, useTitleStyles };

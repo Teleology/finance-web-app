@@ -12,6 +12,13 @@ const useBreadcrumbStyles = makeStyles(
     } as StyleRules<ChipClassKey>)
 );
 
+const useChartContainerStyles = makeStyles({
+  root: {
+    height: 'calc(100% - 36px)',
+    minHeight: 400
+  }
+});
+
 const useMarkedTextStyles = makeStyles({
   sign: {
     '::before': (props: { n: number }): React.CSSProperties => {
@@ -35,4 +42,4 @@ const useMarkedTextStyles = makeStyles({
   }
 });
 
-export default { useBreadcrumbStyles, useMarkedTextStyles };
+export default { useBreadcrumbStyles, useMarkedTextStyles, useChartContainerStyles };

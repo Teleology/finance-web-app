@@ -23,6 +23,7 @@ const CompanyNews = (props: Props): React.ReactElement => {
   const paragraphStyles = styles.useParagraphStyles(),
     paragraphFootStyles = styles.useParagraphFootStyles(),
     newsSectionStyles = styles.useNewsSectionStyles().root,
+    titleStyles = styles.useTitleStyles(),
     cardContentStyles = useCardContentStyles();
 
   React.useEffect(() => {
@@ -37,7 +38,9 @@ const CompanyNews = (props: Props): React.ReactElement => {
           return (
             <AppLinkBlock key={datum.title + datum.source} className={newsSectionStyles} href={source} target="_blank">
               <Divider />
-              {/*<Typography variant="h1">{title}</Typography>*/}
+              <Typography variant="h5" classes={titleStyles}>
+                {title}
+              </Typography>
 
               <Grid container={true} direction="row" classes={paragraphStyles}>
                 <Grid item={true} xs={6}>
