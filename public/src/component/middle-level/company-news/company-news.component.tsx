@@ -37,9 +37,9 @@ const CompanyNews = (props: Props): React.ReactElement => {
           return (
             <AppLinkBlock key={datum.title + datum.source} className={newsSectionStyles} href={source} target="_blank">
               <Divider />
-              <Typography variant="h1">{title}</Typography>
+              {/*<Typography variant="h1">{title}</Typography>*/}
 
-              <Grid direction="row" classes={paragraphStyles}>
+              <Grid container={true} direction="row" classes={paragraphStyles}>
                 <Grid item={true} xs={6}>
                   <Typography variant="body1">{description}</Typography>
                 </Grid>
