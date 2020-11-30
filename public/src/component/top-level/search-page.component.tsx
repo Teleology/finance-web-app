@@ -9,15 +9,16 @@ import styles from './search-page.styles';
 const SearchPage = (): React.ReactElement => {
   const { useCardStyles } = styles;
   const cardClasses = useCardStyles(),
-    fullContainerStyles = useFullFlexStyles(),
-    cardContainerStyles = useCardContainerStyles();
+    fullFlexStyles = useFullFlexStyles(),
+    cardContainerStyles = useCardContainerStyles(),
+    cardContentStyles = styles.useCardContentStyles();
   return (
-    <Grid direction="row" container={true} classes={fullContainerStyles}>
+    <Grid direction="row" container={true} classes={fullFlexStyles}>
       <Grid item={true} xs={4} classes={cardContainerStyles}>
         <Card classes={cardClasses}>
           <CardHeader subheader="choose a company from the below options" title="Selection" />
           <Divider />
-          <CardContent>
+          <CardContent classes={cardContentStyles}>
             <SelectionPanelContainer />
           </CardContent>
         </Card>
@@ -26,7 +27,7 @@ const SearchPage = (): React.ReactElement => {
         <Card classes={cardClasses}>
           <CardHeader subheader="type a company name in the below line" title="Search" />
           <Divider />
-          <CardContent>
+          <CardContent classes={cardContentStyles}>
             <CompanySearchContainer />
           </CardContent>
         </Card>

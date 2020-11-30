@@ -25,8 +25,8 @@ import { sharedAction } from '../../../service/shared-service/shared.action';
 import { emptyIconProps } from '../../common-props';
 import { FetchStatusEnum } from '../../../utils/network-util';
 import { Loader } from '../../bottom-level/loading-content/loading-content.component';
-import styles from './selection-panel.styles';
 import { useFullFlexStyles } from '../../common-styles';
+import styles from './selection-panel.styles';
 
 const mapDispatch = { ...companySelectionAction, ..._pick<typeof sharedAction, 'getCompanyInfo'>(sharedAction, ['getCompanyInfo']) };
 
@@ -157,7 +157,7 @@ const SelectionPanel = (props: Props): React.ReactElement => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item={true} classes={fullFlexStyles}>
+        <Grid item={true}>
           <Loader
             data={companies.list}
             load={{ on: companies.fetchStatus === FetchStatusEnum.PENDING }}
@@ -197,25 +197,3 @@ const SelectionPanel = (props: Props): React.ReactElement => {
 const SelectionPanelContainer = connect(mapState, mapDispatch)(SelectionPanel);
 
 export { SelectionPanelContainer };
-/**
- *   const setSelection4 = React.useCallback(
- (event: React.ChangeEvent<{ value: unknown }>) => {
-      setCompanySelection(event.target.value as string);
-    },
- [setCompanySelection]
- );
- */
-/*
-        <Grid item={true}>
-          <FormControl fullWidth={true}>
-            <InputLabel>Company</InputLabel>
-            <Select value={company.value} onChange={setSelection4} displayEmpty={true}>
-              {map(company.options, (option: LabelUnit, index: number) => (
-                <MenuItem value={option.value} key={`${option.value}-${index}`}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
- */

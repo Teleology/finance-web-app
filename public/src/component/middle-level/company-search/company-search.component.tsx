@@ -131,7 +131,7 @@ const CompanySearch = (props: Props): React.ReactElement => {
                 </TableHead>
                 <TableBody>
                   {_map(data, ({ name, region, symbol, type }: CompanyInSearch) => (
-                    <TableRow hover={true} classes={tableRowStyles}>
+                    <TableRow hover={true} classes={tableRowStyles} key={symbol}>
                       <TableCell>{name}</TableCell>
                       <TableCell>{region}</TableCell>
                       <TableCell>{symbol}</TableCell>

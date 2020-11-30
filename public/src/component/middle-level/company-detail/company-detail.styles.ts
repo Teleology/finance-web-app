@@ -1,5 +1,5 @@
 import { makeStyles, StyleRules, Theme } from '@material-ui/core/styles';
-import { CardClassKey, CardHeaderClassKey, IconClassKey } from '@material-ui/core';
+import { CardClassKey, CardContentClassKey, CardHeaderClassKey, IconClassKey } from '@material-ui/core';
 import { commonStyles } from '../../common-styles';
 
 const useCardStyles = makeStyles({
@@ -19,10 +19,17 @@ const useCardHeaderStyles = makeStyles(
     } as StyleRules<CardHeaderClassKey>)
 );
 
+const useCardContentStyles = makeStyles({
+  root: {
+    flexGrow: 1,
+    minHeight: 0
+  }
+} as StyleRules<CardContentClassKey>);
+
 const useCardHeaderIconStyles = makeStyles({
   root: {
     verticalAlign: 'bottom'
   }
 } as StyleRules<IconClassKey>);
 
-export default { useCardStyles, useCardHeaderStyles, useCardHeaderIconStyles, useEmptyContentStyles };
+export default { useCardStyles, useCardHeaderStyles, useCardHeaderIconStyles, useEmptyContentStyles, useCardContentStyles };

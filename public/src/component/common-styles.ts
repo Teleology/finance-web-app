@@ -4,24 +4,27 @@ import { GridClassKey } from '@material-ui/core';
 // TODO: remove immediately
 const cardStyles = {};
 
+const fullFlexStyles = {
+  flexGrow: 1,
+  minHeight: 0
+};
+
 const commonStyles = {
   cardStyles
 };
 
 const useFullFlexStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-    minHeight: 0,
-    overflow: 'auto'
-  }
+  root: fullFlexStyles
 });
 
 const useCardContainerStyles = makeStyles(
   ({ spacing }: Theme) =>
     ({
       root: {
-        padding: spacing(2)
+        padding: spacing(2),
+        minHeight: 0,
+        height: '100%'
       }
     } as StyleRules<GridClassKey>)
 );
-export { commonStyles, useFullFlexStyles, useCardContainerStyles };
+export { commonStyles, fullFlexStyles, useFullFlexStyles, useCardContainerStyles };

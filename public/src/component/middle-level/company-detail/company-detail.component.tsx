@@ -29,6 +29,7 @@ const textBodyProps: TypographyProps = { variant: 'body1', color: 'textSecondary
 
 const CompanyDetailBase = (props: DeepNonNullable<Props>): React.ReactElement => {
   const { useCardHeaderStyles, useCardHeaderIconStyles } = styles;
+  const cardContentStyles = styles.useCardContentStyles();
   const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = props.detail.data;
   // TODO: remove???
   return (
@@ -82,7 +83,7 @@ const CompanyDetailBase = (props: DeepNonNullable<Props>): React.ReactElement =>
         </Grid>
       </CardContent>
       <Divider />
-      <CardContent>
+      <CardContent classes={cardContentStyles}>
         <ReadMoreTypography>{description}</ReadMoreTypography>
       </CardContent>
     </>
