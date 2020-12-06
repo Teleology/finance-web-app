@@ -1,4 +1,4 @@
-// common config (dev and prod)
+// container config (dev and prod)
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 

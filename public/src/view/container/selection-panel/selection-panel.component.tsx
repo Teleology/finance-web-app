@@ -24,7 +24,7 @@ import { CompanyInIndice } from '../../../service/company-selection/company-sele
 import { sharedAction } from '../../../service/shared-service/shared.action';
 import { emptyIconProps } from '../../common-props';
 import { FetchStatusEnum } from '../../../utils/network-util';
-import { Loader } from '../../bottom-level/loading-content/loading-content.component';
+import { Loader } from '../../common/loading-content/loading-content.component';
 import { useFullFlexStyles } from '../../common-styles';
 import styles from './selection-panel.styles';
 

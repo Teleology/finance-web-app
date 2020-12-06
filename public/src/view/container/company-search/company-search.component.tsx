@@ -16,7 +16,7 @@ import { companySearchAction } from '../../../service/company-search/company-sea
 import { RootState } from '../../../service/root-store';
 import { CompanyInSearch } from '../../../service/company-search/company-search-utils';
 import { emptyIconProps } from '../../common-props';
-import { Loader } from '../../bottom-level/loading-content/loading-content.component';
+import { Loader } from '../../common/loading-content/loading-content.component';
 import styles from './company-search.styles';
 type Company = {
   symbol: string;

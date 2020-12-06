@@ -1,7 +1,7 @@
 import { makeStyles, StyleRules } from '@material-ui/core/styles';
 import { SelectClassKey, TableContainerClassKey, TableRowClassKey } from '@material-ui/core';
 
-// TODO: should be common styles ?
+// TODO: should be container styles ?
 const useTableContainerStyles = makeStyles({
   root: {}
 } as StyleRules<TableContainerClassKey>);

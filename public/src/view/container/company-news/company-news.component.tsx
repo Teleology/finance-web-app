@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { RootState } from '../../../service/root-store';
 import { NewsUnit } from '../../../service/company-info/company-info-util';
 import { companyInfoAction } from '../../../service/company-info/company-info.action';
-import { AppLinkBlock } from '../../bottom-level/app-link.component';
+import { AppLinkBlock } from '../../common/app-link.component';
 import { useCardContentStyles } from '../../common-styles';
 import styles from './company-news.styles';
 

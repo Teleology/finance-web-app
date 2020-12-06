@@ -7,16 +7,16 @@ import { Assessment as AssessmentIcon, ShowChart as ShowChartIcon } from '@mater
 import { stockTimeSeriesAction } from '../../../service/stock-time-series/stock-time-series.action';
 import { RootState } from '../../../service/root-store';
 import { stockLatestConverter, stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
-import { LineChart } from '../../bottom-level/visualization/line-chart/line-chart.component';
-import { Breadcrumb } from '../../bottom-level/app-chip.component';
+import { LineChart } from '../../common/visualization/line-chart/line-chart.component';
+import { Breadcrumb } from '../../common/app-chip.component';
 import { PeriodEnum } from '../../../utils/type-util';
 import { formatMoney, formatPercentChange, formatWithSign } from '../../../utils/formatter';
 import {
   BackgroundColorfulFormattedTypography,
   ColorfulFormattedTypography,
   FormattedTypography
-} from '../../bottom-level/marked-text/marked-typography.component';
-import { Loader } from '../../bottom-level/loading-content/loading-content.component';
+} from '../../common/marked-text/marked-typography.component';
+import { Loader } from '../../common/loading-content/loading-content.component';
 import { FetchStatusEnum } from '../../../utils/network-util';
 import { emptyIconProps } from '../../common-props';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series-utils';
