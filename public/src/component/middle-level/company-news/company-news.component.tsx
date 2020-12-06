@@ -33,10 +33,10 @@ const CompanyNews = (props: Props): React.ReactElement => {
     <>
       <CardHeader title={company} />
       <CardContent classes={cardContentStyles}>
-        {_map(newsList, (datum: NewsUnit) => {
+        {_map(newsList, (datum: NewsUnit, index: number) => {
           const { title, publishedAt, description, author, image, source } = datum;
           return (
-            <AppLinkBlock key={datum.title + datum.source} className={newsSectionStyles} href={source} target="_blank">
+            <AppLinkBlock key={index} className={newsSectionStyles} href={source} target="_blank">
               <Divider />
               <Typography variant="h5" classes={titleStyles}>
                 {title}
