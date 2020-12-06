@@ -6,14 +6,14 @@ import { Route, Switch } from 'react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, history, persistor } from './service/root-store';
 import { theme } from './theme';
-import { CompanyWatcher } from './component/middle-level/company-watcher.component';
-import { AppHeader } from './component/middle-level/app-header/app-header.component';
-import { AppDrawer } from './component/middle-level/app-drawer/app-drawer.component';
-import { AppDrawerManager } from './component/middle-level/app-drawer-manager.component';
+import { CompanyWatcher } from './view/middle-level/company-watcher.component';
+import { AppHeader } from './view/middle-level/app-header/app-header.component';
+import { AppDrawer } from './view/middle-level/app-drawer/app-drawer.component';
+import { AppDrawerManager } from './view/middle-level/app-drawer-manager.component';
 import { compareLink, infoLink, searchLink } from './utils/network-util';
-import { SearchPage } from './component/top-level/search-page.component';
-import { ModalManagerContainer } from './component/bottom-level/modals/modals';
-import { InfoPage } from './component/top-level/info-page/info-page.component';
+import { SearchPage } from './view/top-level/search-page.component';
+import { ModalManagerContainer } from './view/bottom-level/modals/modals';
+import { InfoPage } from './view/top-level/info-page/info-page.component';
 
 export const App = (): React.ReactElement => (
   <Provider store={store}>
