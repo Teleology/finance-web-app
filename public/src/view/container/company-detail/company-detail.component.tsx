@@ -1,9 +1,10 @@
 import * as React from 'react';
+
 import { connect } from 'react-redux';
-import { CardContent, CardHeader, Divider, Grid, GridProps, Typography, TypographyProps } from '@material-ui/core';
-import { DesktopAccessDisabled as DesktopAccessDisabledIcon, LocationOn as LocationOnIcon } from '@material-ui/icons';
+import { CardContent, CardHeader, Divider, Grid, GridProps, IconButton, Typography, TypographyProps } from '@material-ui/core';
+import { DesktopAccessDisabled as DesktopAccessDisabledIcon, LocationOn as LocationOnIcon, Favorite as FavoriteIcon } from '@material-ui/icons';
 import { branch, renderComponent } from 'recompose';
-import { isEmpty as _isEmpty } from 'lodash';
+import { isEmpty as _isEmpty, pick as _pick } from 'lodash';
 import { flow } from 'lodash/fp';
 import { RootState } from '../../../service/root-store';
 import { ReadMoreTypography } from '../../common/read-more/read-more.component';
@@ -12,7 +13,9 @@ import { LoadingContent, EmptyContent } from '../../common/loading-content/loadi
 import { FetchStatusEnum } from '../../../utils/network-util';
 import { DeepNonNullable } from '../../../utils/type-util';
 import { companyDetailSelector } from '../../../service/company-info/company-info.selector';
+import { companyCollectionAction } from '../../../service/company-collection/comany-collection.action';
 import styles from './company-detail.styles';
+
 const mapState = (state: RootState) =>
   ({
     detail: {
@@ -21,22 +24,34 @@ const mapState = (state: RootState) =>
     }
   } as const);
 
-type Props = ReturnType<typeof mapState>;
+const mapDispatch = _pick<typeof companyCollectionAction, 'addCompany'>(companyCollectionAction, ['addCompany']);
+
+type MapStateProps = ReturnType<typeof mapState>;
+type MapDispatchProps = typeof mapDispatch;
 const textGridContainerProps: GridProps = { container: true, item: true };
 const textGridItemProps: GridProps = { item: true, xs: 6 };
 const textSubTitleProps: TypographyProps = { variant: 'subtitle1' };
 const textBodyProps: TypographyProps = { variant: 'body1', color: 'textSecondary' };
 
-const CompanyDetailBase = (props: DeepNonNullable<Props>): React.ReactElement => {
+const CompanyDetailBase = (props: DeepNonNullable<MapStateProps> & MapDispatchProps): React.ReactElement => {
   const { useCardHeaderStyles, useCardHeaderIconStyles } = styles;
   const cardContentStyles = styles.useCardContentStyles();
-  const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = props.detail.data;
+  const { detail, addCompany } = props;
+  const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = detail.data;
+  const handleFavoriteIconClick = React.useCallback(() => {
+    addCompany({ label: name, value: symbol });
+  }, [addCompany, name, symbol]);
   // TODO: remove???
   return (
     <>
       <CardHeader
         title={symbol}
         classes={useCardHeaderStyles()}
+        action={
+          <IconButton onClick={handleFavoriteIconClick}>
+            <FavoriteIcon color="primary" />
+          </IconButton>
+        }
         subheader={
           <>
             {name}
@@ -90,10 +105,13 @@ const CompanyDetailBase = (props: DeepNonNullable<Props>): React.ReactElement =>
   );
 };
 
-const companyDetailLoadingBranch = branch((props: Props) => props.detail.fetchStatus === FetchStatusEnum.PENDING, renderComponent(LoadingContent));
+const companyDetailLoadingBranch = branch(
+  (props: MapStateProps & MapDispatchProps) => props.detail.fetchStatus === FetchStatusEnum.PENDING,
+  renderComponent(LoadingContent)
+);
 
 const companyDetailEmptyBranch = branch(
-  (props: Props) => _isEmpty(props.detail.data),
+  (props: MapStateProps & MapDispatchProps) => _isEmpty(props.detail.data),
   renderComponent(() => (
     <EmptyContent
       classes={styles.useEmptyContentStyles()}
@@ -103,6 +121,6 @@ const companyDetailEmptyBranch = branch(
   ))
 );
 
-const CompanyDetailContainer: React.FC<{}> = flow(companyDetailEmptyBranch, companyDetailLoadingBranch, connect(mapState, {}))(CompanyDetailBase);
+const CompanyDetailContainer: React.FC<{}> = flow(companyDetailEmptyBranch, companyDetailLoadingBranch, connect(mapState, mapDispatch))(CompanyDetailBase);
 
 export { CompanyDetailContainer };

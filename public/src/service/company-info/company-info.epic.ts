@@ -6,7 +6,7 @@ import { stringifyUrl } from 'query-string';
 import { flow, pick, camelCase, mapKeys, isEmpty as fpIsEmpty, negate as fpIsNegate } from 'lodash/fp';
 import { RootAction } from '../root-store';
 import { baseURL } from '../../../../express-server/src/common/network-utils';
-import { sharedAction, SharedActionGroup, SharedActionType } from '../shared-service/shared.action';
+import { sharedAction } from '../shared-service/shared.action';
 import { modalAction } from '../shared-service/modal/modal.action';
 import { ModalType } from '../shared-service/modal/modal-utils';
 import { CompanyDetail, CompanyInfoActionType, NewsUnit } from './company-info-util';
@@ -48,8 +48,8 @@ it will terminate it and no longer listen for new actions.
  */
 namespace CompanyDetail {
   const fetchDetailPipe = pipe(
-    ofType<RootAction, SharedActionGroup['getCompanyInfo']>(SharedActionType.GET_COMPANY_INFO),
-    switchMap((action: SharedActionGroup['getCompanyInfo']) =>
+    ofType<RootAction, CompanyInfoActionGroup['getDetail']>(CompanyInfoActionType.GET_DETAIL),
+    switchMap((action: CompanyInfoActionGroup['getDetail']) =>
       ajax.getJSON(stringifyUrl({ url: `${companyInfoUrl}/detail`, query: { symbol: action.payload.company.value } })).pipe(
         catchError((error: Error) => {
           console.log(error);

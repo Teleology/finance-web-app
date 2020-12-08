@@ -10,13 +10,13 @@ import { ajax } from 'rxjs/ajax';
 import { stringifyUrl } from 'query-string';
 import { connect } from 'react-redux';
 import { baseURL } from '../../../../../express-server/src/common/network-utils';
-import { sharedAction } from '../../../service/shared-service/shared.action';
 import { debounceWithEnterKey } from '../../../utils/stream';
 import { companySearchAction } from '../../../service/company-search/company-search.action';
 import { RootState } from '../../../service/root-store';
 import { CompanyInSearch } from '../../../service/company-search/company-search-utils';
 import { emptyIconProps } from '../../common-props';
 import { Loader } from '../../common/loading-content/loading-content.component';
+import { companyInfoAction } from '../../../service/company-info/company-info.action';
 import styles from './company-search.styles';
 type Company = {
   symbol: string;
@@ -31,7 +31,7 @@ type Company = {
 };
 
 const mapDispatch = {
-  ..._pick<typeof sharedAction, 'getCompanyInfo'>(sharedAction, ['getCompanyInfo']),
+  ..._pick<typeof companyInfoAction, 'getDetail'>(companyInfoAction, ['getDetail']),
   ..._pick<typeof companySearchAction, 'setMatches'>(companySearchAction, ['setMatches'])
 };
 const mapState = ({ companySearch }: RootState) =>
@@ -42,7 +42,7 @@ const mapState = ({ companySearch }: RootState) =>
 type Props = ReturnType<typeof mapState> & typeof mapDispatch;
 
 const CompanySearch = (props: Props): React.ReactElement => {
-  const { getCompanyInfo, setMatches, matchedCompanies } = props;
+  const { getDetail, setMatches, matchedCompanies } = props;
   const tableContainerStyles = styles.useTableContainerStyles(),
     tableRowStyles = styles.useTableRowStyles();
   const [isLoading, setIsLoading] = React.useState(false);
@@ -102,9 +102,9 @@ const CompanySearch = (props: Props): React.ReactElement => {
       }
 
       const company = matchedCompanies[rowIndex - 1];
-      getCompanyInfo({ value: company.symbol, label: company.name });
+      getDetail({ value: company.symbol, label: company.name });
     },
-    [matchedCompanies, getCompanyInfo]
+    [matchedCompanies, getDetail]
   );
 
   return (

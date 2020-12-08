@@ -1,4 +1,4 @@
-import { ReturnTypeOfGroup } from '../../utils/type-util';
+import { LabelText, ReturnTypeOfGroup } from '../../utils/type-util';
 import { NewsUnit, CompanyInfoActionType, CompanyDetail } from './company-info-util';
 
 const getNews = (symbol: string) =>
@@ -16,6 +16,19 @@ const setNews = (newsList: Array<NewsUnit>) =>
     }
   } as const);
 
+const getDetail = (company: LabelText<string>) =>
+  ({
+    type: CompanyInfoActionType.GET_DETAIL,
+    payload: {
+      company
+    }
+  } as const);
+
+const getDetailFailure = () =>
+  ({
+    type: CompanyInfoActionType.GET_DETAIL_FAILURE
+  } as const);
+
 const setDetail = (detail: CompanyDetail) =>
   ({
     type: CompanyInfoActionType.SET_DETAIL,
@@ -27,6 +40,8 @@ const setDetail = (detail: CompanyDetail) =>
 const companyInfoAction = {
   getNews,
   setNews,
+  getDetail,
+  getDetailFailure,
   setDetail
 };
 

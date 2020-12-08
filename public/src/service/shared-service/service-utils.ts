@@ -5,4 +5,4 @@ type ErrorInEpic = {
   action: RootAction;
 };
 
-export { ErrorInEpic }
+export { ErrorInEpic };

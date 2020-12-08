@@ -20,6 +20,7 @@ import { CompanySearchActionUnion } from './company-search/company-search.action
 import { companySearchReducer, CompanySearchState } from './company-search/company-search.reducer';
 import { modalReducer, ModalState } from './shared-service/modal/modal.reducer';
 import { ModalActionUnion } from './shared-service/modal/modal.action';
+import { CompanyCollectionActionUnion } from './company-collection/comany-collection.action';
 
 type RootAction =
   | CompanySelectionActionUnion
@@ -27,7 +28,8 @@ type RootAction =
   | CompanyInfoActionUnion
   | CompanySearchActionUnion
   | ModalActionUnion
-  | SharedActionUnion;
+  | SharedActionUnion
+  | CompanyCollectionActionUnion;
 
 type RootState = {
   router: RouterState;

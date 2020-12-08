@@ -21,14 +21,13 @@ import { companySelectionAction } from '../../../service/company-selection/compa
 import { RootState } from '../../../service/root-store';
 import { LabelUnit } from '../../../utils/type-util';
 import { CompanyInIndice } from '../../../service/company-selection/company-selection-utils';
-import { sharedAction } from '../../../service/shared-service/shared.action';
 import { emptyIconProps } from '../../common-props';
 import { FetchStatusEnum } from '../../../utils/network-util';
 import { Loader } from '../../common/loading-content/loading-content.component';
-import { useFullFlexStyles } from '../../common-styles';
+import { companyInfoAction } from '../../../service/company-info/company-info.action';
 import styles from './selection-panel.styles';
 
-const mapDispatch = { ...companySelectionAction, ..._pick<typeof sharedAction, 'getCompanyInfo'>(sharedAction, ['getCompanyInfo']) };
+const mapDispatch = { ...companySelectionAction, ..._pick<typeof companyInfoAction, 'getDetail'>(companyInfoAction, ['getDetail']) };
 
 const mapState = ({ companySelection: localState }: RootState) =>
   ({
@@ -42,12 +41,11 @@ type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 
 // TODO: use virtualization for long list ?
 const SelectionPanel = (props: Props): React.ReactElement => {
-  const { getContinentOptions, continent, setContinentSelection, country, setCountrySelection, indice, setIndiceSelection, companies, getCompanyInfo } = props;
+  const { getContinentOptions, continent, setContinentSelection, country, setCountrySelection, indice, setIndiceSelection, companies, getDetail } = props;
   const tableContainerStyles = styles.useTableContainerStyles(),
     tableRowStyles = styles.useTableRowStyles(),
-    selectionStyles = styles.useSelectStyles(),
-    fullFlexStyles = useFullFlexStyles();
-  // TODO: use layout effect maybe better
+    selectionStyles = styles.useSelectStyles();
+  // TODO: use layout effect maybe better?
   React.useEffect(() => {
     getContinentOptions();
   }, [getContinentOptions]);
@@ -94,9 +92,9 @@ const SelectionPanel = (props: Props): React.ReactElement => {
         return;
       }
       const company = companies.list[rowIndex - 1];
-      getCompanyInfo({ value: company.shortName, label: company.name });
+      getDetail({ value: company.shortName, label: company.name });
     },
-    [companies, getCompanyInfo]
+    [companies, getDetail]
   );
 
   // TODO: repeated code

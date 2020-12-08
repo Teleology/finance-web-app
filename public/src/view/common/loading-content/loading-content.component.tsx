@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { CircularProgress, CircularProgressProps, Grid, Typography } from '@material-ui/core';
-import { isEmpty as fpIsEmpty} from 'lodash/fp';
+import { pick } from 'lodash';
+import { isEmpty as fpIsEmpty } from 'lodash/fp';
 import styles from './loading-content.styles';
 type LoadingProps = CircularProgressProps;
 
@@ -26,11 +27,14 @@ const EmptyContent = (props: EmptyProps): React.ReactElement => {
   );
 };
 
-const LoadingContent = (props: LoadingProps): React.ReactElement => (
-  <Grid container={true} justify="center" classes={styles.useGridStyles()}>
-    <CircularProgress size={60} {...props} />
-  </Grid>
-);
+const LoadingContent = (props: LoadingProps): React.ReactElement => {
+  const filteredProps = pick(props, ['color', 'disableShrink', 'size', 'thickness', 'value', 'variant']);
+  return (
+    <Grid container={true} justify="center" classes={styles.useGridStyles()}>
+      <CircularProgress size={60} {...filteredProps} />
+    </Grid>
+  );
+};
 
 const Loader = <T, U extends T>(props: {
   data: T;

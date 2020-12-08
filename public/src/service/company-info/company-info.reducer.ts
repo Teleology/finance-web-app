@@ -1,6 +1,5 @@
 import { RootAction } from '../root-store';
 import { FetchStatusEnum } from '../../utils/network-util';
-import { SharedActionType } from '../shared-service/shared.action';
 import { CompanyDetail, CompanyInfoActionType, NewsUnit } from './company-info-util';
 
 type CompanyInfoState = {
@@ -27,7 +26,7 @@ const companyInfoReducer = (prevState: CompanyInfoState = defaultState, action: 
         newsList: action.payload.newsList
       };
     }
-    case SharedActionType.GET_COMPANY_INFO: {
+    case CompanyInfoActionType.GET_DETAIL: {
       return {
         ...prevState,
         detail: {
@@ -36,7 +35,7 @@ const companyInfoReducer = (prevState: CompanyInfoState = defaultState, action: 
         }
       };
     }
-    case SharedActionType.GET_COMPANY_INFO_FAILURE: {
+    case CompanyInfoActionType.GET_DETAIL_FAILURE: {
       return {
         ...prevState,
         detail: {
