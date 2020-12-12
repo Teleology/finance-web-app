@@ -71,7 +71,7 @@ namespace CompanyDetail {
     filter(fpIsEmpty),
     concatMapTo(
       of(
-        sharedAction.getCompanyInfoFailure(),
+        companyInfoAction.getDetailFailure(),
         modalAction.openModal({
           modalType: ModalType.ALERT,
           title: 'We are sorry',

@@ -12,19 +12,20 @@ import { emptyIconProps } from '../../common-props';
 import { LoadingContent, EmptyContent } from '../../common/loading-content/loading-content.component';
 import { FetchStatusEnum } from '../../../utils/network-util';
 import { DeepNonNullable } from '../../../utils/type-util';
-import { companyDetailSelector } from '../../../service/company-info/company-info.selector';
+import { companyDetailSelector, isCollectedCompanySelector } from '../../../service/company-info/company-info.selector';
 import { companyCollectionAction } from '../../../service/company-collection/comany-collection.action';
 import styles from './company-detail.styles';
 
 const mapState = (state: RootState) =>
   ({
     detail: {
+      isCollected: isCollectedCompanySelector(state),
       data: companyDetailSelector(state),
       fetchStatus: state.companyInfo.detail.fetchStatus
     }
   } as const);
 
-const mapDispatch = _pick<typeof companyCollectionAction, 'addCompany'>(companyCollectionAction, ['addCompany']);
+const mapDispatch = _pick<typeof companyCollectionAction, 'addCompany' | 'removeCompany'>(companyCollectionAction, ['addCompany', 'removeCompany']);
 
 type MapStateProps = ReturnType<typeof mapState>;
 type MapDispatchProps = typeof mapDispatch;
@@ -36,20 +37,38 @@ const textBodyProps: TypographyProps = { variant: 'body1', color: 'textSecondary
 const CompanyDetailBase = (props: DeepNonNullable<MapStateProps> & MapDispatchProps): React.ReactElement => {
   const { useCardHeaderStyles, useCardHeaderIconStyles } = styles;
   const cardContentStyles = styles.useCardContentStyles();
-  const { detail, addCompany } = props;
-  const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = detail.data;
-  const handleFavoriteIconClick = React.useCallback(() => {
-    addCompany({ label: name, value: symbol });
-  }, [addCompany, name, symbol]);
-  // TODO: remove???
+  const {
+    detail: { data, isCollected },
+    addCompany,
+    removeCompany
+  } = props;
+  const { name, symbol, exchange, industry, address, fullTimeEmployees, marketCapitalization, ebitda, pegRatio, sector, description } = data;
+  const actionButtonProps = React.useMemo(() => {
+    if (isCollected) {
+      return {
+        handleClick: (): void => {
+          removeCompany({ label: name, value: symbol });
+        },
+        color: 'primary' as 'primary'
+      };
+    } else {
+      return {
+        handleClick: (): void => {
+          addCompany({ label: name, value: symbol });
+        },
+        color: undefined
+      };
+    }
+  }, [addCompany, isCollected, name, removeCompany, symbol]);
+
   return (
     <>
       <CardHeader
         title={symbol}
         classes={useCardHeaderStyles()}
         action={
-          <IconButton onClick={handleFavoriteIconClick}>
-            <FavoriteIcon color="primary" />
+          <IconButton onClick={actionButtonProps.handleClick}>
+            <FavoriteIcon color={actionButtonProps.color} />
           </IconButton>
         }
         subheader={
