@@ -11,16 +11,13 @@ import { LineChart } from '../../common/visualization/line-chart/line-chart.comp
 import { Breadcrumb } from '../../common/app-chip.component';
 import { PeriodEnum } from '../../../utils/type-util';
 import { formatMoney, formatPercentChange, formatWithSign } from '../../../utils/formatter';
-import {
-  BackgroundColorfulFormattedTypography,
-  ColorfulFormattedTypography,
-  FormattedTypography
-} from '../../common/marked-text/marked-typography.component';
+import { BackgroundColorfulFormattedTypography, ColorfulFormattedTypography, FormattedTypography } from '../../common/marked-text/marked-typography.component';
 import { Loader } from '../../common/loading-content/loading-content.component';
 import { FetchStatusEnum } from '../../../utils/network-util';
 import { emptyIconProps } from '../../common-props';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series-utils';
 import { useCardContentStyles } from '../../common-styles';
+import { activeCompanySelector } from '../../../service/company-collection/company-collection.selecor';
 import styles from './time-series-chart.styles';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod' | 'getLatest'>(stockTimeSeriesAction, [
@@ -28,18 +25,18 @@ const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPer
   'setPeriod',
   'getLatest'
 ]);
-const mapState = ({ stockTimeSeries, companyCollection }: RootState) =>
+const mapState = (state: RootState) =>
   ({
     series: {
-      fetchStatus: stockTimeSeries.series.fetchStatus,
-      data: stockTimeSeriesChartConverter(stockTimeSeries),
-      period: stockTimeSeries.series.period
+      fetchStatus: state.stockTimeSeries.series.fetchStatus,
+      data: stockTimeSeriesChartConverter(state.stockTimeSeries),
+      period: state.stockTimeSeries.series.period
     },
     latest: {
-      fetchStatus: stockTimeSeries.latest.fetchStatus,
-      data: stockLatestConverter(stockTimeSeries)
+      fetchStatus: state.stockTimeSeries.latest.fetchStatus,
+      data: stockLatestConverter(state.stockTimeSeries)
     },
-    company: companyCollection.collection.value
+    company: activeCompanySelector(state)?.value
   } as const);
 
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
@@ -48,7 +45,7 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
     chartContainerStyles = styles.useChartContainerStyles().root;
   const { getTimeSeries, series, company, setPeriod, getLatest, latest } = props;
   React.useEffect(() => {
-    if (company !== null) {
+    if (company !== undefined) {
       getTimeSeries(company, series.period);
       getLatest(company);
     }

@@ -1,18 +1,16 @@
-import { LabelText, Nullable } from '../../utils/type-util';
+import { reject } from 'lodash';
+import { LabelText } from '../../utils/type-util';
 import { RootAction } from '../root-store';
-import { CompanyCollectionActionType } from './comany-collection.action';
+import { CompanyCollectionActionType } from './company-collection.util';
 
 type CompanyCollectionState = {
-  collection: Nullable<LabelText<string>>;
+  activeSymbol: string | null;
   collectionList: Array<LabelText<string>>;
 };
 
 // TODO: null or array ? think about it
 const defaultState: CompanyCollectionState = {
-  collection: {
-    value: null,
-    label: null
-  },
+  activeSymbol: 'MSFT',
   collectionList: []
 };
 
@@ -22,6 +20,11 @@ const companyCollectionReducer = (prevState: CompanyCollectionState = defaultSta
       return {
         ...prevState,
         collectionList: [...prevState.collectionList, action.payload.company]
+      };
+    case CompanyCollectionActionType.REMOVE_COMPANY:
+      return {
+        ...prevState,
+        collectionList: reject(prevState.collectionList, { value: action.payload.company.value })
       };
     default: {
       return prevState;

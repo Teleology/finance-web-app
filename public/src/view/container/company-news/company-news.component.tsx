@@ -7,12 +7,13 @@ import { NewsUnit } from '../../../service/company-info/company-info-util';
 import { companyInfoAction } from '../../../service/company-info/company-info.action';
 import { AppLinkBlock } from '../../common/app-link.component';
 import { useCardContentStyles } from '../../common-styles';
+import { activeCompanySelector } from '../../../service/company-collection/company-collection.selecor';
 import styles from './company-news.styles';
 
-const mapState = ({ companyInfo, companyCollection }: RootState) =>
+const mapState = (state: RootState) =>
   ({
-    newsList: companyInfo.newsList,
-    company: companyCollection.collection.value
+    newsList: state.companyInfo.newsList,
+    company: activeCompanySelector(state)?.value
   } as const);
 
 const mapDispatch = _pick<typeof companyInfoAction, 'getNews'>(companyInfoAction, ['getNews']);
@@ -27,7 +28,7 @@ const CompanyNews = (props: Props): React.ReactElement => {
     cardContentStyles = useCardContentStyles();
 
   React.useEffect(() => {
-    company !== null && getNews(company);
+    company !== undefined && getNews(company);
   }, [company, getNews]);
   return (
     <>

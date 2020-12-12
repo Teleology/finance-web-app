@@ -1,9 +1,5 @@
 import { LabelText, ReturnTypeOfGroup } from '../../utils/type-util';
-
-namespace CompanyCollectionActionType {
-  export const ADD_COMPANY = 'company-collection/ADD_COMPANY';
-  export const REMOVE_COMPANY = 'company-collection/REMOVE_COMPANY';
-}
+import { CompanyCollectionActionType } from './company-collection.util';
 
 const addCompany = (company: LabelText<string>) =>
   ({
@@ -29,4 +25,4 @@ const companyCollectionAction = {
 type CompanyCollectionActionGroup = ReturnTypeOfGroup<typeof companyCollectionAction>;
 type CompanyCollectionActionUnion = CompanyCollectionActionGroup[keyof CompanyCollectionActionGroup];
 
-export { companyCollectionAction, CompanyCollectionActionType, CompanyCollectionActionGroup, CompanyCollectionActionUnion };
+export { companyCollectionAction, CompanyCollectionActionGroup, CompanyCollectionActionUnion };
