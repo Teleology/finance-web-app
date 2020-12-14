@@ -26,6 +26,11 @@ const companyCollectionReducer = (prevState: CompanyCollectionState = defaultSta
         ...prevState,
         collectionList: reject(prevState.collectionList, { value: action.payload.company.value })
       };
+    case CompanyCollectionActionType.SET_ACTIVE_COMPANY:
+      return {
+        ...prevState,
+        activeSymbol: action.payload.symbol
+      };
     default: {
       return prevState;
     }

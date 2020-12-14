@@ -8,7 +8,7 @@ import { store, history, persistor } from './service/root-store';
 import { theme } from './theme';
 import { CompanyWatcher } from './view/container/company-watcher.component';
 import { AppHeader } from './view/container/app-header/app-header.component';
-import { AppDrawer } from './view/container/app-drawer/app-drawer.component';
+import { AppDrawerContainer } from './view/container/app-drawer/app-drawer.component';
 import { AppDrawerManager } from './view/container/app-drawer-manager.component';
 import { compareLink, infoLink, searchLink } from './utils/network-util';
 import { SearchPage } from './view/page/search-page.component';
@@ -25,7 +25,7 @@ export const App = (): React.ReactElement => (
             {(isOpen: boolean, close: () => void, open: () => void): React.ReactElement => (
               <>
                 <AppHeader openDrawer={open} />
-                <AppDrawer close={close} isOpen={isOpen} />
+                <AppDrawerContainer close={close} isOpen={isOpen} />
               </>
             )}
           </AppDrawerManager>

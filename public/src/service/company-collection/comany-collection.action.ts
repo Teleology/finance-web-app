@@ -17,9 +17,17 @@ const removeCompany = (company: LabelText<string>) =>
     }
   } as const);
 
+const setActiveCompany = (symbol: string) =>
+  ({
+    type: CompanyCollectionActionType.SET_ACTIVE_COMPANY,
+    payload: {
+      symbol
+    }
+  } as const);
 const companyCollectionAction = {
   addCompany,
-  removeCompany
+  removeCompany,
+  setActiveCompany
 };
 
 type CompanyCollectionActionGroup = ReturnTypeOfGroup<typeof companyCollectionAction>;
