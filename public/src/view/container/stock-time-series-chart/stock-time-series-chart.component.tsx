@@ -18,7 +18,7 @@ import { emptyIconProps } from '../../common-props';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series-utils';
 import { useCardContentStyles } from '../../common-styles';
 import { activeCompanySelector } from '../../../service/company-collection/company-collection.selecor';
-import styles from './time-series-chart.styles';
+import styles from './stock-time-series-chart.styles';
 
 const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod' | 'getLatest'>(stockTimeSeriesAction, [
   'getTimeSeries',

@@ -1,6 +1,6 @@
 import { Card, Grid } from '@material-ui/core';
 import * as React from 'react';
-import { StockTimeSeriesChartContainer } from '../../container/time-series-chart/stock-time-series-chart.component';
+import { StockTimeSeriesChartContainer } from '../../container/stock-time-series-chart/stock-time-series-chart.component';
 import { CompanyNewsContainer } from '../../container/company-news/company-news.component';
 import { useCardContainerStyles, useCardStyles, useFullFlexStyles } from '../../common-styles';
 
