@@ -1,4 +1,4 @@
-import { reject } from 'lodash';
+import { reject as _reject, slice as _slice } from 'lodash';
 import { LabelText } from '../../utils/type-util';
 import { RootAction } from '../root-store';
 import { CompanyCollectionActionType } from './company-collection.util';
@@ -19,12 +19,12 @@ const companyCollectionReducer = (prevState: CompanyCollectionState = defaultSta
     case CompanyCollectionActionType.ADD_COMPANY:
       return {
         ...prevState,
-        collectionList: [...prevState.collectionList, action.payload.company]
+        collectionList: _slice([action.payload.company, ...prevState.collectionList], 0, 5)
       };
     case CompanyCollectionActionType.REMOVE_COMPANY:
       return {
         ...prevState,
-        collectionList: reject(prevState.collectionList, { value: action.payload.company.value })
+        collectionList: _reject(prevState.collectionList, { value: action.payload.company.value })
       };
     case CompanyCollectionActionType.SET_ACTIVE_COMPANY:
       return {

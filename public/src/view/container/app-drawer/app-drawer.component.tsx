@@ -9,6 +9,7 @@ import {
   ChevronRight as ChevronRightIcon
 } from '@material-ui/icons';
 import { TreeView, TreeItem } from '@material-ui/lab';
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { AppRouteLink } from '../../common/app-link.component';
 import { infoLink, compareLink, searchLink } from '../../../utils/network-util';
@@ -21,20 +22,31 @@ const mapState = (state: RootState) =>
   ({
     collectedCompanies: companySymbolListSelector(state)
   } as const);
-const mapDispatch = _pick<typeof companyCollectionAction, 'setActiveCompany'>(companyCollectionAction, 'setActiveCompany');
+const mapDispatch = {
+  ..._pick<typeof companyCollectionAction, 'setActiveCompany'>(companyCollectionAction, 'setActiveCompany'),
+  push
+};
 
 type Props = ReturnType<typeof mapState> & typeof mapDispatch & { isOpen: boolean; close: () => void };
 
 const AppDrawer = (props: Props): React.ReactElement => {
-  const { isOpen, close, collectedCompanies, setActiveCompany } = props;
+  const { isOpen, close, collectedCompanies, setActiveCompany, push } = props;
   const treeParentStyles = styles.useTreeParentStyles(),
     containerStyles = styles.useContainerStyles(),
     listItemIconStyles = styles.useListItemIconStyles(),
     treeChildStyles = styles.useTreeChildStyles();
 
-  const handleCompanyClick = React.useCallback((event: React.MouseEvent) => {
-    console.log(event.currentTarget.dataset);
-  }, []);
+  const handleCompanyClick = React.useCallback(
+    (event: React.MouseEvent<HTMLDivElement>): void => {
+      const symbol = event.currentTarget.dataset.symbol;
+      if (symbol !== undefined) {
+        setActiveCompany(symbol);
+        close();
+        push(infoLink);
+      }
+    },
+    [close, push, setActiveCompany]
+  );
   return (
     <Drawer anchor="left" open={isOpen} onClose={close} classes={containerStyles}>
       <List component="nav">
@@ -44,14 +56,6 @@ const AppDrawer = (props: Props): React.ReactElement => {
               <BusinessIcon />
             </ListItemIcon>
             <ListItemText primary="Search" />
-          </ListItem>
-        </AppRouteLink>
-        <AppRouteLink to={infoLink}>
-          <ListItem button={true} onClick={close}>
-            <ListItemIcon classes={listItemIconStyles}>
-              <TimeLineIcon />
-            </ListItemIcon>
-            <ListItemText primary="Info" />
           </ListItem>
         </AppRouteLink>
         <AppRouteLink to={compareLink}>
@@ -66,7 +70,7 @@ const AppDrawer = (props: Props): React.ReactElement => {
           <TreeView defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
             <TreeItem nodeId="1" label="Info" classes={treeParentStyles}>
               {_map(collectedCompanies, (symbol: string) => (
-                <div data-value={symbol} onClick={handleCompanyClick}>
+                <div key={symbol} data-symbol={symbol} onClick={handleCompanyClick}>
                   <TreeItem nodeId={symbol} label={symbol} classes={treeChildStyles} />
                 </div>
               ))}
