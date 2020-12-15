@@ -1,5 +1,6 @@
 import { map } from 'lodash';
 import { createSelector } from 'reselect';
+// TODO: StockTimeSeriesUnit where to be placed ?
 import { StockTimeSeriesState, StockTimeSeriesUnit, TimeChartDataUnit } from './stock-time-series-utils';
 
 const stockTimeSeriesDataSelector = (state: StockTimeSeriesState): StockTimeSeriesState['series']['data'] => state.series.data;

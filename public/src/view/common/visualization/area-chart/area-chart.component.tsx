@@ -34,7 +34,7 @@ const AreaChartComponent = (props: Props & WithParentSizeProps & WithParentSizeP
   const { showTooltip, hideTooltip, tooltipLeft = 0, tooltipTop = 0, tooltipData } = useTooltip<TimeNumberCoordinate>();
   const toolTipBoxStyles = styles.useToolTipBoxStyles().root;
   // TODO: strict null check
-  const { renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => timeNumberSetting(width!!!, height!!!, padding, data), [data, width, height]);
+  const { renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => timeNumberSetting(width!!!, height!!!, padding, data), [width, height, padding, data]);
   const handleMouseMove = React.useCallback(
     (event: React.MouseEvent<SVGElement>) => {
       const { x: pointX } = localPoint(event) ?? { x: 0 };
