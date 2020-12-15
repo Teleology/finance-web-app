@@ -7,7 +7,7 @@ import { Assessment as AssessmentIcon, ShowChart as ShowChartIcon } from '@mater
 import { stockTimeSeriesAction } from '../../../service/stock-time-series/stock-time-series.action';
 import { RootState } from '../../../service/root-store';
 import { stockLatestConverter, stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
-import { LineChart } from '../../common/visualization/line-chart/line-chart.component';
+import { AreaChart } from '../../common/visualization/area-chart/area-chart.component';
 import { Breadcrumb } from '../../common/app-chip.component';
 import { PeriodEnum } from '../../../utils/type-util';
 import { formatMoney, formatPercentChange, formatWithSign } from '../../../utils/formatter';
@@ -127,7 +127,7 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
             load={{ on: series.fetchStatus === FetchStatusEnum.PENDING || series.fetchStatus === FetchStatusEnum.NEVER }}
             empty={{ props: { icon: <ShowChartIcon {...emptyIconProps} />, text: 'Sorry, we cannot find the time line chart' } }}
           >
-            {(data: Array<TimeChartDataUnit>): React.ReactElement => <LineChart data={data} />}
+            {(data: Array<TimeChartDataUnit>): React.ReactElement => <AreaChart data={data} />}
           </Loader>
         </div>
       </CardContent>

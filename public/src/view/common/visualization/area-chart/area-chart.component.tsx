@@ -11,7 +11,7 @@ import { localPoint } from '@visx/event';
 import { Tooltip, useTooltip } from '@visx/tooltip';
 import { formatDayMonth } from '../../../../utils/formatter';
 import { TimeNumberCoordinate, timeNumberSetting } from '../chart-setting';
-import styles from './line-chart.styles';
+import styles from './area-chart.styles';
 
 type Props = {
   data: Array<TimeNumberCoordinate>;
@@ -29,7 +29,7 @@ const tickLabelProps = ((): { left: TickLabelProps<NumberValue>; bottom: TickLab
 })();
 
 const bisectDate = bisector((datum: TimeNumberCoordinate): Date => datum.x).left;
-const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
+const AreaChartComponent = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
   const { data, parentWidth: width, parentHeight: height, padding = 32 } = props;
   const { showTooltip, hideTooltip, tooltipLeft = 0, tooltipTop = 0, tooltipData } = useTooltip<TimeNumberCoordinate>();
   const toolTipBoxStyles = styles.useToolTipBoxStyles().root;
@@ -82,5 +82,5 @@ const LineChartFactory = (props: Props & WithParentSizeProps & WithParentSizePro
   );
 };
 
-const LineChart = withParentSize<Props & WithParentSizeProps & WithParentSizeProvidedProps>(LineChartFactory);
-export { LineChart };
+const AreaChart = withParentSize<Props & WithParentSizeProps & WithParentSizeProvidedProps>(AreaChartComponent);
+export { AreaChart };
