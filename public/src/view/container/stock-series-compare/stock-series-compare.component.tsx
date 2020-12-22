@@ -12,20 +12,10 @@ const mapState = (state: RootState) =>
   } as const);
 type Props = ReturnType<typeof mapState>;
 
-/*
-  <Card>
-    <CardHeader title="My Watch List" />
-    <CardContent>
-      <Button variant="contained" color="default" endIcon={<Add />}>
-        Google
-      </Button>
-    </CardContent>
-  </Card>
- */
-const CompanyComparison = (props: Props): React.ReactElement => {
+const StockSeriesCompare = (props: Props): React.ReactElement => {
   const { data } = props;
   return <>{!_isEmpty(data) && <LineChart data={data} />}</>;
 };
 
-const CompanyComparisonContainer = connect(mapState, {})(CompanyComparison);
-export { CompanyComparisonContainer };
+const StockSeriesCompareContainer = connect(mapState, {})(StockSeriesCompare);
+export { StockSeriesCompareContainer };

@@ -3,11 +3,11 @@ import { Grid, Divider, Card, CardHeader, CardContent } from '@material-ui/core'
 import { CompanySearchContainer } from '../container/company-search/company-search.component';
 import { CompanyDetailContainer } from '../container/company-detail/company-detail.component';
 import { SelectionPanelContainer } from '../container/selection-panel/selection-panel.component';
-import { useCardContainerStyles, useCardContentStyles, useCardStyles, useFullFlexStyles } from '../common-styles';
+import { useCardContainerStyles, useCardContentStyles, useCardStyles, useFullFlexItemStyles } from '../common-styles';
 
 const SearchPage = (): React.ReactElement => {
   const cardClasses = useCardStyles(),
-    fullFlexStyles = useFullFlexStyles(),
+    fullFlexStyles = useFullFlexItemStyles(),
     cardContainerStyles = useCardContainerStyles(),
     cardContentStyles = useCardContentStyles();
   return (

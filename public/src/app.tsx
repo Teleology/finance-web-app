@@ -6,7 +6,6 @@ import { Route, Switch } from 'react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, history, persistor } from './service/root-store';
 import { theme } from './theme';
-import { CompanyComparisonContainer } from './view/container/stock-series-compare/stock-series-compare.component';
 import { AppHeader } from './view/container/app-header/app-header.component';
 import { AppDrawerContainer } from './view/container/app-drawer/app-drawer.component';
 import { AppDrawerManager } from './view/container/app-drawer-manager.component';
@@ -14,6 +13,7 @@ import { compareLink, infoLink, searchLink } from './utils/network-util';
 import { SearchPage } from './view/page/search-page.component';
 import { ModalManagerContainer } from './view/common/modals/modals';
 import { InfoPage } from './view/page/info-page/info-page.component';
+import { ComparePage } from './view/page/compare-page/compare-page.component';
 
 export const App = (): React.ReactElement => (
   <Provider store={store}>
@@ -34,7 +34,7 @@ export const App = (): React.ReactElement => (
               <InfoPage />
             </Route>
             <Route exact={true} path={compareLink}>
-              <CompanyComparisonContainer />
+              <ComparePage />
             </Route>
             <Route exact={true} path={['/', searchLink]}>
               <SearchPage />

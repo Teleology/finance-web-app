@@ -6,7 +6,7 @@ const fullFlexStyles = {
   minHeight: 0
 };
 
-const useFullFlexStyles = makeStyles({
+const useFullFlexItemStyles = makeStyles({
   root: fullFlexStyles
 });
 
@@ -37,4 +37,4 @@ const useCardContentStyles = makeStyles({
   }
 } as StyleRules<CardContentClassKey>);
 
-export { fullFlexStyles, useFullFlexStyles, useCardContainerStyles, useCardContentStyles, useCardStyles };
+export { fullFlexStyles, useFullFlexItemStyles, useCardContainerStyles, useCardContentStyles, useCardStyles };

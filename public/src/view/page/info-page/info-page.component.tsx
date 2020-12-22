@@ -2,11 +2,11 @@ import { Card, Grid } from '@material-ui/core';
 import * as React from 'react';
 import { StockTimeSeriesChartContainer } from '../../container/stock-time-series-chart/stock-time-series-chart.component';
 import { CompanyNewsContainer } from '../../container/company-news/company-news.component';
-import { useCardContainerStyles, useCardStyles, useFullFlexStyles } from '../../common-styles';
+import { useCardContainerStyles, useCardStyles, useFullFlexItemStyles } from '../../common-styles';
 
 const InfoPage = (): React.ReactElement => {
   const cardStyles = useCardStyles();
-  const fullFlexStyles = useFullFlexStyles(),
+  const fullFlexStyles = useFullFlexItemStyles(),
     cardContainerStyles = useCardContainerStyles();
   return (
     <Grid direction="row" container={true} classes={fullFlexStyles}>

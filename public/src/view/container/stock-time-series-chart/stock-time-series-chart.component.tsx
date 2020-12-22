@@ -41,7 +41,7 @@ const mapState = (state: RootState) =>
 
 type Props = typeof mapDispatch & ReturnType<typeof mapState>;
 const StockTimeSeriesChart = (props: Props): React.ReactElement => {
-  const cardContentStyles = useCardContentStyles(),
+  const cardContentStyles = useCardContentStyles(), // TODO: full flex style is enough
     chartContainerStyles = styles.useChartContainerStyles().root;
   const { getTimeSeries, series, company, setPeriod, getLatest, latest } = props;
   React.useEffect(() => {
