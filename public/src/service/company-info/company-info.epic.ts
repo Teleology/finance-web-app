@@ -6,7 +6,6 @@ import { stringifyUrl } from 'query-string';
 import { flow, pick, camelCase, mapKeys, isEmpty as fpIsEmpty, negate as fpIsNegate } from 'lodash/fp';
 import { RootAction } from '../root-store';
 import { baseURL } from '../../../../express-server/src/common/network-utils';
-import { sharedAction } from '../shared-service/shared.action';
 import { modalAction } from '../shared-service/modal/modal.action';
 import { ModalType } from '../shared-service/modal/modal-utils';
 import { CompanyDetail, CompanyInfoActionType, NewsUnit } from './company-info-util';

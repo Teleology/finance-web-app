@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ScaleTime, NumberValue } from 'd3-scale';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 import { withParentSize } from '@visx/responsive';
-import { AreaClosed } from '@visx/shape';
+import { LinePath } from '@visx/shape';
 import { WithParentSizeProps, WithParentSizeProvidedProps } from '@visx/responsive/lib/enhancers/withParentSize';
 import { TickLabelProps } from '@visx/axis/lib/types';
 import { formatDayMonth } from '../../../../utils/formatter';
@@ -24,7 +24,7 @@ const tickLabelProps = ((): { left: TickLabelProps<NumberValue>; bottom: TickLab
   };
 })();
 
-const AreaChartComponent = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
+const LineChartComponent = (props: Props & WithParentSizeProps & WithParentSizeProvidedProps): React.ReactElement => {
   const { data, parentWidth: width, parentHeight: height, padding = 32 } = props;
   // TODO: strict null check
   const { renderX, renderY, xScale, yScale, yMaxRange } = React.useMemo(() => timeNumberSetting(width!!!, height!!!, padding, data), [
@@ -44,11 +44,11 @@ const AreaChartComponent = (props: Props & WithParentSizeProps & WithParentSizeP
           {...styles.axisStyleProps}
         />
         <AxisLeft scale={yScale} left={padding} hideZero={true} tickLabelProps={tickLabelProps.left} {...styles.axisStyleProps} />
-        <AreaClosed<TimeNumberCoordinate> {...styles.areaClosedStyleProps} data={data} x={renderX} y={renderY} yScale={yScale} />
+        <LinePath<TimeNumberCoordinate> data={data} x={renderX} y={renderY} stroke="#333" />
       </svg>
     </div>
   );
 };
 
-const LineChart = withParentSize<Props & WithParentSizeProps & WithParentSizeProvidedProps>(AreaChartComponent);
+const LineChart = withParentSize<Props & WithParentSizeProps & WithParentSizeProvidedProps>(LineChartComponent);
 export { LineChart };
