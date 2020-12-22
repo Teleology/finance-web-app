@@ -24,6 +24,7 @@ import { CompanyCollectionActionUnion } from './company-collection/comany-collec
 import { StockLatestInfoActionUnion } from './stock-latest-info/stock-latest-info.action';
 import { StockLatestInfoState } from './stock-latest-info/stock-latest-info.utils';
 import { stockLatestInfoReducer } from './stock-latest-info/stock-latest.reducer';
+import { stockLatestInfoEpic } from './stock-latest-info/stock-latest-info.epic';
 
 type RootAction =
   | CompanySelectionActionUnion
@@ -81,6 +82,6 @@ const store = isLocal ? createStore(persistRootReducer, enhancers) : createStore
 const persistor = persistStore(store);
 
 // redux observable
-const rootEpic = combineEpics(companySelectionEpic, stockTimeSeriesEpic, companyInfoEpic);
+const rootEpic = combineEpics(companySelectionEpic, stockTimeSeriesEpic, stockLatestInfoEpic, companyInfoEpic);
 epicMiddleware.run(rootEpic);
 export { store, persistor, isLocal, history, RootState, RootAction };

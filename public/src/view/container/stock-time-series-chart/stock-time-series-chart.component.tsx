@@ -6,7 +6,7 @@ import { Breadcrumbs, CardContent, CardHeader, Grid } from '@material-ui/core';
 import { Assessment as AssessmentIcon, ShowChart as ShowChartIcon } from '@material-ui/icons';
 import { stockTimeSeriesAction } from '../../../service/stock-time-series/stock-time-series.action';
 import { RootState } from '../../../service/root-store';
-import { stockLatestConverter, stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
+import { stockTimeSeriesChartConverter } from '../../../service/stock-time-series/stock-time-series.seletor';
 import { AreaChart } from '../../common/visualization/area-chart/area-chart.component';
 import { Breadcrumb } from '../../common/app-chip.component';
 import { PeriodEnum } from '../../../utils/type-util';
@@ -19,6 +19,7 @@ import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time
 import { useCardContentStyles } from '../../common-styles';
 import { activeCompanySelector } from '../../../service/company-collection/company-collection.selecor';
 import { stockLatestInfoAction } from '../../../service/stock-latest-info/stock-latest-info.action';
+import { stockLatestConverter } from '../../../service/stock-latest-info/stock-latest.selector';
 import styles from './stock-time-series-chart.styles';
 
 const mapDispatch = {

@@ -4,7 +4,7 @@ import { combineEpics, ofType } from 'redux-observable';
 import { ajax } from 'rxjs/ajax';
 import { toNumber } from 'lodash';
 
-import { flow, map as fpMap, sortBy as fpSortBy, negate as fpNegate, isEmpty as fpIsEmpty, omit as fpOmit } from 'lodash/fp';
+import { flow, map as fpMap, sortBy as fpSortBy } from 'lodash/fp';
 import { stringifyUrl } from 'query-string';
 import * as timezone from 'dayjs/plugin/timezone';
 import * as utc from 'dayjs/plugin/utc';
@@ -12,11 +12,8 @@ import * as dayjs from 'dayjs';
 import { RootAction } from '../root-store';
 import { baseUrl } from '../../utils/network-util';
 import { Override, PeriodEnum } from '../../utils/type-util';
-import { stockLatestInfoAction, StockLatestInfoActionGroup } from '../stock-latest-info/stock-latest-info.action';
-import { StockLatestInfoActionType } from '../stock-latest-info/stock-latest-info.utils';
-import { LatestStock, StockTimeSeries, StockTimeSeriesMeta, StockTimeSeriesUnit } from './stock-time-series-utils';
+import { StockTimeSeries, StockTimeSeriesMeta, StockTimeSeriesUnit } from './stock-time-series-utils';
 import { stockTimeSeriesAction, StockTimeSeriesActionGroup, StockTimeSeriesActionType } from './stock-time-series.action';
-import { LatestStockContract } from './stock-time-series-contract';
 dayjs.extend(timezone);
 dayjs.extend(utc);
 
@@ -34,42 +31,6 @@ const getTimeUrl = (period: PeriodEnum): string =>
     };
     return `${baseUrl}/stock/${periodMapping[period]}`;
   })();
-
-const setLatestEpic = (action$: Observable<RootAction>): Observable<RootAction> => {
-  console.log('setLatestEpic');
-  const fetchPipe = pipe(
-    ofType<RootAction, StockLatestInfoActionGroup['getLatest']>(StockLatestInfoActionType.GET_LATEST),
-    switchMap<StockLatestInfoActionGroup['getLatest'], Observable<LatestStock | {}>>((action: StockLatestInfoActionGroup['getLatest']) =>
-      ajax.getJSON<LatestStock>(stringifyUrl({ url: `${baseUrl}/stock/latest`, query: { symbol: action.payload.symbol } })).pipe(
-        catchError(
-          (error: Error): Observable<{}> => {
-            console.log(error);
-            return of({});
-          }
-        )
-      )
-    )
-  );
-  const successPipe = pipe(
-    filter(fpNegate(fpIsEmpty)),
-    map(
-      flow(
-        fpOmit<LatestStockContract, 'change' | 'changePercent'>(['change', 'changePercent']),
-        (response: Omit<LatestStockContract, 'change' | 'changePercent'>) => ({
-          ...response,
-          open: parseFloat(response.open),
-          high: parseFloat(response.high),
-          low: parseFloat(response.low),
-          price: parseFloat(response.price),
-          volume: parseFloat(response.volume),
-          previousClose: parseFloat(response.previousClose)
-        })
-      )
-    ),
-    map(stockLatestInfoAction.setLatest)
-  );
-  return action$.pipe(fetchPipe, successPipe);
-};
 
 const setTimeSeriesEpic = (action$: Observable<RootAction>): Observable<RootAction> =>
   action$.pipe(
@@ -103,5 +64,5 @@ const setTimeSeriesEpic = (action$: Observable<RootAction>): Observable<RootActi
     })
   );
 
-const stockTimeSeriesEpic = combineEpics(setTimeSeriesEpic, setLatestEpic);
+const stockTimeSeriesEpic = combineEpics(setTimeSeriesEpic);
 export { stockTimeSeriesEpic };
