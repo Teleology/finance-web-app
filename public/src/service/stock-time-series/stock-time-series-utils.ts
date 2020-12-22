@@ -40,10 +40,6 @@ type StockTimeSeriesState = {
     fetchStatus: FetchStatusEnum;
     period: PeriodEnum;
   };
-  latest: {
-    data: LatestStock | null;
-    fetchStatus: FetchStatusEnum;
-  };
 };
 
 type TimeChartDataUnit = { x: Date; y: number };

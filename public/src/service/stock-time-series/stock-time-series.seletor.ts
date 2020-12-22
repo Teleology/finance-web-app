@@ -1,10 +1,11 @@
 import { map } from 'lodash';
 import { createSelector } from 'reselect';
 // TODO: StockTimeSeriesUnit where to be placed ?
+import { StockLatestInfoState } from '../stock-latest-info/stock-latest-info.utils';
 import { StockTimeSeriesState, StockTimeSeriesUnit, TimeChartDataUnit } from './stock-time-series-utils';
 
 const stockTimeSeriesDataSelector = (state: StockTimeSeriesState): StockTimeSeriesState['series']['data'] => state.series.data;
-const stockLatestDataSelector = (state: StockTimeSeriesState): StockTimeSeriesState['latest']['data'] => state.latest.data;
+const stockLatestDataSelector = (state: StockLatestInfoState): StockLatestInfoState['latest']['data'] => state.latest.data;
 
 const stockTimeSeriesChartConverter = createSelector(
   stockTimeSeriesDataSelector,
@@ -16,7 +17,7 @@ const stockTimeSeriesChartConverter = createSelector(
   }
 );
 
-const stockLatestConverter = createSelector(stockLatestDataSelector, (latest: StockTimeSeriesState['latest']['data']) => {
+const stockLatestConverter = createSelector(stockLatestDataSelector, (latest: StockLatestInfoState['latest']['data']) => {
   if (latest === null) {
     return null;
   }

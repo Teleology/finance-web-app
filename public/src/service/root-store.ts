@@ -21,6 +21,9 @@ import { companySearchReducer, CompanySearchState } from './company-search/compa
 import { modalReducer, ModalState } from './shared-service/modal/modal.reducer';
 import { ModalActionUnion } from './shared-service/modal/modal.action';
 import { CompanyCollectionActionUnion } from './company-collection/comany-collection.action';
+import { StockLatestInfoActionUnion } from './stock-latest-info/stock-latest-info.action';
+import { StockLatestInfoState } from './stock-latest-info/stock-latest-info.utils';
+import { stockLatestInfoReducer } from './stock-latest-info/stock-latest.reducer';
 
 type RootAction =
   | CompanySelectionActionUnion
@@ -29,13 +32,15 @@ type RootAction =
   | CompanySearchActionUnion
   | ModalActionUnion
   | SharedActionUnion
-  | CompanyCollectionActionUnion;
+  | CompanyCollectionActionUnion
+  | StockLatestInfoActionUnion;
 
 type RootState = {
   router: RouterState;
   companySelection: CompanySelectionState;
   companySearch: CompanySearchState;
   stockTimeSeries: StockTimeSeriesState;
+  stockLatestInfo: StockLatestInfoState;
   companyCollection: CompanyCollectionState;
   companyInfo: CompanyInfoState;
   modal: ModalState;
@@ -54,6 +59,7 @@ const rootReducer = combineReducers<RootState>({
   companySelection: companySelectionReducer,
   companySearch: companySearchReducer,
   stockTimeSeries: stockTimeSeriesReducer,
+  stockLatestInfo: stockLatestInfoReducer,
   companyCollection: companyCollectionReducer,
   companyInfo: companyInfoReducer,
   modal: modalReducer

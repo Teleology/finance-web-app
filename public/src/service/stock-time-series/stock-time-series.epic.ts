@@ -12,6 +12,8 @@ import * as dayjs from 'dayjs';
 import { RootAction } from '../root-store';
 import { baseUrl } from '../../utils/network-util';
 import { Override, PeriodEnum } from '../../utils/type-util';
+import { stockLatestInfoAction, StockLatestInfoActionGroup } from '../stock-latest-info/stock-latest-info.action';
+import { StockLatestInfoActionType } from '../stock-latest-info/stock-latest-info.utils';
 import { LatestStock, StockTimeSeries, StockTimeSeriesMeta, StockTimeSeriesUnit } from './stock-time-series-utils';
 import { stockTimeSeriesAction, StockTimeSeriesActionGroup, StockTimeSeriesActionType } from './stock-time-series.action';
 import { LatestStockContract } from './stock-time-series-contract';
@@ -36,8 +38,8 @@ const getTimeUrl = (period: PeriodEnum): string =>
 const setLatestEpic = (action$: Observable<RootAction>): Observable<RootAction> => {
   console.log('setLatestEpic');
   const fetchPipe = pipe(
-    ofType<RootAction, StockTimeSeriesActionGroup['getLatest']>(StockTimeSeriesActionType.GET_LATEST),
-    switchMap<StockTimeSeriesActionGroup['getLatest'], Observable<LatestStock | {}>>((action: StockTimeSeriesActionGroup['getLatest']) =>
+    ofType<RootAction, StockLatestInfoActionGroup['getLatest']>(StockLatestInfoActionType.GET_LATEST),
+    switchMap<StockLatestInfoActionGroup['getLatest'], Observable<LatestStock | {}>>((action: StockLatestInfoActionGroup['getLatest']) =>
       ajax.getJSON<LatestStock>(stringifyUrl({ url: `${baseUrl}/stock/latest`, query: { symbol: action.payload.symbol } })).pipe(
         catchError(
           (error: Error): Observable<{}> => {
@@ -64,7 +66,7 @@ const setLatestEpic = (action$: Observable<RootAction>): Observable<RootAction> 
         })
       )
     ),
-    map(stockTimeSeriesAction.setLatest)
+    map(stockLatestInfoAction.setLatest)
   );
   return action$.pipe(fetchPipe, successPipe);
 };

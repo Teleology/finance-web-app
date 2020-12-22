@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { pick } from 'lodash';
+import { pick as _pick } from 'lodash';
 import { flow } from 'lodash/fp';
 import { connect } from 'react-redux';
 import { Breadcrumbs, CardContent, CardHeader, Grid } from '@material-ui/core';
@@ -18,13 +18,13 @@ import { emptyIconProps } from '../../common-props';
 import { TimeChartDataUnit } from '../../../service/stock-time-series/stock-time-series-utils';
 import { useCardContentStyles } from '../../common-styles';
 import { activeCompanySelector } from '../../../service/company-collection/company-collection.selecor';
+import { stockLatestInfoAction } from '../../../service/stock-latest-info/stock-latest-info.action';
 import styles from './stock-time-series-chart.styles';
 
-const mapDispatch = pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod' | 'getLatest'>(stockTimeSeriesAction, [
-  'getTimeSeries',
-  'setPeriod',
-  'getLatest'
-]);
+const mapDispatch = {
+  ..._pick<typeof stockTimeSeriesAction, 'getTimeSeries' | 'setPeriod'>(stockTimeSeriesAction, ['getTimeSeries', 'setPeriod']),
+  ..._pick<typeof stockLatestInfoAction, 'getLatest'>(stockLatestInfoAction, ['getLatest'])
+};
 const mapState = (state: RootState) =>
   ({
     series: {
@@ -33,8 +33,8 @@ const mapState = (state: RootState) =>
       period: state.stockTimeSeries.series.period
     },
     latest: {
-      fetchStatus: state.stockTimeSeries.latest.fetchStatus,
-      data: stockLatestConverter(state.stockTimeSeries)
+      fetchStatus: state.stockLatestInfo.latest.fetchStatus,
+      data: stockLatestConverter(state.stockLatestInfo)
     },
     company: activeCompanySelector(state)?.value
   } as const);
@@ -44,7 +44,7 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
   const cardContentStyles = useCardContentStyles(), // TODO: full flex style is enough
     chartContainerStyles = styles.useChartContainerStyles().root;
   const { getTimeSeries, series, company, setPeriod, getLatest, latest } = props;
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     if (company !== undefined) {
       getTimeSeries(company, series.period);
       getLatest(company);
@@ -63,7 +63,7 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
     <>
       <Loader<Props['latest']['data'], NonNullable<Props['latest']['data']>>
         load={{
-          on: latest.fetchStatus === FetchStatusEnum.PENDING || latest.fetchStatus === FetchStatusEnum.NEVER
+          on: latest.fetchStatus === FetchStatusEnum.PENDING
         }}
         empty={{
           props: {
@@ -124,7 +124,7 @@ const StockTimeSeriesChart = (props: Props): React.ReactElement => {
         <div className={chartContainerStyles}>
           <Loader
             data={series.data}
-            load={{ on: series.fetchStatus === FetchStatusEnum.PENDING || series.fetchStatus === FetchStatusEnum.NEVER }}
+            load={{ on: series.fetchStatus === FetchStatusEnum.PENDING }}
             empty={{ props: { icon: <ShowChartIcon {...emptyIconProps} />, text: 'Sorry, we cannot find the time line chart' } }}
           >
             {(data: Array<TimeChartDataUnit>): React.ReactElement => <AreaChart data={data} />}

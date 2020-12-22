@@ -11,7 +11,7 @@ export const ComparePage = (): React.ReactElement => {
     <Card classes={cardStyles}>
       <CardHeader title="My Watch List" />
       <CardContent classes={fullFlexItemStyles}>
-        <p>123</p>
+        <StockSeriesCompareContainer />
       </CardContent>
     </Card>
   );
