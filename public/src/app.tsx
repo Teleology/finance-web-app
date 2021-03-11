@@ -14,6 +14,7 @@ import { SearchPage } from './view/page/search-page.component';
 import { ModalManagerContainer } from './view/common/modals/modals';
 import { InfoPage } from './view/page/info-page/info-page.component';
 import { ComparePage } from './view/page/compare-page/compare-page.component';
+import { WrapperExampleComponent } from './view/page/test/wrapper-example.component';
 
 export const App = (): React.ReactElement => (
   <Provider store={store}>
@@ -35,6 +36,9 @@ export const App = (): React.ReactElement => (
             </Route>
             <Route exact={true} path={compareLink}>
               <ComparePage />
+            </Route>
+            <Route exact={true} path={'/test'}>
+              <WrapperExampleComponent />
             </Route>
             <Route exact={true} path={['/', searchLink]}>
               <SearchPage />
